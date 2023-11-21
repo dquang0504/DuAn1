@@ -240,7 +240,7 @@ public class DangNhap extends javax.swing.JDialog {
     }//GEN-LAST:event_lblLogoMouseClicked
 
     private void btnQuenMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuenMatKhauActionPerformed
-        QuenMatKhau1 quenmk = new QuenMatKhau1();
+        QuenMatKhau quenmk = new QuenMatKhau();
         quenmk.setModal(true);
         this.dispose();
         quenmk.setVisible(true);
@@ -327,6 +327,9 @@ public class DangNhap extends javax.swing.JDialog {
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JPasswordField txtMatKhau;
     // End of variables declaration//GEN-END:variables
+    
+    boolean login=false;
+    
     public void checkcheckValidateForm() {
         String strMaNV = txtMaNV.getText();
         String strPassword = new String(txtMatKhau.getPassword());
@@ -336,6 +339,7 @@ public class DangNhap extends javax.swing.JDialog {
             MsgBox.alert(this, "Tên đăng nhập hoặc mật khẩu không chính xác");
         } else {
             Auth.user = nv;
+            login = true;
 
             // Hiển thị form QuanLyDiem
             Thread loadingThread = new Thread(new Runnable() {
@@ -350,5 +354,9 @@ public class DangNhap extends javax.swing.JDialog {
 
             loadingThread.start(); // Bắt đầu tiến trình QuanLyDiem
         }
+    }
+    
+    public boolean checklogin(){
+        return login;
     }
 }

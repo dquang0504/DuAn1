@@ -9,13 +9,15 @@ import com.gym.util.Auth;
 import com.gym.util.MsgBox;
 import com.raven.event.EventMenuSelected;
 import com.raven.form.DangNhap;
-import com.raven.form.QuenMatKhau;
+import com.raven.form.DoiMatKhau;
+import com.raven.form.DoiMatKhau1;
 import com.raven.form.QuanLyNhanVien;
 import com.raven.form.QuanLyDonHang;
 import com.raven.form.Form_Home;
 import com.raven.form.QuanLyDungCu;
 import com.raven.form.QuanLyGoiTap;
 import com.raven.form.QuanLyKhachHang;
+import com.raven.form.QuenMatKhau;
 import java.awt.Color;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -35,6 +37,7 @@ public class Main extends javax.swing.JFrame {
     private QuanLyKhachHang form3;
     private QuanLyDungCu form4;
     private QuanLyDonHang form5;
+    private DoiMatKhau1 form9;
     private DangNhap form10;
 
     public Main() {
@@ -47,33 +50,10 @@ public class Main extends javax.swing.JFrame {
         form3 = new QuanLyKhachHang();
         form4 = new QuanLyDungCu();
         form5 = new QuanLyDonHang();
+        form9 = new DoiMatKhau1();
         form10 = new DangNhap();
         menu.initMoving(Main.this);
-        menu.addEventMenuSelected(new EventMenuSelected() {
-            @Override
-            public void selected(int index) {
-                if (index == 0) {
-                    setForm(home);
-                } else if (index == 1) {
-                    setForm(form1);
-                } else if (index == 2) {
-                    setForm(form2);
-                } else if (index == 3) {
-                    setForm(form3);
-                }
-                else if(index == 4){
-                    setForm(form4);
-                }
-                else if(index == 5){
-                    setForm(form5);
-                }
-                else if(index == 10){
-                    DangNhap login = new DangNhap();
-                    login.setModal(true);
-                    
-                }
-            }
-        });
+        
         //  set when system open start with home form
         setForm(new Form_Home());
     }
@@ -151,11 +131,47 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (!Auth.isLogin()) {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-            this.dispose();
-            new DangNhap().setVisible(true);
-        }
+        menu.addEventMenuSelected(new EventMenuSelected() {
+            @Override
+            public void selected(int index) {
+                if (index == 0) {
+                    setForm(home);
+                } else if (index == 1) {
+                    setForm(form1);
+                } else if (index == 2) {
+                    setForm(form2);
+                } else if (index == 3) {
+                    setForm(form3);
+                }
+                else if(index == 4){
+                    setForm(form4);
+                }
+                else if(index == 5){
+                    setForm(form5);
+                }
+                else if(index ==11){
+                    DoiMatKhau1 doimk = new DoiMatKhau1();
+                    doimk.setModal(true);
+                    doimk.setVisible(true);
+                    dispose();
+                }
+                else if(index == 12){
+                    dispose();
+                    DangNhap login = new DangNhap();
+                    login.setModal(true);
+                    login.setVisible(true);
+                    if(!login.checklogin()){
+                        
+                    }
+                }
+            }
+        });
+        
+//        if (!Auth.isLogin()) {
+//            MsgBox.alert(this, "Vui lòng đăng nhập!");
+//            this.dispose();
+//            new DangNhap().setVisible(true);
+//        }
     }//GEN-LAST:event_formWindowOpened
 
     /**

@@ -1,12 +1,14 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.raven.form;
 
 import com.gym.dao.NhanVienDAO;
+import com.gym.entity.NhanVien;
 import com.gym.util.Auth;
 import com.gym.util.MsgBox;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 import javax.mail.Authenticator;
@@ -23,17 +25,19 @@ import javax.swing.JOptionPane;
  *
  * @author ADMIN
  */
-public class QuenMatKhau extends javax.swing.JPanel {
+public class QuenMatKhau extends javax.swing.JDialog {
 
     /**
-     * Creates new form Test
+     * Creates new form QuenMatKhau1
      */
     public QuenMatKhau() {
         initComponents();
+        setLocationRelativeTo(null);
     }
-    
+
     NhanVienDAO dao = new NhanVienDAO();
     private String otpStr; // Khai báo biến toàn cục
+    private String email;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,6 +48,7 @@ public class QuenMatKhau extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -57,35 +62,39 @@ public class QuenMatKhau extends javax.swing.JPanel {
         lblHidepass2 = new javax.swing.JLabel();
         btnLayOTP = new javax.swing.JButton();
         btnXacNhanDoiMK = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        txtMaNV = new javax.swing.JTextField();
 
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 0, 51));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("QUÊN MẬT KHẨU");
-        add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 725, 56));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 725, 56));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Xác nhận OTP:");
-        add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 150, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Mật khẩu mới:");
-        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Xác nhận mật khẩu:");
-        add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
-        add(txtXacNhanMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 340, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
+        jPanel1.add(txtXacNhanMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 340, -1));
 
         txtMatKhauMoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMatKhauMoiActionPerformed(evt);
             }
         });
-        add(txtMatKhauMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 340, -1));
-        add(txtMaOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 150, 340, -1));
+        jPanel1.add(txtMatKhauMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 340, -1));
+        jPanel1.add(txtMaOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 340, -1));
 
         lblShowpass1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblShowpass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/hide.png"))); // NOI18N
@@ -95,7 +104,7 @@ public class QuenMatKhau extends javax.swing.JPanel {
                 lblShowpass1MouseClicked(evt);
             }
         });
-        add(lblShowpass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 60, 50, 40));
+        jPanel1.add(lblShowpass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 50, 40));
 
         lblHidepass1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHidepass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/eye.png"))); // NOI18N
@@ -105,7 +114,7 @@ public class QuenMatKhau extends javax.swing.JPanel {
                 lblHidepass1MouseClicked(evt);
             }
         });
-        add(lblHidepass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 60, 50, 40));
+        jPanel1.add(lblHidepass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 50, 40));
 
         lblShowpass2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblShowpass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/hide.png"))); // NOI18N
@@ -115,7 +124,7 @@ public class QuenMatKhau extends javax.swing.JPanel {
                 lblShowpass2MouseClicked(evt);
             }
         });
-        add(lblShowpass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 50, 40));
+        jPanel1.add(lblShowpass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 50, 40));
 
         lblHidepass2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblHidepass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/eye.png"))); // NOI18N
@@ -125,7 +134,7 @@ public class QuenMatKhau extends javax.swing.JPanel {
                 lblHidepass2MouseClicked(evt);
             }
         });
-        add(lblHidepass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 50, 40));
+        jPanel1.add(lblHidepass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 50, 40));
 
         btnLayOTP.setText("Lấy mã OTP");
         btnLayOTP.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +142,7 @@ public class QuenMatKhau extends javax.swing.JPanel {
                 btnLayOTPActionPerformed(evt);
             }
         });
-        add(btnLayOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 150, -1, -1));
+        jPanel1.add(btnLayOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, -1, -1));
 
         btnXacNhanDoiMK.setText("Đổi mật khẩu");
         btnXacNhanDoiMK.addActionListener(new java.awt.event.ActionListener() {
@@ -141,7 +150,29 @@ public class QuenMatKhau extends javax.swing.JPanel {
                 btnXacNhanDoiMKActionPerformed(evt);
             }
         });
-        add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, -1, -1));
+        jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Mã nhân viên:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
+        jPanel1.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 340, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 737, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 333, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+        );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtMatKhauMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauMoiActionPerformed
@@ -172,34 +203,6 @@ public class QuenMatKhau extends javax.swing.JPanel {
         txtXacNhanMatKhau.setEchoChar((char) 8226);
     }//GEN-LAST:event_lblHidepass2MouseClicked
 
-    private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
-        String strMaNV = Auth.user.getMaNV();
-        String strMatKhauMoi = new String(txtMatKhauMoi.getPassword());
-        String strMatKhauMoi2 = new String(txtXacNhanMatKhau.getPassword());
-        String strOTP = txtMaOTP.getText();
-
-        if (Auth.user == null) {
-            MsgBox.alert(this, "Không thể đổi mật khẩu. Vui lòng đăng nhập lại!");
-        } else if (!strMaNV.equalsIgnoreCase(Auth.user.getMaNV())) {
-            MsgBox.alert(this, "Sai tên đăng nhập!");
-        } else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
-            MsgBox.alert(this, "Xác nhận mật khẩu không đúng!");
-        } else if (!strOTP.equals(otpStr)) {
-            MsgBox.alert(this, "OTP sai! Vui lòng nhập lại!");
-        } else {
-            int option = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn đổi mật khẩu", "Xác nhận",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                    new Object[]{"Yes", "No"}, "No");
-
-            if (option == JOptionPane.YES_OPTION) {
-                Auth.user.setMatKhau(strMatKhauMoi);
-                dao.update(Auth.user);
-                MsgBox.alert(this, "Đổi mật khẩu thành công!");
-
-            }
-        }
-    }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
-
     private void btnLayOTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayOTPActionPerformed
         // Cấu hình thông tin tài khoản email
         Properties p = new Properties();
@@ -225,9 +228,20 @@ public class QuenMatKhau extends javax.swing.JPanel {
             // Tạo đối tượng MimeMessage để gửi email
             MimeMessage message = new MimeMessage(session);
 
+            // Lấy ra email của mã nhân viên nhập vào
+            List<NhanVien> list = dao.selectAll();
+            NhanVien nv = dao.selectById(txtMaNV.getText());
+            if (nv.getEmail().isEmpty()) {
+                MsgBox.alert(this, "Không tìm thấy email tồn tại tương ứng với mã nhân viên!");
+            } else {
+                email = nv.getEmail();
+                System.out.println(email);
+            }
+
             // Thiết lập thông tin người gửi và người nhận
             message.setFrom(new InternetAddress(accountName));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress("dlehoang415@gmail.com"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            //dlehoang415@gmail.com
 
             // Tạo mã OTP ngẫu nhiên
             Random random = new Random();
@@ -246,7 +260,101 @@ public class QuenMatKhau extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLayOTPActionPerformed
 
-    
+    private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
+        String strMaNV = txtMaNV.getText();
+        String strMatKhauMoi = new String(txtMatKhauMoi.getPassword());
+        String strMatKhauMoi2 = new String(txtXacNhanMatKhau.getPassword());
+        String strOTP = txtMaOTP.getText();
+
+        List<NhanVien> list = dao.selectAll();
+
+        NhanVien nv = dao.selectById(strMaNV);
+        if (nv == null) {
+            MsgBox.alert(this, "Mã nhân viên không tồn tại!");
+        } else {
+            if (new String(txtMatKhauMoi.getPassword()).isEmpty()) {
+                MsgBox.alert(this, "Chưa nhập mật khẩu mới!");
+            } else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
+                MsgBox.alert(this, "Xác nhận mật khẩu không đúng!");
+            } else if (!strOTP.equals(otpStr)) {
+                MsgBox.alert(this, "OTP sai! Vui lòng nhập lại!");
+            } else {
+                int option = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn đổi mật khẩu", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                        new Object[]{"Yes", "No"}, "No");
+
+                if (option == JOptionPane.YES_OPTION) {
+                    for (NhanVien nv1 : list) {
+                        if (strMaNV.equals(nv.getMaNV())) {
+                            nv.setMatKhau(strMatKhauMoi);
+                            dao.update(nv);
+                        } else {
+                            MsgBox.alert(this, "Đổi mật khẩu thất bại!");
+                        }
+                    }
+                    MsgBox.alert(this, "Đổi mật khẩu thành công!");
+                    this.dispose();
+                    new DangNhap().setVisible(true);
+                }
+            }
+        }
+//        boolean daDungMaNV = false;
+//        for(NhanVien nv1 : list){
+//            if(strMaNV.equals(nv.getMaNV())){
+//                daDungMaNV=true;
+//                break;                
+//            }
+//            if(!daDungMaNV){
+//                MsgBox.alert(this, "Sai tên đăng nhập!");
+//                return;
+//            }   
+//        }
+
+
+    }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(QuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(QuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(QuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(QuenMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the dialog */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                QuenMatKhau dialog = new QuenMatKhau();
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLayOTP;
@@ -255,10 +363,13 @@ public class QuenMatKhau extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblHidepass1;
     private javax.swing.JLabel lblHidepass2;
     private javax.swing.JLabel lblShowpass1;
     private javax.swing.JLabel lblShowpass2;
+    private javax.swing.JTextField txtMaNV;
     private javax.swing.JTextField txtMaOTP;
     private javax.swing.JPasswordField txtMatKhauMoi;
     private javax.swing.JPasswordField txtXacNhanMatKhau;
