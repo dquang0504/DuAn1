@@ -196,6 +196,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
         txtTienNhan.setText("0");
         txtTienNhan.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 204, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(153, 153, 255), new java.awt.Color(255, 153, 255)));
+        txtTienNhan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTienNhanKeyReleased(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Tiền thừa:");
@@ -206,6 +211,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtTienThua.setEnabled(false);
 
         btnThanhToan.setText("THANH TOÁN");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         btnTaoDon.setText("TẠO ĐƠN");
         btnTaoDon.addActionListener(new java.awt.event.ActionListener() {
@@ -631,6 +641,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         if (evt.getClickCount() == 2) {
             this.rowDH = tblDonHang.getSelectedRow();
             this.edit();
+            this.fillChiTietGoiTap();
         }
     }//GEN-LAST:event_tblDonHangMouseClicked
 
@@ -646,13 +657,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         updateDH();
     }//GEN-LAST:event_btnLuuActionPerformed
 
-    void updateDH(){
+    void updateDH() {
         DonHang dh = getForm();
         try {
             dhdao.update(dh);
             fillTableDH();
-            System.out.println(dh.getMakh());
-            System.out.println(txtMaKH.getText());
         } catch (Exception e) {
             System.out.println(e);
             MsgBox.alert(this, "Lưu thất bại");
@@ -669,6 +678,14 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private void btnChonGoiTapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonGoiTapActionPerformed
         themSP();
     }//GEN-LAST:event_btnChonGoiTapActionPerformed
+
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        thanhToan();
+    }//GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void txtTienNhanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTienNhanKeyReleased
+        tinhTien();
+    }//GEN-LAST:event_txtTienNhanKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -737,12 +754,37 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private void init() {
         this.fillTableDH();
         this.fillTableGT();
-        this.fillTableChiTiet();
+
         this.rowDH = -1;
         this.updateStatus();
         lblUser.setText("User: " + Auth.user.getHoten());
         lblChucVu.setText("Chức vụ: " + (Auth.user.isVaiTro() ? "Quản lý" : "Huấn luyện viên"));
         txtNgayTao.setText(XDate.toString(new Date(), "dd-MM-yyyy"));
+    }
+
+    void tinhTien() {
+        try {
+            double tienNhan = Double.parseDouble(txtTienNhan.getText());
+            double tongTien = Double.parseDouble(txtTongTien.getText());
+            txtTienThua.setText(String.valueOf(tienNhan - tongTien));
+        } catch (Exception e) {
+
+        }
+    }
+
+    void thanhToan() {
+        if (Double.parseDouble(txtTienThua.getText()) < 0) {
+            int choice = JOptionPane.showConfirmDialog(this, "Đơn này vẫn còn nợ tiền, bạn muốn tiếp tục ?", "Hệ thống quản lý phòng gym", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                rdoDaThanhToan.setSelected(true);
+                updateDH();
+                MsgBox.alert(this, "Thanh toán thành công!");
+            }
+        } else {
+            rdoDaThanhToan.setSelected(true);
+            updateDH();
+            MsgBox.alert(this, "Thanh toán thành công!");
+        }
     }
 
     void fillTableDH() {
@@ -804,25 +846,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtTienThua.setText(String.valueOf(dh.getTienThua()));
     }
 
-    void setFormCTGT() {
-        DefaultTableModel model = (DefaultTableModel) tblChiTietGoiTap.getModel();
-        model.setRowCount(0);
-        try {
-            int madh = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
-            String keyword = String.valueOf(madh);
-            List<ChiTietGoiTap> list = (List<ChiTietGoiTap>) ctgtdao.selectByMaDH(keyword);
-            for (ChiTietGoiTap ctgt : list) {
-                Object[] row = {ctgt.getMactgt(), ctgt.getMadh(), ctgt.getSoluong(), ctgt.getNgaydk(),
-                    ctgt.getNgaykt(), ctgt.getGia()};
-                model.addRow(row); //thêm từng hàng vào JTable
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
-            System.out.println(e);
-        }
-        
-    }
-
     void updateStatus() {
         boolean edit = (this.rowDH >= 0);
         boolean first = (this.rowDH == 0);
@@ -844,8 +867,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         this.setForm(dh);
         this.rowDH = -1;
         tblGoiTap.clearSelection();
-        tblDonHang.clearSelection();
-        fillTableChiTiet();
         updateStatus();
     }
 
@@ -867,36 +888,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             this.clearForm();
             MsgBox.alert(this, "Tạo đơn mới thành công!");
         } catch (Exception e) {
-            MsgBox.alert(this, "Tạo đơn mới thành công!");
+            MsgBox.alert(this, "Tạo đơn mới thất bại!");
             System.out.println(e);
         }
 
-    }
-
-    void insertDH() {
-        DonHang dh = getForm();
-        try {
-            dhdao.insert(dh);
-            this.fillTableDH();
-            this.clearForm();
-            MsgBox.alert(this, "Thêm mới thành công!");
-        } catch (Exception e) {
-            MsgBox.alert(this, "Thêm mới thất bại!");
-            System.out.println(e);
-        }
-    }
-
-    void update() {
-        DonHang dh = getForm();
-        try {
-            dhdao.update(dh);
-            this.fillTableDH();
-            this.clearForm();
-            MsgBox.alert(this, "Cập nhật thành công!");
-        } catch (Exception e) {
-            MsgBox.alert(this, "Cập nhật thất bại!");
-            System.out.println(e);
-        }
     }
 
     void delete() {
@@ -973,24 +968,85 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         String makh = dialog.getSelectedData();
         // Đặt dữ liệu vào txtMaKH
         txtMaKH.setText(makh);
-        txtTongTien.setText("123");
     }
     private int value = 0;
 
     void themSP() {
-        String get = JOptionPane.showInputDialog("Nhập vào số lượng: ");
-        if (get == null) {
-            value = 0;
+
+        try {
+            String get = JOptionPane.showInputDialog("Nhập vào số lượng: ");
+            value = Integer.parseInt(get);
+            createCTGT();
+
+        } catch (Exception e) {
+            System.out.println(e);
             MsgBox.alert(this, "Vui lòng nhập vào một số!");
         }
-
-        value = Integer.parseInt(get);
-        createCTGT();
 
         //lấy dữ liệu của từng ô làm get form. vd: tblGoiTap.getValueAt(0,0) để lấy mã gt. 0,1 để lấy tên gói...
         //tạo dao rồi thêm vào bảng chi tiết bình thường
     }
 
+    void fillChiTietGoiTap(){
+        DefaultTableModel model = (DefaultTableModel) tblChiTietGoiTap.getModel();
+        model.setRowCount(0);
+        try {
+            int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(),0);
+            List<ChiTietGoiTap> list = ctgtdao.selectByMaDHTest(keyword); //đọc dữ liệu từ CSDL
+            for (ChiTietGoiTap ctgt : list) {
+                Object[] row = {ctgt.getMactgt(), ctgt.getMadh(), ctgt.getSoluong(), ctgt.getNgaydk(),
+                    ctgt.getNgaykt(), ctgt.getGia()};
+                model.addRow(row); //thêm từng hàng vào JTable
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            System.out.println(e);
+        }
+    }
+
+    ChiTietGoiTap getFormSP() {
+        ChiTietGoiTap ctgt = new ChiTietGoiTap();
+        ctgt.setMactgt(ABORT);
+        ctgt.setMakh((String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2));
+        ctgt.setMagt((String) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 0));
+        ctgt.setMadh((int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0));
+        ctgt.setNgaydk(new Date());
+        if(tblChiTietGoiTap.getRowCount()==0){
+             ctgt.setNgaykt(XDate.addDay(new Date(), value * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+        }
+        else if(tblChiTietGoiTap.getRowCount()>=1){
+            for(int i = 1;i<=tblChiTietGoiTap.getRowCount();i++){
+                ctgt.setNgaykt(XDate.addDay((Date) tblChiTietGoiTap.getValueAt(i-1,4), value * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+            }
+        }
+        ctgt.setSoluong(value);
+        double gia = (double) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 2);
+        ctgt.setGia(value * gia);
+        return ctgt;
+    }
+
+    void createCTGT() {
+        double tong = 0;
+        double test = 0;
+        ChiTietGoiTap ctgt = getFormSP();
+        try {
+            ctgtdao.insert(ctgt);
+            this.fillChiTietGoiTap();
+            for (int i = 0;i<tblChiTietGoiTap.getRowCount();i++) {
+                test = test + (double) tblChiTietGoiTap.getValueAt(i,5);
+            }
+
+//            double tongTien = (Double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getRowCount()-1, 5);
+            txtTongTien.setText(String.valueOf(test));
+            updateDH();
+            this.clearForm();
+            MsgBox.alert(this, "Thêm sản phẩm vào đơn thành công!");
+        } catch (Exception e) {
+            System.out.println(e);
+            MsgBox.alert(this, "Thêm sản phẩm vào đơn thất bại!");
+        }
+    }
+    
     void fillTableChiTiet() {
         DefaultTableModel model = (DefaultTableModel) tblChiTietGoiTap.getModel();
         model.setRowCount(0);
@@ -1008,47 +1064,5 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }
     
-    private Date dateKT;
     
-    ChiTietGoiTap getFormSP() {
-        ChiTietGoiTap ctgt = new ChiTietGoiTap();
-        ctgt.setMactgt(ABORT);
-        ctgt.setMakh((String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2));
-        ctgt.setMagt((String) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 0));
-        ctgt.setMadh((int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0));
-        ctgt.setNgaydk(new Date());
-        dateKT = XDate.addDay(new Date(), value * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3));
-        ctgt.setNgaykt(XDate.addDay(dateKT, value * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
-        ctgt.setSoluong(value);
-        double gia = (double) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 2);
-        ctgt.setGia(value * gia);
-        return ctgt;
-    }
-
-    void createCTGT() {
-        double tong = 0;
-        ChiTietGoiTap ctgt = getFormSP();
-        try {
-            ctgtdao.insert(ctgt);
-            this.fillTableChiTiet();
-            
-            List<ChiTietGoiTap> list = ctgtdao.selectAll();
-            for(ChiTietGoiTap ct  : list){
-                if(ct.getMadh() == ( (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1))){
-                    tong +=ct.getGia(); 
-                }
-            }
-            
-            
-//            double tongTien = (Double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getRowCount()-1, 5);
-            
-            txtTongTien.setText(String.valueOf(tong));
-            updateDH();
-            this.clearForm();
-            MsgBox.alert(this, "Thêm sản phẩm vào đơn thành công!");
-        } catch (Exception e) {
-            System.out.println(e);
-            MsgBox.alert(this, "Thêm sản phẩm vào đơn thất bại!");
-        }
-    }
 }

@@ -105,5 +105,10 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaCTGT like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
+    
+    public List<ChiTietGoiTap> selectByMaDHTest(int keyword) {
+        String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
+        return this.selectBySql(sql, "%" + keyword + "%");
+    }
 
 }
