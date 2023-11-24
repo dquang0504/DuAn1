@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -21,6 +22,10 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietGoiTap";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietGoiTap where MaCTGT=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietGoiTap where MaDH=?";
+    final String SELECT_ORDER_CTGT = "SELECT MaDH, MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n" +
+"FROM ChiTietGoiTap where MaDH like ?\n" +
+"GROUP BY MaDH, MaGT, NgayDK\n" +
+"order by NgayDK,NgayKT";
 
     @Override
     public void insert(ChiTietGoiTap entity) {
@@ -62,7 +67,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
             ResultSet rs = (ResultSet) DBHelper.query(sql, args);
             while (rs.next()) {
                 ChiTietGoiTap entity = new ChiTietGoiTap();
-                entity.setMactgt(rs.getInt("MaCTGT"));
+//                entity.setMactgt(rs.getInt("MaCTGT"));
                 entity.setMakh(rs.getString("MaDH"));
                 entity.setMagt(rs.getString("MaGT"));
                 entity.setMadh(rs.getInt("MaDH"));
@@ -75,7 +80,9 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
             rs.getStatement().getConnection().close();
             return list;
         } catch (Exception e) {
+            System.out.println(e);
             throw new RuntimeException(e);
+
         }
     }
 
@@ -110,5 +117,11 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
+    
+    public List<ChiTietGoiTap> selectByMaDH(int keyword) {
+        
+        return this.selectBySql(SELECT_ORDER_CTGT, "%" + keyword + "%");
+    }
 
 }
+

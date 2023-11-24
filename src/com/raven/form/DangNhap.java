@@ -103,12 +103,12 @@ public class DangNhap extends javax.swing.JDialog {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Login");
+        jLabel2.setText("Đăng nhập");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 32, 530, 44));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Username");
+        jLabel3.setText("Tài khoản");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 490, 25));
 
         jLabel6.setText("_________________________________________________");
@@ -136,7 +136,7 @@ public class DangNhap extends javax.swing.JDialog {
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Password");
+        jLabel7.setText("Mật khẩu");
         jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 490, 25));
 
         jLabel8.setFont(jLabel8.getFont());
@@ -167,7 +167,7 @@ public class DangNhap extends javax.swing.JDialog {
         jPanel2.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 340, -1));
 
         btnDangNhap.setBackground(new java.awt.Color(153, 204, 255));
-        btnDangNhap.setText("LOGIN");
+        btnDangNhap.setText("Đăng nhập");
         btnDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDangNhapActionPerformed(evt);

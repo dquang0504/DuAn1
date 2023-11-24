@@ -9,7 +9,6 @@ import com.gym.util.Auth;
 import com.gym.util.MsgBox;
 import com.raven.event.EventMenuSelected;
 import com.raven.form.DangNhap;
-import com.raven.form.DoiMatKhau;
 import com.raven.form.DoiMatKhau1;
 import com.raven.form.QuanLyNhanVien;
 import com.raven.form.QuanLyDonHang;
@@ -19,6 +18,7 @@ import com.raven.form.QuanLyGoiTap;
 import com.raven.form.QuanLyKhachHang;
 import com.raven.form.QuenMatKhau;
 import java.awt.Color;
+import javax.accessibility.AccessibleAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
@@ -153,7 +153,9 @@ public class Main extends javax.swing.JFrame {
                     DoiMatKhau1 doimk = new DoiMatKhau1();
                     doimk.setModal(true);
                     doimk.setVisible(true);
-                    dispose();
+                    if(doimk.clicked()){
+                        dispose();
+                    }
                 }
                 else if(index == 12){
                     dispose();

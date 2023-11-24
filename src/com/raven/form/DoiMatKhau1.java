@@ -49,6 +49,7 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
         txtMatKhauCu = new javax.swing.JPasswordField();
         lblHidepass3 = new javax.swing.JLabel();
         lblShowpass3 = new javax.swing.JLabel();
+        btnHuyBo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -120,13 +121,13 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
         });
         jPanel1.add(lblHidepass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 150, 50, 40));
 
-        btnXacNhanDoiMK.setText("Đổi mật khẩu");
+        btnXacNhanDoiMK.setText("Xác nhận");
         btnXacNhanDoiMK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXacNhanDoiMKActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, -1, -1));
+        jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, -1, -1));
         jPanel1.add(txtMatKhauCu, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 340, -1));
 
         lblHidepass3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -148,6 +149,14 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
             }
         });
         jPanel1.add(lblShowpass3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 70, 50, 40));
+
+        btnHuyBo.setText("Hủy bỏ");
+        btnHuyBo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyBoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnHuyBo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 190, 80, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -197,6 +206,14 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
         txtXacNhanMatKhau.setEchoChar((char) 8226);
     }//GEN-LAST:event_lblHidepass2MouseClicked
 
+    private boolean clicked;
+    
+    
+    public boolean clicked(){
+        return clicked;
+    }
+    
+    
     private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
 
         String strMatKhauCu = new String(txtMatKhauCu.getPassword());
@@ -217,11 +234,15 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
                 new Object[]{"Yes", "No"}, "No");
 
             if (option == JOptionPane.YES_OPTION) {
+                clicked=true;
                 Auth.user.setMatKhau(strMatKhauMoi);
                 dao.update(Auth.user);
                 MsgBox.alert(this, "Đổi mật khẩu thành công!");
                 this.dispose();
                 new DangNhap().setVisible(true);
+            }
+            else{
+                clicked=false;
             }
         }
     }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
@@ -233,6 +254,11 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
     private void lblShowpass3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblShowpass3MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lblShowpass3MouseClicked
+
+    private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
+        clicked=false;
+        this.dispose();
+    }//GEN-LAST:event_btnHuyBoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -277,6 +303,7 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnHuyBo;
     private javax.swing.JButton btnXacNhanDoiMK;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

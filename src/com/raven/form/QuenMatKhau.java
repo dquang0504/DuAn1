@@ -231,32 +231,36 @@ public class QuenMatKhau extends javax.swing.JDialog {
             // Lấy ra email của mã nhân viên nhập vào
             List<NhanVien> list = dao.selectAll();
             NhanVien nv = dao.selectById(txtMaNV.getText());
-            if (nv.getEmail().isEmpty()) {
+            try {
+                if (nv.getEmail().isEmpty()) {
+                    MsgBox.alert(this, "Không tìm thấy email tồn tại tương ứng với mã nhân viên!");
+                } else {
+                    email = nv.getEmail();
+                    System.out.println(email);
+                }
+                message.setFrom(new InternetAddress(accountName));
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+                //dlehoang415@gmail.com
+
+                // Tạo mã OTP ngẫu nhiên
+                Random random = new Random();
+                int otp = random.nextInt(900000) + 100000; // Tạo một số ngẫu nhiên có 6 chữ số
+                otpStr = Integer.toString(otp); // Gán giá trị của số ngẫu nhiên cho biến otpStr
+
+                // Thiết lập tiêu đề và nội dung email
+                message.setSubject("Mã OTP của bạn");
+                message.setText("Đây là mã OTP của bạn: " + otpStr);
+
+                // Gửi email
+                Transport.send(message);
+                System.out.println("OTP đã được gửi!");
+            } catch (Exception e) {
                 MsgBox.alert(this, "Không tìm thấy email tồn tại tương ứng với mã nhân viên!");
-            } else {
-                email = nv.getEmail();
-                System.out.println(email);
             }
 
             // Thiết lập thông tin người gửi và người nhận
-            message.setFrom(new InternetAddress(accountName));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            //dlehoang415@gmail.com
+        } catch (Exception mex) {
 
-            // Tạo mã OTP ngẫu nhiên
-            Random random = new Random();
-            int otp = random.nextInt(900000) + 100000; // Tạo một số ngẫu nhiên có 6 chữ số
-            otpStr = Integer.toString(otp); // Gán giá trị của số ngẫu nhiên cho biến otpStr
-
-            // Thiết lập tiêu đề và nội dung email
-            message.setSubject("Mã OTP của bạn");
-            message.setText("Đây là mã OTP của bạn: " + otpStr);
-
-            // Gửi email
-            Transport.send(message);
-            System.out.println("OTP đã được gửi!");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
         }
     }//GEN-LAST:event_btnLayOTPActionPerformed
 
