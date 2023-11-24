@@ -22,9 +22,9 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietGoiTap";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietGoiTap where MaCTGT=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietGoiTap where MaDH=?";
-    final String SELECT_ORDER_CTGT = "SELECT MaDH, MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n" +
+    final String SELECT_ORDER_CTGT = "SELECT MaDH, MaKH ,MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n" +
 "FROM ChiTietGoiTap where MaDH like ?\n" +
-"GROUP BY MaDH, MaGT, NgayDK\n" +
+"GROUP BY MaDH, MaGT, NgayDK, MaKH\n" +
 "order by NgayDK,NgayKT";
 
     @Override
@@ -68,7 +68,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
             while (rs.next()) {
                 ChiTietGoiTap entity = new ChiTietGoiTap();
 //                entity.setMactgt(rs.getInt("MaCTGT"));
-                entity.setMakh(rs.getString("MaDH"));
+                entity.setMakh(rs.getString("MaKH"));
                 entity.setMagt(rs.getString("MaGT"));
                 entity.setMadh(rs.getInt("MaDH"));
                 entity.setNgaydk(rs.getDate("NgayDK"));
@@ -95,7 +95,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         return list.get(0);
     }
     
-    public ChiTietGoiTap selectByMaDH(String madh) {
+    public ChiTietGoiTap selectByMaDH_CTGT(String madh) {
         List<ChiTietGoiTap> list = this.selectBySql(SELECT_BY_MaDH_SQL,madh);
         if (list.isEmpty()) {
             return null;
@@ -108,17 +108,17 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         return this.selectBySql(SELECT_ALL_SQL);
     }
 
-    public List<ChiTietGoiTap> selectByKeyword(String keyword) {
+    public List<ChiTietGoiTap> selectByKeyword_CTGT(String keyword) {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaCTGT like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
     
-    public List<ChiTietGoiTap> selectByMaDHTest(int keyword) {
+    public List<ChiTietGoiTap> selectByMaDHTest_CTGT(int keyword) {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
     
-    public List<ChiTietGoiTap> selectByMaDH(int keyword) {
+    public List<ChiTietGoiTap> selectByMaDH_CTGT(int keyword) {
         
         return this.selectBySql(SELECT_ORDER_CTGT, "%" + keyword + "%");
     }

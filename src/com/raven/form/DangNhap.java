@@ -41,6 +41,7 @@ public class DangNhap extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlCover = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblLogo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -69,6 +70,8 @@ public class DangNhap extends javax.swing.JDialog {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        pnlCover.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/logo.jpg"))); // NOI18N
@@ -90,12 +93,10 @@ public class DangNhap extends javax.swing.JDialog {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
+                .addGap(106, 106, 106)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 400));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -163,6 +164,7 @@ public class DangNhap extends javax.swing.JDialog {
         });
         jPanel2.add(lblClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 0, 50, 50));
 
+        txtMaNV.setText("NV001");
         txtMaNV.setBorder(null);
         jPanel2.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 340, -1));
 
@@ -196,7 +198,31 @@ public class DangNhap extends javax.swing.JDialog {
         });
         jPanel2.add(chkLuuMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 260, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, 530, 400));
+        javax.swing.GroupLayout pnlCoverLayout = new javax.swing.GroupLayout(pnlCover);
+        pnlCover.setLayout(pnlCoverLayout);
+        pnlCoverLayout.setHorizontalGroup(
+            pnlCoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 938, Short.MAX_VALUE)
+            .addGroup(pnlCoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCoverLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        pnlCoverLayout.setVerticalGroup(
+            pnlCoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 378, Short.MAX_VALUE)
+            .addGroup(pnlCoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlCoverLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(pnlCoverLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        getContentPane().add(pnlCover, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 940, 380));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -324,6 +350,7 @@ public class DangNhap extends javax.swing.JDialog {
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblShowpass;
     private javax.swing.JLabel lblUser;
+    private javax.swing.JPanel pnlCover;
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JPasswordField txtMatKhau;
     // End of variables declaration//GEN-END:variables

@@ -5,14 +5,18 @@
  */
 package com.raven.form;
 
+import com.gym.dao.ChiTietDungCuDAO;
 import com.gym.dao.ChiTietGoiTapDAO;
 import com.gym.dao.DonHangDAO;
+import com.gym.dao.DungCuDAO;
 import com.gym.dao.GoiTapDAO;
 import com.gym.dao.KhachHangDAO;
 import com.gym.util.MsgBox;
 import com.gym.dao.NhanVienDAO;
+import com.gym.entity.ChiTietDungCu;
 import com.gym.entity.ChiTietGoiTap;
 import com.gym.entity.DonHang;
+import com.gym.entity.DungCu;
 import com.gym.entity.GoiTap;
 import com.gym.entity.KhachHang;
 import com.gym.entity.NhanVien;
@@ -104,6 +108,18 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblChiTietGoiTap1 = new javax.swing.JTable();
+        pnlMuaDungCu = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        txtSearchDC = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblDungCu = new javax.swing.JTable();
+        btnChonDungCu = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tblChiTietDungCu = new javax.swing.JTable();
+        txtSearchCTDC = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
         btnFirst = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
@@ -112,8 +128,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         btnReset = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        lblUser = new javax.swing.JLabel();
-        lblChucVu = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         btnSua1 = new javax.swing.JButton();
 
@@ -390,6 +404,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             }
         });
         jScrollPane3.setViewportView(tblChiTietGoiTap);
+        if (tblChiTietGoiTap.getColumnModel().getColumnCount() > 0) {
+            tblChiTietGoiTap.getColumnModel().getColumn(3).setHeaderValue("NGÀY ĐK");
+            tblChiTietGoiTap.getColumnModel().getColumn(4).setHeaderValue("NGÀY KT");
+        }
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("DANH SÁCH SẢN PHẨM");
@@ -612,6 +630,141 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Thuê huấn luyện viên", pnlThuePT);
 
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel19.setText("DANH SÁCH SẢN PHẨM");
+
+        txtSearchDC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchDCKeyReleased(evt);
+            }
+        });
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
+
+        tblDungCu.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "MÃ DC", "TÊN DC", "GIÁ", "SỐ LƯỢNG", "HÌNH"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(tblDungCu);
+
+        btnChonDungCu.setText("Chọn");
+        btnChonDungCu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonDungCuActionPerformed(evt);
+            }
+        });
+
+        tblChiTietDungCu.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "MÃ DC", "MÃ ĐH", "SỐ LƯỢNG", "GIÁ"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(tblChiTietDungCu);
+
+        txtSearchCTDC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchCTDCKeyReleased(evt);
+            }
+        });
+
+        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
+
+        jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel22.setText("CHI TIẾT HÓA ĐƠN");
+
+        javax.swing.GroupLayout pnlMuaDungCuLayout = new javax.swing.GroupLayout(pnlMuaDungCu);
+        pnlMuaDungCu.setLayout(pnlMuaDungCuLayout);
+        pnlMuaDungCuLayout.setHorizontalGroup(
+            pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                        .addComponent(btnChonDungCu)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                        .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19)
+                            .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtSearchDC, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                        .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSearchCTDC, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel22))
+                        .addGap(23, 23, 23))))
+        );
+        pnlMuaDungCuLayout.setVerticalGroup(
+            pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMuaDungCuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearchDC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
+                        .addComponent(jLabel22)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSearchCTDC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnChonDungCu)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Mua dụng cụ", pnlMuaDungCu);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -682,12 +835,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             }
         });
         jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 420, 460, 30));
-
-        lblUser.setText("USER:");
-        jPanel1.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
-
-        lblChucVu.setText("CHỨC VỤ:");
-        jPanel1.add(lblChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
@@ -763,6 +910,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             this.rowDH = tblDonHang.getSelectedRow();
             this.edit();
             this.fillChiTietGoiTap();
+            this.fillChiTietDungCu();
         }
     }//GEN-LAST:event_tblDonHangMouseClicked
 
@@ -774,16 +922,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     }//GEN-LAST:event_txtMaKHKeyTyped
 
-    void updateDH() {
-        DonHang dh = getForm();
-        try {
-            dhdao.update(dh);
-            fillTableDH();
-        } catch (Exception e) {
-            System.out.println(e);
-            MsgBox.alert(this, "Lưu thất bại");
-        }
-    }
     private void txtSearchCTGTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchCTGTKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchCTGTKeyReleased
@@ -793,7 +931,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchGTKeyReleased
 
     private void btnChonGoiTapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonGoiTapActionPerformed
-        themSP();
+        themGT();
     }//GEN-LAST:event_btnChonGoiTapActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
@@ -816,8 +954,21 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtSearchCTGT1KeyReleased
 
+    private void txtSearchDCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchDCKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchDCKeyReleased
+
+    private void btnChonDungCuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonDungCuActionPerformed
+        themDC();
+    }//GEN-LAST:event_btnChonDungCuActionPerformed
+
+    private void txtSearchCTDCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchCTDCKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchCTDCKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChonDungCu;
     private javax.swing.JButton btnChonGoiTap;
     private javax.swing.JButton btnChonGoiTap1;
     private javax.swing.JButton btnDoi;
@@ -843,6 +994,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -858,24 +1013,29 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblChucVu;
-    private javax.swing.JLabel lblUser;
+    private javax.swing.JPanel pnlMuaDungCu;
     private javax.swing.JPanel pnlMuaGoiTap;
     private javax.swing.JPanel pnlThuePT;
     private javax.swing.JRadioButton rdoCho;
     private javax.swing.JRadioButton rdoDaThanhToan;
+    private javax.swing.JTable tblChiTietDungCu;
     private javax.swing.JTable tblChiTietGoiTap;
     private javax.swing.JTable tblChiTietGoiTap1;
     private javax.swing.JTable tblDonHang;
+    private javax.swing.JTable tblDungCu;
     private javax.swing.JTable tblGoiTap;
     private javax.swing.JTable tblGoiTap1;
     private javax.swing.JTextField txtMaDH;
     private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtNgayTao;
     private javax.swing.JTextField txtSearch;
+    private javax.swing.JTextField txtSearchCTDC;
     private javax.swing.JTextField txtSearchCTGT;
     private javax.swing.JTextField txtSearchCTGT1;
+    private javax.swing.JTextField txtSearchDC;
     private javax.swing.JTextField txtSearchGT;
     private javax.swing.JTextField txtSearchGT1;
     private javax.swing.JTextField txtTienNhan;
@@ -888,16 +1048,17 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     DonHangDAO dhdao = new DonHangDAO();
     GoiTapDAO gtdao = new GoiTapDAO();
+    DungCuDAO dcdao = new DungCuDAO();
     ChiTietGoiTapDAO ctgtdao = new ChiTietGoiTapDAO();
+    ChiTietDungCuDAO ctdcdao = new ChiTietDungCuDAO();
 
     private void init() {
         this.fillTableDH();
         this.fillTableGT();
+        this.fillTableDC();
 
         this.rowDH = -1;
         this.updateStatus();
-        lblUser.setText("User: " + Auth.user.getHoten());
-        lblChucVu.setText("Chức vụ: " + (Auth.user.isVaiTro() ? "Quản lý" : "Huấn luyện viên"));
         txtNgayTao.setText(XDate.toString(new Date(), "dd-MM-yyyy"));
     }
 
@@ -908,6 +1069,17 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             txtTienThua.setText(String.valueOf(tienNhan - tongTien));
         } catch (Exception e) {
 
+        }
+    }
+
+    void updateDH() {
+        DonHang dh = getForm();
+        try {
+            dhdao.update(dh);
+            fillTableDH();
+        } catch (Exception e) {
+            System.out.println(e);
+            MsgBox.alert(this, "Lưu thất bại");
         }
     }
 
@@ -944,30 +1116,13 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }
 
-    void fillTableGT() {
-        DefaultTableModel model = (DefaultTableModel) tblGoiTap.getModel();
-        model.setRowCount(0);
-        try {
-            String keyword = txtSearchGT.getText();
-            List<GoiTap> list = gtdao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
-            for (GoiTap gt : list) {
-                Object[] row = {gt.getMaGT(), gt.getTenGoi(), gt.getGia(), gt.getThoiHan(),
-                    gt.getMoTa()};
-                model.addRow(row); //thêm từng hàng vào JTable
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
-            System.out.println(e);
-        }
-    }
-
     DonHang getForm() {
         DonHang dh = new DonHang();
         dh.setMadh(Integer.parseInt(txtMaDH.getText()));
         dh.setManv(Auth.user.getMaNV());
         dh.setMakh(txtMaKH.getText());
         dh.setNgayTao(XDate.toDate(txtNgayTao.getText(), "dd-MM-yyyy"));
-        dh.setTrangThai(rdoCho.isSelected());
+        dh.setTrangThai(rdoDaThanhToan.isSelected());
         dh.setTongTien(Double.parseDouble(txtTongTien.getText()));
         dh.setTienNhan(Double.parseDouble(txtTienNhan.getText()));
         dh.setTienThua(Double.parseDouble(txtTienThua.getText()));
@@ -978,8 +1133,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtMaDH.setText(String.valueOf(dh.getMadh()));
         txtMaKH.setText(dh.getMakh());
         txtNgayTao.setText(XDate.toString(dh.getNgayTao(), "dd-MM-yyyy"));
-        rdoCho.setSelected(dh.isTrangThai());
-        rdoDaThanhToan.setSelected(!dh.isTrangThai());
+        rdoCho.setSelected(!dh.isTrangThai());
+        rdoDaThanhToan.setSelected(dh.isTrangThai());
         txtTongTien.setText(String.valueOf(dh.getTongTien()));
         txtTienNhan.setText(String.valueOf(dh.getTienNhan()));
         txtTienThua.setText(String.valueOf(dh.getTienThua()));
@@ -1006,6 +1161,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         this.setForm(dh);
         this.rowDH = -1;
         tblGoiTap.clearSelection();
+        tblDungCu.clearSelection();
         updateStatus();
     }
 
@@ -1019,12 +1175,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }
 
     void createDH() {
+        rdoCho.setSelected(true);
         DonHang dh = getForm();
         try {
             dhdao.createDH(dh);
-            rdoCho.setSelected(true);
             this.fillTableDH();
-
             this.clearForm();
             MsgBox.alert(this, "Tạo đơn mới thành công!");
         } catch (Exception e) {
@@ -1108,37 +1263,52 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         String makh = dialog.getSelectedData();
         // Đặt dữ liệu vào txtMaKH
         txtMaKH.setText(makh);
-        if(!txtMaKH.getText().isEmpty()){
+        if (!txtMaKH.getText().isEmpty()) {
             updateDH();
-        }
-        else{
+        } else {
             MsgBox.alert(this, "vui lòng chọn khách hàng!");
         }
     }
-    private int value = 0;
 
-    void themSP() {
+    //TAB MUA GÓI TẬP
+    void fillTableGT() {
+        DefaultTableModel model = (DefaultTableModel) tblGoiTap.getModel();
+        model.setRowCount(0);
+        try {
+            String keyword = txtSearchGT.getText();
+            List<GoiTap> list = gtdao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
+            for (GoiTap gt : list) {
+                Object[] row = {gt.getMaGT(), gt.getTenGoi(), gt.getGia(), gt.getThoiHan(),
+                    gt.getMoTa()};
+                model.addRow(row); //thêm từng hàng vào JTable
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            System.out.println(e);
+        }
+    }
 
+    private int valueGT = 0;
+
+    void themGT() {
         try {
             String get = JOptionPane.showInputDialog("Nhập vào số lượng: ");
-            value = Integer.parseInt(get);
+            valueGT = Integer.parseInt(get);
             createCTGT();
-
         } catch (Exception e) {
             System.out.println(e);
             MsgBox.alert(this, "Vui lòng nhập vào một số!");
         }
-
         //lấy dữ liệu của từng ô làm get form. vd: tblGoiTap.getValueAt(0,0) để lấy mã gt. 0,1 để lấy tên gói...
         //tạo dao rồi thêm vào bảng chi tiết bình thường
     }
 
-    void fillChiTietGoiTap(){
+    void fillChiTietGoiTap() {
         DefaultTableModel model = (DefaultTableModel) tblChiTietGoiTap.getModel();
         model.setRowCount(0);
         try {
-            int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(),0);
-            List<ChiTietGoiTap> list = ctgtdao.selectByMaDH(keyword); //đọc dữ liệu từ CSDL
+            int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
+            List<ChiTietGoiTap> list = ctgtdao.selectByMaDH_CTGT(keyword); //đọc dữ liệu từ CSDL
             for (ChiTietGoiTap ctgt : list) {
                 Object[] row = {ctgt.getMadh(), ctgt.getMagt(), ctgt.getSoluong(), ctgt.getNgaydk(),
                     ctgt.getNgaykt(), ctgt.getGia()};
@@ -1150,39 +1320,48 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }
 
-    ChiTietGoiTap getFormSP() {
+    ChiTietGoiTap getFormSP_GT() {
         ChiTietGoiTap ctgt = new ChiTietGoiTap();
         ctgt.setMactgt(ABORT);
         ctgt.setMakh((String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2));
         ctgt.setMagt((String) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 0));
         ctgt.setMadh((int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0));
         ctgt.setNgaydk(new Date());
-        if(tblChiTietGoiTap.getRowCount()==0){
-             ctgt.setNgaykt(XDate.addDay(new Date(), value * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
-        }
-        else if(tblChiTietGoiTap.getRowCount()>=1){
-            for(int i = 1;i<=tblChiTietGoiTap.getRowCount();i++){
-                ctgt.setNgaykt(XDate.addDay((Date) tblChiTietGoiTap.getValueAt(i-1,4), value * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+        if (tblChiTietGoiTap.getRowCount() == 0) {
+            ctgt.setNgaykt(XDate.addDay(new Date(), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+        } else if (tblChiTietGoiTap.getRowCount() >= 1) {
+            for (int i = 1; i <= tblChiTietGoiTap.getRowCount(); i++) {
+                ctgt.setNgaykt(XDate.addDay((Date) tblChiTietGoiTap.getValueAt(i - 1, 4), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
             }
         }
-        ctgt.setSoluong(value);
+        ctgt.setSoluong(valueGT);
         double gia = (double) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 2);
-        ctgt.setGia(value * gia);
+        ctgt.setGia(valueGT * gia);
         return ctgt;
     }
-
-    void createCTGT() {
-        double tong = 0;
-        ChiTietGoiTap ctgt = getFormSP();
+    
+    private double tempGT = 0;
+    void createCTGT() {    
+        double tongGT = 0;
+        ChiTietGoiTap ctgt = getFormSP_GT();
         try {
             ctgtdao.insert(ctgt);
             this.fillChiTietGoiTap();
-            for (int i = 0;i<tblChiTietGoiTap.getRowCount();i++) {
-                tong = tong + (double) tblChiTietGoiTap.getValueAt(i,5);
+            for (int i = 0; i < tblChiTietGoiTap.getRowCount(); i++) {
+                tongGT = tongGT + (double) tblChiTietGoiTap.getValueAt(i, 5);
             }
-
-//            double tongTien = (Double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getRowCount()-1, 5);
-            txtTongTien.setText(String.valueOf(tong));
+            tempGT = tongGT;
+//            if (Double.parseDouble(txtTongTien.getText()) == 0) {
+//                txtTongTien.setText(String.valueOf(tongGT));
+//            } else {
+//                txtTongTien.setText(String.valueOf(tongGT + Double.parseDouble(txtTongTien.getText())));
+//            }
+            if(tblChiTietDungCu.getRowCount()==0){
+                txtTongTien.setText(String.valueOf(tongGT));
+            }
+            else{
+                txtTongTien.setText(String.valueOf(tongGT + tempDC));
+            }
             updateDH();
             this.clearForm();
             MsgBox.alert(this, "Thêm sản phẩm vào đơn thành công!");
@@ -1191,11 +1370,93 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             MsgBox.alert(this, "Thêm sản phẩm vào đơn thất bại!");
         }
     }
+
+    //TAB MUA DỤNG CỤ
+    void fillTableDC() {
+        DefaultTableModel model = (DefaultTableModel) tblDungCu.getModel();
+        model.setRowCount(0);
+        try {
+            String keyword = txtSearchDC.getText();
+            List<DungCu> list = dcdao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
+            for (DungCu dc : list) {
+                Object[] row = {dc.getMadc(), dc.getTendc(), dc.getGia(), dc.getSl(),
+                    dc.getHinh()};
+                model.addRow(row); //thêm từng hàng vào JTable
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            System.out.println(e);
+        }
+
+    }
+
+    private int valueDC = 0;
+
+    void themDC() {
+        try {
+            String get = JOptionPane.showInputDialog("Nhập vào số lượng: ");
+            valueDC = Integer.parseInt(get);
+            createCTDC();
+        } catch (Exception e) {
+            System.out.println(e);
+            MsgBox.alert(this, "Vui lòng nhập vào một số!");
+        }
+    }
+
+    void fillChiTietDungCu() {
+        DefaultTableModel model = (DefaultTableModel) tblChiTietDungCu.getModel();
+        model.setRowCount(0);
+        try {
+            int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
+            List<ChiTietDungCu> list = ctdcdao.selectByMaDH_CTDC(keyword); //đọc dữ liệu từ CSDL
+            for (ChiTietDungCu ctdc : list) {
+                Object[] row = {ctdc.getMadc(), ctdc.getMadh(), ctdc.getSl(), ctdc.getGia()};
+                model.addRow(row); //thêm từng hàng vào JTable
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            System.out.println(e);
+        }
+    }
+
+    ChiTietDungCu getFormSP_DC() {
+        ChiTietDungCu ctdc = new ChiTietDungCu();
+        ctdc.setMactdc(ABORT);
+        ctdc.setMadc((String) tblDungCu.getValueAt(tblDungCu.getSelectedRow(), 0));
+        ctdc.setMadh((int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0));
+        ctdc.setMakh((String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2));
+        ctdc.setSl(valueDC);
+        double gia = (double) tblDungCu.getValueAt(tblDungCu.getSelectedRow(), 2);
+        ctdc.setGia(valueDC * gia);
+        return ctdc;
+    }
     
-    
-    
-    
-    //TAB THUÊ HUẤN LUYỆN VIÊN
-    
+    private double tempDC = 0;
+    void createCTDC() {
+        double tongDC = 0;
+        ChiTietDungCu ctdc = getFormSP_DC();
+        try {
+            ctdcdao.insert(ctdc);
+            this.fillChiTietDungCu();
+            for (int i = 0; i < tblChiTietDungCu.getRowCount(); i++) {
+                tongDC = tongDC + (double) tblChiTietDungCu.getValueAt(i, 3);
+            }
+            tempDC = tongDC;
+//            
+            if(tblChiTietGoiTap.getRowCount()==0){
+                txtTongTien.setText(String.valueOf(tongDC));
+            }
+            else{
+                txtTongTien.setText(String.valueOf(tongDC + tempGT));
+            }
+            updateDH();
+            this.clearForm();
+            MsgBox.alert(this, "Thêm sản phẩm vào đơn thành công!");
+        } catch (Exception e) {
+            System.out.println(e);
+            MsgBox.alert(this, "Thêm sản phẩm vào đơn thất bại!");
+        }
+    }
+
     
 }

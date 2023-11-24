@@ -68,7 +68,7 @@ public class DonHang {
         this.tienThua = tienThua;
     }
     private String manv,makh;
-    private boolean trangThai;
+    private boolean trangThai = false;
     private double tongTien;
     private Date ngayTao = new Date();
     private double tienNhan,tienThua;
@@ -101,7 +101,7 @@ public class DonHang {
     }
 
     public double getTongTien() {
-        return tongTien;
+        return tongTien ;
     }
 
     public void setTongTien(double tongTien) {
