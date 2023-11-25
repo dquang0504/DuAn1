@@ -72,6 +72,8 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblNhanVien = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
         btnFirst = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
@@ -80,10 +82,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        txtSearch = new javax.swing.JTextField();
-        lblUser = new javax.swing.JLabel();
-        lblChucVu = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -282,7 +280,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 880, 290));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 880, 290));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 153, 255), new java.awt.Color(153, 153, 255), new java.awt.Color(102, 204, 255), new java.awt.Color(204, 204, 255)));
@@ -313,24 +311,41 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblNhanVien);
 
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
+
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(412, 412, 412))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSearch))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 490, 860, 270));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 490, 860, 270));
 
         btnFirst.setText("|<");
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
@@ -338,7 +353,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnFirstActionPerformed(evt);
             }
         });
-        jPanel1.add(btnFirst, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, -1, -1));
+        jPanel1.add(btnFirst, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, -1, -1));
 
         btnPrev.setText("<<");
         btnPrev.addActionListener(new java.awt.event.ActionListener() {
@@ -346,7 +361,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnPrevActionPerformed(evt);
             }
         });
-        jPanel1.add(btnPrev, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 430, -1, -1));
+        jPanel1.add(btnPrev, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 430, -1, -1));
 
         btnNext.setText(">>");
         btnNext.addActionListener(new java.awt.event.ActionListener() {
@@ -354,7 +369,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnNextActionPerformed(evt);
             }
         });
-        jPanel1.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 430, -1, -1));
+        jPanel1.add(btnNext, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 430, -1, -1));
 
         btnLast.setText(">|");
         btnLast.addActionListener(new java.awt.event.ActionListener() {
@@ -362,7 +377,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnLastActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLast, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 430, -1, -1));
+        jPanel1.add(btnLast, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 430, -1, -1));
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -370,7 +385,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnThemActionPerformed(evt);
             }
         });
-        jPanel1.add(btnThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 390, 144, -1));
+        jPanel1.add(btnThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, 144, -1));
 
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -378,7 +393,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnSuaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 390, 144, -1));
+        jPanel1.add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 390, 144, -1));
 
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
@@ -386,7 +401,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, 144, -1));
+        jPanel1.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 390, 144, -1));
 
         btnReset.setText("Làm mới");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -394,29 +409,13 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 btnResetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 144, -1));
-
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 430, 30, 30));
-
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchKeyReleased(evt);
-            }
-        });
-        jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 430, 490, 30));
-
-        lblUser.setText("USER:");
-        jPanel1.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
-
-        lblChucVu.setText("CHỨC VỤ:");
-        jPanel1.add(lblChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
+        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 144, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("QUẢN LÝ NHÂN VIÊN");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 330, 50));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, 330, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -519,8 +518,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAnh;
-    private javax.swing.JLabel lblChucVu;
-    private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlHinh;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
@@ -542,8 +539,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
-        lblUser.setText("User: " + Auth.user.getHoten());
-        lblChucVu.setText("Chức vụ: " + (Auth.user.isVaiTro() ? "Quản lý" : "Huấn luyện viên"));
+        
     }
 
     void fillTable() {
