@@ -61,6 +61,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -200,6 +201,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         jLabel7.setText("LỌC THEO:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 394, -1, -1));
 
+        buttonGroup1.add(rdoNgay);
         rdoNgay.setText("NGÀY");
         rdoNgay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,6 +210,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         });
         jPanel1.add(rdoNgay, new org.netbeans.lib.awtextra.AbsoluteConstraints(119, 395, -1, -1));
 
+        buttonGroup1.add(rdoThang);
         rdoThang.setText("THÁNG");
         rdoThang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,6 +219,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         });
         jPanel1.add(rdoThang, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 395, -1, -1));
 
+        buttonGroup1.add(rdoNam);
         rdoNam.setText("NĂM");
         rdoNam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -224,6 +228,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         });
         jPanel1.add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 395, -1, -1));
 
+        buttonGroup1.add(rdoAll);
         rdoAll.setText("TẤT CẢ");
         rdoAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -255,16 +260,16 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 462, 1036, 326));
 
-        cboMonthFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboMonthFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12", " " }));
         jPanel1.add(cboMonthFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 200, -1));
 
-        cboMonthTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboMonthTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12", " " }));
         jPanel1.add(cboMonthTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 430, 200, -1));
 
-        cboYearFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboYearFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2023", "2024", " " }));
         jPanel1.add(cboYearFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 200, -1));
 
-        cboYearTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboYearTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2023", "2024" }));
         jPanel1.add(cboYearTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 430, 200, -1));
 
         jLabel8.setText("LOẠI SẢN PHẨM:");
@@ -306,6 +311,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JComboBox<String> cboMonthFrom;
     private javax.swing.JComboBox<String> cboMonthTo;
     private javax.swing.JComboBox<String> cboSanPham;

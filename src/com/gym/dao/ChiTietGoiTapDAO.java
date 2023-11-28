@@ -26,7 +26,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String SELECT_ORDER_CTGT = "SELECT MaDH, MaKH ,MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n" +
 "FROM ChiTietGoiTap where MaDH like ?\n" +
 "GROUP BY MaDH, MaGT, NgayDK, MaKH\n" +
-"order by NgayDK,NgayKT";
+"order by NgayDK";
 
     @Override
     public void insert(ChiTietGoiTap entity) {

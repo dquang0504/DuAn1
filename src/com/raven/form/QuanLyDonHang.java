@@ -602,10 +602,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addComponent(jLabel24)
                             .addComponent(cboChonPT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(lblTienBuoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSoBuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTienBuoiTap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel16)
+                                .addComponent(txtSoBuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnThue))
                     .addGroup(pnlThuePTLayout.createSequentialGroup()
@@ -1114,7 +1115,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             String keyword = txtSearch.getText();
             List<DonHang> list = dhdao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
             for (DonHang dh : list) {
-                Object[] row = {dh.getMadh(), dh.getManv(), dh.getMakh(), dh.getNgayTao(),
+                Object[] row = {dh.getMadh(), dh.getManv(), dh.getMakh(), XDate.toString(dh.getNgayTao(), "dd-MM-yyyy"),
                     dh.isTrangThai() ? "Đã thanh toán" : "Chờ", dh.getTongTien(),
                     dh.getTienNhan(), dh.getTienThua()};
                 model.addRow(row); //thêm từng hàng vào JTable
@@ -1218,6 +1219,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                     dhdao.delete(madh);
                     tblDonHang.clearSelection();
                     this.fillTableDH();
+                    DefaultTableModel modelCTGT = (DefaultTableModel) tblChiTietGoiTap.getModel();
+                    modelCTGT.setRowCount(0);
                     this.clearForm();
                     MsgBox.alert(this, "Xóa đơn hàng thành công!");
                 } catch (Exception e) {
@@ -1348,7 +1351,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         ctgt.setMagt((String) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 0));
         ctgt.setMadh((int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0));
         ctgt.setNgaydk(new Date());
-        
+
         if (tblChiTietGoiTap.getRowCount() == 0) {
             ctgt.setNgaykt(XDate.addDay(new Date(), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
         } else if (tblChiTietGoiTap.getRowCount() >= 1) {
@@ -1375,15 +1378,13 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 tongGT = tongGT + (double) tblChiTietGoiTap.getValueAt(i, 5);
             }
             tempGT = tongGT;
-            if (tblChiTietDungCu.getRowCount() == 0 && tblChiTietThuePT.getRowCount()==0) {
+            if (tblChiTietDungCu.getRowCount() == 0 && tblChiTietThuePT.getRowCount() == 0) {
                 txtTongTien.setText(String.valueOf(tongGT));
-            } else if(tblChiTietDungCu.getRowCount()!=0 && tblChiTietThuePT.getRowCount()==0) {
+            } else if (tblChiTietDungCu.getRowCount() != 0 && tblChiTietThuePT.getRowCount() == 0) {
                 txtTongTien.setText(String.valueOf(tongGT + tempDC));
-            }
-            else if(tblChiTietDungCu.getRowCount()==0 && tblChiTietThuePT.getRowCount()!=0){
+            } else if (tblChiTietDungCu.getRowCount() == 0 && tblChiTietThuePT.getRowCount() != 0) {
                 txtTongTien.setText(String.valueOf(tongGT + tempTPT));
-            }
-            else if(tblChiTietDungCu.getRowCount() != 0 && tblChiTietThuePT.getRowCount()!=0){
+            } else if (tblChiTietDungCu.getRowCount() != 0 && tblChiTietThuePT.getRowCount() != 0) {
                 txtTongTien.setText(String.valueOf(tongGT + tempTPT + tempDC));
             }
             updateDH();
@@ -1494,19 +1495,17 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 tongDC = tongDC + (double) tblChiTietDungCu.getValueAt(i, 3);
             }
             tempDC = tongDC;
-            
-            if (tblChiTietGoiTap.getRowCount() == 0 && tblChiTietThuePT.getRowCount()==0) {
+
+            if (tblChiTietGoiTap.getRowCount() == 0 && tblChiTietThuePT.getRowCount() == 0) {
                 txtTongTien.setText(String.valueOf(tongDC));
-            } else if(tblChiTietGoiTap.getRowCount()!=0 && tblChiTietThuePT.getRowCount()==0) {
+            } else if (tblChiTietGoiTap.getRowCount() != 0 && tblChiTietThuePT.getRowCount() == 0) {
                 txtTongTien.setText(String.valueOf(tongDC + tempGT));
-            }
-            else if(tblChiTietGoiTap.getRowCount()==0 && tblChiTietThuePT.getRowCount()!=0){
+            } else if (tblChiTietGoiTap.getRowCount() == 0 && tblChiTietThuePT.getRowCount() != 0) {
                 txtTongTien.setText(String.valueOf(tongDC + tempTPT));
+            } else if (tblChiTietGoiTap.getRowCount() != 0 && tblChiTietThuePT.getRowCount() != 0) {
+                txtTongTien.setText(String.valueOf(tongDC + tempTPT + tempGT));
             }
-            else if(tblChiTietGoiTap.getRowCount() != 0 && tblChiTietThuePT.getRowCount()!=0){
-                txtTongTien.setText(String.valueOf(tongDC + tempTPT + tempDC));
-            }
-            
+
             updateDH();
 
             //Sau khi tạo đơn thì focus vào đơn mới nhất được tạo
@@ -1514,7 +1513,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 //            int madh = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
 //            DonHang dhok = dhdao.selectById(String.valueOf(madh));
 //            this.setForm(dhok);
-
             MsgBox.alert(this, "Thêm sản phẩm vào đơn thành công!");
         } catch (Exception e) {
             System.out.println(e);
@@ -1599,8 +1597,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     ChiTietThuePT getFormSP_TPT() {
         ChiTietThuePT cttpt = new ChiTietThuePT();
 
-        
-
         cttpt.setMathue(ABORT);
         List<NhanVien> list = nvdao.selectAll();
         for (NhanVien nv : list) {
@@ -1629,7 +1625,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         tempTPT = 0;
         double tongTPT = 0;
         ChiTietThuePT cttpt = getFormSP_TPT();
-       
+
         try {
             cttptdao.insert(cttpt);
             this.fillChiTietThuePT();
@@ -1637,19 +1633,17 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 tongTPT = tongTPT + (double) tblChiTietThuePT.getValueAt(i, 5);
             }
             tempTPT = tongTPT;
-            
-            if (tblChiTietGoiTap.getRowCount() == 0 && tblChiTietDungCu.getRowCount()==0) {
+
+            if (tblChiTietGoiTap.getRowCount() == 0 && tblChiTietDungCu.getRowCount() == 0) {
                 txtTongTien.setText(String.valueOf(tongTPT));
-            } else if(tblChiTietGoiTap.getRowCount()!=0 && tblChiTietDungCu.getRowCount()==0) {
+            } else if (tblChiTietGoiTap.getRowCount() != 0 && tblChiTietDungCu.getRowCount() == 0) {
                 txtTongTien.setText(String.valueOf(tongTPT + tempGT));
-            }
-            else if(tblChiTietGoiTap.getRowCount()==0 && tblChiTietDungCu.getRowCount()!=0){
+            } else if (tblChiTietGoiTap.getRowCount() == 0 && tblChiTietDungCu.getRowCount() != 0) {
                 txtTongTien.setText(String.valueOf(tongTPT + tempDC));
-            }
-            else if(tblChiTietGoiTap.getRowCount() != 0 && tblChiTietDungCu.getRowCount() !=0){
+            } else if (tblChiTietGoiTap.getRowCount() != 0 && tblChiTietDungCu.getRowCount() != 0) {
                 txtTongTien.setText(String.valueOf(tongTPT + tempGT + tempDC));
             }
-            
+
             updateDH();
 
             //Sau khi tạo đơn thì focus vào đơn mới nhất được tạo
@@ -1657,7 +1651,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 //            int madh = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
 //            DonHang dhok = dhdao.selectById(String.valueOf(madh));
 //            this.setForm(dhok);
-
             MsgBox.alert(this, "Thêm sản phẩm vào đơn thành công!");
         } catch (Exception e) {
             System.out.println(e);
