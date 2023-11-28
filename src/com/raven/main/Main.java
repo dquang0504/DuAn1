@@ -17,6 +17,7 @@ import com.raven.form.QuanLyDungCu;
 import com.raven.form.QuanLyGoiTap;
 import com.raven.form.QuanLyKhachHang;
 import com.raven.form.QuenMatKhau;
+import com.raven.form.ThongKeDoanhThu;
 import java.awt.Color;
 import javax.accessibility.AccessibleAction;
 import javax.swing.JComponent;
@@ -37,6 +38,7 @@ public class Main extends javax.swing.JFrame {
     private QuanLyKhachHang form3;
     private QuanLyDungCu form4;
     private QuanLyDonHang form5;
+    private ThongKeDoanhThu form6;
     private DoiMatKhau1 form9;
     private DangNhap form10;
 
@@ -50,6 +52,7 @@ public class Main extends javax.swing.JFrame {
         form3 = new QuanLyKhachHang();
         form4 = new QuanLyDungCu();
         form5 = new QuanLyDonHang();
+        form6 = new ThongKeDoanhThu();
         form9 = new DoiMatKhau1();
         form10 = new DangNhap();
         menu.initMoving(Main.this);
@@ -148,6 +151,9 @@ public class Main extends javax.swing.JFrame {
                 }
                 else if(index == 5){
                     setForm(form5);
+                }
+                else if(index == 6){
+                    setForm(form6);
                 }
                 else if(index ==11){
                     DoiMatKhau1 doimk = new DoiMatKhau1();

@@ -109,5 +109,15 @@ public class NhanVien {
         this.Hinh = Hinh;
     }
 
+    @Override
+    public String toString(){
+        return this.hoten;
+    }
+    
+    @Override
+    public boolean equals(Object obj){
+        NhanVien other = (NhanVien) obj;
+        return other.getMaNV().equals(this.getMaNV());
+    }
   
 }
