@@ -25,6 +25,7 @@ import com.gym.entity.NhanVien;
 import com.gym.util.Auth;
 import com.gym.util.XDate;
 import com.gym.util.XImage;
+import com.itextpdf.kernel.geom.PageSize;
 import java.io.File;
 import java.net.URL;
 import java.util.Date;
@@ -36,6 +37,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -131,8 +142,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         btnXoa = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
-        btnSua1 = new javax.swing.JButton();
         btnTaoDon = new javax.swing.JButton();
+        btnXuatHoaDon = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -801,7 +812,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 390, 144, -1));
+        jPanel1.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 144, -1));
 
         btnReset.setText("Làm mới");
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -809,7 +820,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 btnResetActionPerformed(evt);
             }
         });
-        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, 144, -1));
+        jPanel1.add(btnReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 390, 144, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
@@ -817,21 +828,21 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         jLabel11.setText("QUẢN LÝ ĐƠN HÀNG");
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 330, 50));
 
-        btnSua1.setText("Sửa");
-        btnSua1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSua1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSua1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, 144, -1));
-
-        btnTaoDon.setText("TẠO ĐƠN");
+        btnTaoDon.setText("Tạo đơn");
         btnTaoDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTaoDonActionPerformed(evt);
             }
         });
-        jPanel1.add(btnTaoDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(323, 390, 90, -1));
+        jPanel1.add(btnTaoDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, 130, -1));
+
+        btnXuatHoaDon.setText("Xuất hóa đơn");
+        btnXuatHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatHoaDonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnXuatHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 390, 140, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -876,10 +887,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         timKiemDH();
     }//GEN-LAST:event_txtSearchKeyReleased
-
-    private void btnSua1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSua1ActionPerformed
-
-    }//GEN-LAST:event_btnSua1ActionPerformed
 
     private void btnTaoDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoDonActionPerformed
         createDH();
@@ -970,6 +977,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblChiTietThuePTMouseClicked
 
+    private void btnXuatHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatHoaDonActionPerformed
+        xuatHoaDon();
+    }//GEN-LAST:event_btnXuatHoaDonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoi;
@@ -978,11 +989,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnReset;
-    private javax.swing.JButton btnSua1;
     private javax.swing.JButton btnTaoDon;
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnThue;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JButton btnXuatHoaDon;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -1164,6 +1175,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtNgayTao.setEditable(!edit);
         btnDoi.setEnabled(edit);
         btnXoa.setEnabled(edit);
+        btnXuatHoaDon.setEnabled(edit);
         //Trạng thái điều hướng
         btnFirst.setEnabled(edit && !first);
         btnPrev.setEnabled(edit);
@@ -1219,8 +1231,17 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                     dhdao.delete(madh);
                     tblDonHang.clearSelection();
                     this.fillTableDH();
+
+                    //Reset row bảng CTGT
                     DefaultTableModel modelCTGT = (DefaultTableModel) tblChiTietGoiTap.getModel();
                     modelCTGT.setRowCount(0);
+                    //Reset row bảng CTDC
+                    DefaultTableModel modelCTDC = (DefaultTableModel) tblChiTietDungCu.getModel();
+                    modelCTDC.setRowCount(0);
+                    //Reset row bảng CTTPT
+                    DefaultTableModel modelCTTPT = (DefaultTableModel) tblChiTietThuePT.getModel();
+                    modelCTTPT.setRowCount(0);
+
                     this.clearForm();
                     MsgBox.alert(this, "Xóa đơn hàng thành công!");
                 } catch (Exception e) {
@@ -1681,6 +1702,37 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 MsgBox.alert(this, "Xóa sản phẩm thất bại!");
             }
         }
+    }
+
+    void xuatHoaDon() {
+//        String path = "hoaDon.pdf";
+//        try {
+//            PdfWriter pdfWriter = new PdfWriter(path);
+//            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
+//            pdfDocument.setDefaultPageSize(PageSize.A4);
+//            Document document = new Document(pdfDocument);
+//            
+//            document.add(new Paragraph("Hello Coding ERROR"));
+//            document.close();
+//        } catch (FileNotFoundException ex) {
+//            System.out.println(ex);
+//        }
+        String dest = "hoaDon2.pdf";
+//Initialize PDF writer
+        PdfWriter writer = null;
+        try {
+            writer = new PdfWriter(dest);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(QuanLyDonHang.class.getName()).log(Level.SEVERE, null, ex);
+        }
+//Initialize PDF document
+        PdfDocument pdf = new PdfDocument(writer);
+// Initialize document
+        Document document = new Document(pdf);
+//Add paragraph to the document
+        document.add(new Paragraph("Hello World!"));
+//Close document
+        document.close();
     }
 
 }
