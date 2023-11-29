@@ -16,17 +16,19 @@ import java.util.List;
  * @author 84934
  */
 public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
+
     final String INSERT_SQL = "INSERT INTO ChiTietGoiTap(MaKH,MaGT,MaDH,NgayDK,NgayKT,SoLuong,Gia) values (?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE ChiTietGoiTap SET MaKH = ?,MaGT = ?,MaDH = ?,NgayDK = ?,NgayKT = ?, SoLuong=?,Gia = ? where MaCTGT=?";
+    final String UPDATE_SoLuong_Gia_SQL = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong - ?, Gia = Gia / SoLuong * (SoLuong - ?) WHERE MaGT = ?";
     final String DELETE_SQL = "DELETE FROM ChiTietGoiTap WHERE MaCTGT=?";
     final String DELETE_MAGT_SQL = "DELETE FROM ChiTietGoiTap WHERE MaGT=?";
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietGoiTap";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietGoiTap where MaCTGT=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietGoiTap where MaDH=?";
-    final String SELECT_ORDER_CTGT = "SELECT MaDH, MaKH ,MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n" +
-"FROM ChiTietGoiTap where MaDH like ?\n" +
-"GROUP BY MaDH, MaGT, NgayDK, MaKH\n" +
-"order by NgayDK";
+    final String SELECT_ORDER_CTGT = "SELECT MaDH, MaKH ,MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n"
+            + "FROM ChiTietGoiTap where MaDH like ?\n"
+            + "GROUP BY MaDH, MaGT, NgayDK, MaKH\n"
+            + "order by NgayDK";
 
     @Override
     public void insert(ChiTietGoiTap entity) {
@@ -41,7 +43,6 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         );
     }
 
-
     @Override
     public void update(ChiTietGoiTap entity) {
         DBHelper.update(UPDATE_SQL,
@@ -55,13 +56,21 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
                 entity.getMactgt()
         );
     }
+    
+    public void updateSoLuongGia(int input, String magt) {
+    DBHelper.update(UPDATE_SoLuong_Gia_SQL,
+            input,
+            input,
+            magt
+    );
+}
 
     @Override
     public void delete(String id) {
         DBHelper.update(DELETE_SQL, id);
     }
-    
-    public void deleteMaGT(String id){
+
+    public void deleteMaGT(String id) {
         DBHelper.update(DELETE_MAGT_SQL, id);
     }
 
@@ -99,9 +108,9 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         }
         return list.get(0);
     }
-    
+
     public ChiTietGoiTap selectByMaDH_CTGT(String madh) {
-        List<ChiTietGoiTap> list = this.selectBySql(SELECT_BY_MaDH_SQL,madh);
+        List<ChiTietGoiTap> list = this.selectBySql(SELECT_BY_MaDH_SQL, madh);
         if (list.isEmpty()) {
             return null;
         }
@@ -117,16 +126,15 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaCTGT like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
-    
+
     public List<ChiTietGoiTap> selectByMaDHTest_CTGT(int keyword) {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
-    
+
     public List<ChiTietGoiTap> selectByMaDH_CTGT(int keyword) {
-        
+
         return this.selectBySql(SELECT_ORDER_CTGT, "%" + keyword + "%");
     }
 
 }
-
