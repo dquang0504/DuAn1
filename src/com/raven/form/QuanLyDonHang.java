@@ -1401,7 +1401,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         model.setRowCount(0);
         try {
             int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
-            List<ChiTietGoiTap> list = ctgtdao.selectByMaDHTest_CTGT(keyword); //đọc dữ liệu từ CSDL
+            List<ChiTietGoiTap> list = ctgtdao.selectByMaDH_CTGT(keyword); //đọc dữ liệu từ CSDL
             for (ChiTietGoiTap ctgt : list) {
                 Object[] row = {ctgt.getMagt(), ctgt.getMadh(), ctgt.getSoluong(), ctgt.getNgaydk(),
                     ctgt.getNgaykt(), ctgt.getGia()};
@@ -1428,7 +1428,9 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                 ctgt.setNgaykt(XDate.addDay((Date) tblChiTietGoiTap.getValueAt(i - 1, 4), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
             }
         }
+        
         ctgt.setSoluong(valueGT);
+        
         double gia = (double) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 2);
         ctgt.setGia(valueGT * gia);
         return ctgt;
@@ -1715,6 +1717,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         cttpt.setMakh((String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2));
         cttpt.setSobuoi(valueTPT);
         cttpt.setNgaythue(new Date());
+        
         if (tblChiTietThuePT.getRowCount() == 0) {
             cttpt.setNgaykt(XDate.addDay(new Date(), cttpt.getSobuoi()));
         } else if (tblChiTietThuePT.getRowCount() >= 1) {

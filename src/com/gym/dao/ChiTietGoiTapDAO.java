@@ -25,10 +25,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietGoiTap";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietGoiTap where MaCTGT=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietGoiTap where MaDH=?";
-    final String SELECT_ORDER_CTGT = "SELECT MaDH, MaKH ,MaGT, SUM(SoLuong) AS SoLuong, NgayDK, MAX(NgayKT) AS NgayKT, SUM(Gia) AS Gia\n"
-            + "FROM ChiTietGoiTap where MaDH like ?\n"
-            + "GROUP BY MaDH, MaGT, NgayDK, MaKH\n"
-            + "order by NgayDK";
+    
 
     @Override
     public void insert(ChiTietGoiTap entity) {
@@ -127,14 +124,11 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         return this.selectBySql(sql, "%" + keyword + "%");
     }
 
-    public List<ChiTietGoiTap> selectByMaDHTest_CTGT(int keyword) {
+    public List<ChiTietGoiTap> selectByMaDH_CTGT(int keyword) {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
 
-    public List<ChiTietGoiTap> selectByMaDH_CTGT(int keyword) {
-
-        return this.selectBySql(SELECT_ORDER_CTGT, "%" + keyword + "%");
-    }
+    
 
 }
