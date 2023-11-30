@@ -5,6 +5,7 @@
  */
 package com.raven.form;
 
+import com.gym.dao.ThongKeDAO_Procedure;
 import com.gym.dao.ChiTietDungCuDAO;
 import com.gym.dao.ChiTietGoiTapDAO;
 import com.gym.dao.ChiTietThuePTDAO;
@@ -990,7 +991,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
         if (evt.getClickCount() == 1) {
             edit();
-
         }
     }//GEN-LAST:event_tblChiTietGoiTapMouseClicked
 
@@ -1013,11 +1013,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnXuatHoaDonActionPerformed
 
     private void btnThemGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemGTActionPerformed
-        themSLGT();
+        themSL_GT();
     }//GEN-LAST:event_btnThemGTActionPerformed
 
     private void btnBotGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBotGTActionPerformed
-        xoaGT_Test();
+        giamSL_GT();
     }//GEN-LAST:event_btnBotGTActionPerformed
 
 
@@ -1109,6 +1109,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     ChiTietGoiTapDAO ctgtdao = new ChiTietGoiTapDAO();
     ChiTietDungCuDAO ctdcdao = new ChiTietDungCuDAO();
     ChiTietThuePTDAO cttptdao = new ChiTietThuePTDAO();
+    ThongKeDAO_Procedure tkdao = new ThongKeDAO_Procedure();
+    
 
     private void init() {
         this.fillTableDH();
@@ -1212,7 +1214,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         boolean editGT = (tblChiTietGoiTap.getSelectedRow() >= 0);
         boolean first = (this.rowDH == 0);
         boolean last = (this.rowDH == tblDonHang.getRowCount() - 1);
-
+        
         //Trạng thái form
         txtNgayTao.setEditable(!edit);
         btnDoi.setEnabled(edit);
@@ -1399,7 +1401,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         model.setRowCount(0);
         try {
             int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
-            List<ChiTietGoiTap> list = ctgtdao.selectByMaDH_CTGT(keyword); //đọc dữ liệu từ CSDL
+            List<ChiTietGoiTap> list = ctgtdao.selectByMaDHTest_CTGT(keyword); //đọc dữ liệu từ CSDL
             for (ChiTietGoiTap ctgt : list) {
                 Object[] row = {ctgt.getMagt(), ctgt.getMadh(), ctgt.getSoluong(), ctgt.getNgaydk(),
                     ctgt.getNgaykt(), ctgt.getGia()};
@@ -1488,18 +1490,41 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }
 
-    void xoaGT_Test() {
-        double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(),2);
+    void themSL_GT(){
+        int madh = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1);
+        String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
         try {
-            String get = JOptionPane.showInputDialog("Nhập vào số lượng muốn xóa: ");
-            int value = Integer.parseInt(get);
-            int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm này ?", "Hệ thống quản lý phòng Gym", JOptionPane.YES_NO_OPTION);
-            String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
-            ctgtdao.updateSoLuongGia(value, magt);
-            txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) - giaGoc* Double.parseDouble(get)));
+            tkdao.tangSL(magt, madh);
+            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(),2);
             fillChiTietGoiTap();
+            txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) + giaGoc));
             updateDH();
         } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    
+    void giamSL_GT() {
+        int madh = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1);
+        String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
+        try {
+            tkdao.giamSL(magt, madh);
+            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(),2);
+            fillChiTietGoiTap();
+            txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) - giaGoc));
+            updateDH();
+            
+            if(tblChiTietGoiTap.getRowCount()==0){
+                btnBotGT.setEnabled(false);
+                btnThemGT.setEnabled(false);
+            }
+            else{
+                btnBotGT.setEnabled(true);
+                btnThemGT.setEnabled(true);
+            }
+            
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
