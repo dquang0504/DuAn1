@@ -123,7 +123,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         btnThue = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         cboChonPT = new javax.swing.JComboBox<>();
-        lblTienBuoiTap = new javax.swing.JLabel();
         txtSoBuoi = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblChiTietThuePT = new javax.swing.JTable();
@@ -613,10 +612,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btnThue, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(pnlThuePTLayout.createSequentialGroup()
-                                    .addComponent(txtSoBuoi, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(lblTienBuoiTap, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addComponent(txtSoBuoi, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(192, 192, 192))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                 .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlThuePTLayout.createSequentialGroup()
@@ -641,11 +638,9 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addComponent(jLabel24)
                             .addComponent(cboChonPT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTienBuoiTap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel16)
-                                .addComponent(txtSoBuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel16)
+                            .addComponent(txtSoBuoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnThue))
                     .addGroup(pnlThuePTLayout.createSequentialGroup()
@@ -999,7 +994,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThueActionPerformed
 
     private void txtSoBuoiKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoBuoiKeyReleased
-        lblTienBuoiTap.setText(String.valueOf(Integer.parseInt(txtSoBuoi.getText()) * 350000) + " VNĐ");
+        
     }//GEN-LAST:event_txtSoBuoiKeyReleased
 
     private void tblChiTietThuePTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChiTietThuePTMouseClicked
@@ -1072,7 +1067,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblTienBuoiTap;
     private javax.swing.JPanel pnlMuaDungCu;
     private javax.swing.JPanel pnlMuaGoiTap;
     private javax.swing.JPanel pnlThuePT;
@@ -1110,7 +1104,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     ChiTietDungCuDAO ctdcdao = new ChiTietDungCuDAO();
     ChiTietThuePTDAO cttptdao = new ChiTietThuePTDAO();
     ThongKeDAO_Procedure tkdao = new ThongKeDAO_Procedure();
-    
 
     private void init() {
         this.fillTableDH();
@@ -1214,7 +1207,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         boolean editGT = (tblChiTietGoiTap.getSelectedRow() >= 0);
         boolean first = (this.rowDH == 0);
         boolean last = (this.rowDH == tblDonHang.getRowCount() - 1);
-        
+
         //Trạng thái form
         txtNgayTao.setEditable(!edit);
         btnDoi.setEnabled(edit);
@@ -1420,17 +1413,17 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         ctgt.setMagt((String) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 0));
         ctgt.setMadh((int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0));
         ctgt.setNgaydk(new Date());
+        ctgt.setNgaykt(XDate.addDay(new Date(), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+//        if (tblChiTietGoiTap.getRowCount() == 0) {
+//            ctgt.setNgaykt(XDate.addDay(new Date(), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+//        } else if (tblChiTietGoiTap.getRowCount() >= 1) {
+//            for (int i = 1; i <= tblChiTietGoiTap.getRowCount(); i++) {
+//                ctgt.setNgaykt(XDate.addDay((Date) tblChiTietGoiTap.getValueAt(i - 1, 4), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
+//            }
+//        }
 
-        if (tblChiTietGoiTap.getRowCount() == 0) {
-            ctgt.setNgaykt(XDate.addDay(new Date(), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
-        } else if (tblChiTietGoiTap.getRowCount() >= 1) {
-            for (int i = 1; i <= tblChiTietGoiTap.getRowCount(); i++) {
-                ctgt.setNgaykt(XDate.addDay((Date) tblChiTietGoiTap.getValueAt(i - 1, 4), valueGT * (int) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 3)));
-            }
-        }
-        
         ctgt.setSoluong(valueGT);
-        
+
         double gia = (double) tblGoiTap.getValueAt(tblGoiTap.getSelectedRow(), 2);
         ctgt.setGia(valueGT * gia);
         return ctgt;
@@ -1492,12 +1485,12 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }
 
-    void themSL_GT(){
+    void themSL_GT() {
         int madh = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1);
         String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
         try {
             tkdao.tangSL(magt, madh);
-            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(),2);
+            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 2);
             fillChiTietGoiTap();
             txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) + giaGoc));
             updateDH();
@@ -1505,26 +1498,25 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             System.out.println(e);
         }
     }
-    
+
     void giamSL_GT() {
         int madh = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1);
         String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
         try {
             tkdao.giamSL(magt, madh);
-            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(),2);
+            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 2);
             fillChiTietGoiTap();
             txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) - giaGoc));
             updateDH();
-            
-            if(tblChiTietGoiTap.getRowCount()==0){
+
+            if (tblChiTietGoiTap.getRowCount() == 0) {
                 btnBotGT.setEnabled(false);
                 btnThemGT.setEnabled(false);
-            }
-            else{
+            } else {
                 btnBotGT.setEnabled(true);
                 btnThemGT.setEnabled(true);
             }
-            
+
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -1717,16 +1709,18 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         cttpt.setMakh((String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2));
         cttpt.setSobuoi(valueTPT);
         cttpt.setNgaythue(new Date());
-        
-        if (tblChiTietThuePT.getRowCount() == 0) {
-            cttpt.setNgaykt(XDate.addDay(new Date(), cttpt.getSobuoi()));
-        } else if (tblChiTietThuePT.getRowCount() >= 1) {
-            for (int i = 1; i <= tblChiTietThuePT.getRowCount(); i++) {
-                cttpt.setNgaykt(XDate.addDay((Date) tblChiTietThuePT.getValueAt(i - 1, 4), valueTPT));
-            }
-        }
+        cttpt.setNgaykt(XDate.addDay(new Date(), cttpt.getSobuoi()));
+//        if (tblChiTietThuePT.getRowCount() == 0) {
+//            cttpt.setNgaykt(XDate.addDay(new Date(), cttpt.getSobuoi()));
+//        } else if (tblChiTietThuePT.getRowCount() >= 1) {
+//            for (int i = 1; i <= tblChiTietThuePT.getRowCount(); i++) {
+//                cttpt.setNgaykt(XDate.addDay((Date) tblChiTietThuePT.getValueAt(i - 1, 4), valueTPT));
+//            }
+//        }   
         cttpt.setGia(tienBuoiTap());
         return cttpt;
+        
+        
     }
 
     private double tempTPT = 0;

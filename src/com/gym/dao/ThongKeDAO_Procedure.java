@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -80,5 +81,18 @@ public class ThongKeDAO_Procedure {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    
+    public List<Object[]> thongKeGT_TatCa() {
+        String sql = "{CALL sp_ThongKeGoiTap()}";
+        String[] cols = {"MaDH", "TenSanPham", "Gia", "SoLuong", "ThanhTien", "NgayTao"};
+        return this.getListOfArray(sql, cols);
+    }
+    
+    public List<Object[]> thongKeGT(Date dayFrom, Date dayTo) {
+        String sql = "{CALL sp_ThongKeGoiTap(?,?)}";
+        String[] cols = {"MaDH", "TenSanPham", "Gia", "SoLuong", "ThanhTien", "NgayTao"};
+        return this.getListOfArray(sql, cols, dayFrom, dayTo);
     }
 }

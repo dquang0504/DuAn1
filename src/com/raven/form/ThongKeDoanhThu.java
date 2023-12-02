@@ -11,6 +11,7 @@ import com.gym.dao.DonHangDAO;
 import com.gym.dao.DungCuDAO;
 import com.gym.dao.GoiTapDAO;
 import com.gym.dao.KhachHangDAO;
+import com.gym.dao.ThongKeDAO_Procedure;
 import com.gym.util.MsgBox;
 import com.gym.dao.NhanVienDAO;
 import com.gym.entity.ChiTietDungCu;
@@ -45,8 +46,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
      */
     public ThongKeDoanhThu() {
         initComponents();
-        rdoAll.setSelected(true);
-        status();
+        init();
     }
 
     /**
@@ -73,33 +73,22 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        rdoNgay = new javax.swing.JRadioButton();
-        rdoThang = new javax.swing.JRadioButton();
-        rdoNam = new javax.swing.JRadioButton();
-        rdoAll = new javax.swing.JRadioButton();
         lblTu = new javax.swing.JLabel();
         lblDen = new javax.swing.JLabel();
         txtNgayFrom = new javax.swing.JTextField();
         txtNgayTo = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblThongKe = new javax.swing.JTable();
-        cboMonthFrom = new javax.swing.JComboBox<>();
-        cboMonthTo = new javax.swing.JComboBox<>();
-        cboYearFrom = new javax.swing.JComboBox<>();
-        cboYearTo = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         cboSanPham = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("THỐNG KÊ DOANH THU");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, 330, 50));
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -132,8 +121,6 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                 .addContainerGap(77, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 82, -1, -1));
-
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -149,7 +136,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
@@ -164,8 +151,6 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(80, Short.MAX_VALUE))
         );
-
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(405, 82, -1, 210));
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -195,116 +180,126 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                 .addContainerGap(82, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(784, 82, -1, 210));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("LỌC THEO:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 394, -1, -1));
-
-        buttonGroup1.add(rdoNgay);
-        rdoNgay.setText("NGÀY");
-        rdoNgay.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoNgayActionPerformed(evt);
-            }
-        });
-        jPanel1.add(rdoNgay, new org.netbeans.lib.awtextra.AbsoluteConstraints(119, 395, -1, -1));
-
-        buttonGroup1.add(rdoThang);
-        rdoThang.setText("THÁNG");
-        rdoThang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoThangActionPerformed(evt);
-            }
-        });
-        jPanel1.add(rdoThang, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 395, -1, -1));
-
-        buttonGroup1.add(rdoNam);
-        rdoNam.setText("NĂM");
-        rdoNam.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoNamActionPerformed(evt);
-            }
-        });
-        jPanel1.add(rdoNam, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 395, -1, -1));
-
-        buttonGroup1.add(rdoAll);
-        rdoAll.setText("TẤT CẢ");
-        rdoAll.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdoAllActionPerformed(evt);
-            }
-        });
-        jPanel1.add(rdoAll, new org.netbeans.lib.awtextra.AbsoluteConstraints(342, 395, -1, -1));
-
         lblTu.setText("TỪ:");
-        jPanel1.add(lblTu, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 431, -1, -1));
 
         lblDen.setText("ĐẾN");
-        jPanel1.add(lblDen, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 431, -1, -1));
-        jPanel1.add(txtNgayFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(52, 428, 203, -1));
-        jPanel1.add(txtNgayTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(302, 428, 203, -1));
+
+        txtNgayFrom.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNgayFromKeyReleased(evt);
+            }
+        });
+
+        txtNgayTo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNgayToKeyReleased(evt);
+            }
+        });
 
         tblThongKe.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "MÃ ĐH", "TÊN SP", "GIÁ", "SỐ LƯỢNG", "THÀNH TIỀN", "NGÀY TẠO"
             }
         ));
         jScrollPane1.setViewportView(tblThongKe);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 462, 1036, 326));
-
-        cboMonthFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12", " " }));
-        jPanel1.add(cboMonthFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 200, -1));
-
-        cboMonthTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12", " " }));
-        jPanel1.add(cboMonthTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 430, 200, -1));
-
-        cboYearFrom.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2023", "2024", " " }));
-        jPanel1.add(cboYearFrom, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 200, -1));
-
-        cboYearTo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2023", "2024" }));
-        jPanel1.add(cboYearTo, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 430, 200, -1));
-
         jLabel8.setText("LOẠI SẢN PHẨM:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 340, -1, 20));
 
         cboSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gói tập", "Thuê PT", "Dụng cụ", "Tất cả", " " }));
-        jPanel1.add(cboSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 340, 230, -1));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(398, 398, 398)
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(95, 95, 95)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lblTu)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNgayFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDen)
+                                .addGap(14, 14, 14)
+                                .addComponent(txtNgayTo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8)
+                                .addGap(7, 7, 7)
+                                .addComponent(cboSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1036, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(36, 36, 36))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(91, 91, 91)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNgayTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTu)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblDen)
+                                .addComponent(txtNgayFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1103, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rdoNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNgayActionPerformed
-        status();
-    }//GEN-LAST:event_rdoNgayActionPerformed
+    private boolean nhapDungNgayFrom = false;
+    private boolean nhapDungNgayTo = false;
+    
+    private void txtNgayFromKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayFromKeyReleased
+        if(XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy")!=null){
+            nhapDungNgayFrom = true;
+        }
+    }//GEN-LAST:event_txtNgayFromKeyReleased
 
-    private void rdoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoThangActionPerformed
-        status();
-    }//GEN-LAST:event_rdoThangActionPerformed
-
-    private void rdoNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoNamActionPerformed
-        status();
-    }//GEN-LAST:event_rdoNamActionPerformed
-
-    private void rdoAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoAllActionPerformed
-        status();
-    }//GEN-LAST:event_rdoAllActionPerformed
+    private void txtNgayToKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayToKeyReleased
+        if(XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy")!=null){
+            nhapDungNgayTo = true;
+        }
+    }//GEN-LAST:event_txtNgayToKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -312,11 +307,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
-    private javax.swing.JComboBox<String> cboMonthFrom;
-    private javax.swing.JComboBox<String> cboMonthTo;
     private javax.swing.JComboBox<String> cboSanPham;
-    private javax.swing.JComboBox<String> cboYearFrom;
-    private javax.swing.JComboBox<String> cboYearTo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -324,7 +315,6 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -333,52 +323,55 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDen;
     private javax.swing.JLabel lblTu;
-    private javax.swing.JRadioButton rdoAll;
-    private javax.swing.JRadioButton rdoNam;
-    private javax.swing.JRadioButton rdoNgay;
-    private javax.swing.JRadioButton rdoThang;
     private javax.swing.JTable tblThongKe;
     private javax.swing.JTextField txtNgayFrom;
     private javax.swing.JTextField txtNgayTo;
     // End of variables declaration//GEN-END:variables
 
-    void status() {
-        if (rdoNgay.isSelected()) {
-            lblTu.setVisible(true);
-            lblDen.setVisible(true);
-            txtNgayFrom.setVisible(true);
-            txtNgayTo.setVisible(true);
-            cboMonthFrom.setVisible(false);
-            cboMonthTo.setVisible(false);
-            cboYearFrom.setVisible(false);
-            cboYearTo.setVisible(false);
-        } else if (rdoThang.isSelected()) {
-            lblTu.setVisible(true);
-            lblDen.setVisible(true);
-            cboMonthFrom.setVisible(true);
-            cboMonthTo.setVisible(true);
-            txtNgayFrom.setVisible(false);
-            txtNgayTo.setVisible(false);
-            cboYearFrom.setVisible(false);
-            cboYearTo.setVisible(false);
-        } else if (rdoNam.isSelected()) {
-            lblTu.setVisible(true);
-            lblDen.setVisible(true);
-            cboYearFrom.setVisible(true);
-            cboYearTo.setVisible(true);
-            cboMonthFrom.setVisible(false);
-            cboMonthTo.setVisible(false);
-            txtNgayFrom.setVisible(false);
-            txtNgayTo.setVisible(false);
-        } else {
-            lblTu.setVisible(false);
-            lblDen.setVisible(false);
-            txtNgayFrom.setVisible(false);
-            txtNgayTo.setVisible(false);
-            cboYearFrom.setVisible(false);
-            cboYearTo.setVisible(false);
-            cboMonthFrom.setVisible(false);
-            cboMonthTo.setVisible(false);
+    ThongKeDAO_Procedure tkdao = new ThongKeDAO_Procedure();
+
+    void init() {
+        if (cboSanPham.getSelectedIndex() == 0) {
+            fillTableGoiTap();
+        }
+//        else if(cboSanPham.getSelectedIndex()==1){
+//            fillTableThuePT();
+//        }
+//        else if(cboSanPham.getSelectedIndex()==2){
+//            fillTableDungCu();
+//        }
+//        else if(cboSanPham.getSelectedIndex()==3){
+//            fillTableTatCa();
+//        }
+    }
+
+    void fillTableGoiTap() {
+        DefaultTableModel model = (DefaultTableModel) tblThongKe.getModel();
+        model.setRowCount(0);
+        try {
+            String keyword = (String) cboSanPham.getSelectedItem();
+
+            List<Object[]> list = tkdao.thongKeGT_TatCa(); //đọc dữ liệu từ CSDL
+            for (Object[] rows : list) {
+                model.addRow(rows); //thêm từng hàng vào JTable
+            }
+
+            if(nhapDungNgayFrom == true && nhapDungNgayTo == true){
+                List<Object[]> list1 = tkdao.thongKeGT(XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy"),XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy")); //đọc dữ liệu từ CSDL
+                for (Object[] rows : list1) {
+                    model.addRow(rows); //thêm từng hàng vào JTable
+                }
+            }
+            
+//            if (ifXDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy") == null || XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy") == null) {
+//            } else if (dayFrom != null && dayTo != null) {
+//                List<Object[]> list = tkdao.thongKeGT(dayFrom,dayTo); //đọc dữ liệu từ CSDL
+//                for (Object[] rows : list) {
+//                    model.addRow(rows); //thêm từng hàng vào JTable
+//                }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            System.out.println(e);
         }
     }
 
