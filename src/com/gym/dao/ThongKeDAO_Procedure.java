@@ -86,13 +86,26 @@ public class ThongKeDAO_Procedure {
     
     public List<Object[]> thongKeGT_TatCa() {
         String sql = "{CALL sp_ThongKeGoiTap()}";
-        String[] cols = {"MaDH", "TenSanPham", "Gia", "SoLuong", "ThanhTien", "NgayTao"};
+        String[] cols = {"MaDH", "SoLuong", "ThanhTien", "NgayTao"};
         return this.getListOfArray(sql, cols);
     }
     
     public List<Object[]> thongKeGT(Date dayFrom, Date dayTo) {
         String sql = "{CALL sp_ThongKeGoiTap(?,?)}";
-        String[] cols = {"MaDH", "TenSanPham", "Gia", "SoLuong", "ThanhTien", "NgayTao"};
+        String[] cols = {"MaDH", "SoLuong", "ThanhTien", "NgayTao"};
         return this.getListOfArray(sql, cols, dayFrom, dayTo);
     }
+    
+    public List<Object[]> thongKeThuePT_TatCa() {
+        String sql = "{CALL sp_ThongKeThuePT()}";
+        String[] cols = {"MaDH", "SoLuong", "ThanhTien", "NgayTao"};
+        return this.getListOfArray(sql, cols);
+    }
+    
+    public List<Object[]> thongKeThuePT(Date dayFrom, Date dayTo) {
+        String sql = "{CALL sp_ThongKeThuePT(?,?)}";
+        String[] cols = {"MaDH", "SoLuong", "ThanhTien", "NgayTao"};
+        return this.getListOfArray(sql, cols, dayFrom, dayTo);
+    }
+    
 }

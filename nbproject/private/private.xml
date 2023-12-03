@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/GymSoftware/src/com/gym/dao/ThongKeDAO_Procedure.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/GymSoftware/src/com/raven/form/QuanLyDonHang.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/GymSoftware/src/com/raven/form/ThongKeDoanhThu.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/GymSoftware/src/com/gym/dao/ChiTietGoiTapDAO.java</file>
-            <file>file:/C:/Users/ADMIN/Documents/NetBeansProjects/GymSoftware/src/com/gym/dao/ChiTietThuePTDAO.java</file>
+            <file>file:/C:/Users/Duy%20Quang/Documents/NetBeansProjects/GymSoftware/src/com/gym/dao/ThongKeDAO_Procedure.java</file>
+            <file>file:/C:/Users/Duy%20Quang/Documents/NetBeansProjects/GymSoftware/src/com/raven/form/ThongKeDoanhThu.java</file>
+            <file>file:/C:/Users/Duy%20Quang/Documents/NetBeansProjects/GymSoftware/src/com/raven/form/QuanLyDonHang.java</file>
+            <file>file:/C:/Users/Duy%20Quang/Documents/NetBeansProjects/GymSoftware/src/com/raven/form/DangNhap.java</file>
         </group>
     </open-files>
 </project-private>
