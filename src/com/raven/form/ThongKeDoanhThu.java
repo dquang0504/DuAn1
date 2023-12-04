@@ -87,7 +87,6 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         cboSanPham = new javax.swing.JComboBox<>();
         lblError = new javax.swing.JLabel();
-        btnLoc = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -218,17 +217,10 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
 
         jLabel8.setText("LOẠI SẢN PHẨM:");
 
-        cboSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gói tập", "Thuê PT", "Dụng cụ", "Tất cả", " " }));
+        cboSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gói tập", "Thuê PT", "Dụng cụ", " " }));
         cboSanPham.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboSanPhamActionPerformed(evt);
-            }
-        });
-
-        btnLoc.setText("LỌC");
-        btnLoc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLocActionPerformed(evt);
             }
         });
 
@@ -259,8 +251,6 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                                 .addComponent(lblDen)
                                 .addGap(14, 14, 14)
                                 .addComponent(txtNgayTo, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(btnLoc)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8)
                                 .addGap(7, 7, 7)
@@ -281,9 +271,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtNgayTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnLoc))
+                    .addComponent(txtNgayTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -294,9 +282,9 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                     .addComponent(cboSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(39, 39, 39))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -316,25 +304,71 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
 
     private void txtNgayFromKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayFromKeyReleased
         try {
-            if(XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy") != null) {
+            if (txtNgayFrom.getText().isEmpty() && txtNgayTo.getText().isEmpty()) {
+                nhapDungNgayFrom = false;
+                nhapDungNgayTo = false;
+                if (cboSanPham.getSelectedIndex() == 0) {
+                    fillTableGoiTap(); // Show all rows if both date fields are empty
+                } else if (cboSanPham.getSelectedIndex() == 1) {
+                    fillTableThuePT();
+                }
+                else if(cboSanPham.getSelectedIndex()==2){
+                    fillTableDungCu();
+                }
+                lblError.setText(""); // Reset error label
+            } else if (XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy") != null) {
                 nhapDungNgayFrom = true;
+                if (cboSanPham.getSelectedIndex() == 0) {
+                    fillTableGoiTap(); // Call fillTableGoiTap when txtNgayFrom is completed
+                } else if (cboSanPham.getSelectedIndex() == 1) {
+                    fillTableThuePT();
+                }
+                else if(cboSanPham.getSelectedIndex()==2){
+                    fillTableDungCu();
+                }
+                lblError.setText(""); // Reset error label
+            } else {
+                lblError.setText("Vui lòng nhập đúng định dạng dd-MM-YYYY");
+                lblError.setForeground(Color.RED);
             }
-            lblError.setText("");
         } catch (Exception e) {
             lblError.setText("Vui lòng nhập đúng định dạng dd-MM-YYYY");
-            lblError.setForeground(Color.red);
+            lblError.setForeground(Color.RED);
         }
     }//GEN-LAST:event_txtNgayFromKeyReleased
 
     private void txtNgayToKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayToKeyReleased
         try {
-            if(XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy") != null) {
+            if (txtNgayFrom.getText().isEmpty() && txtNgayTo.getText().isEmpty()) {
+                nhapDungNgayFrom = false;
+                nhapDungNgayTo = false;
+                if (cboSanPham.getSelectedIndex() == 0) {
+                    fillTableGoiTap(); // Show all rows if both date fields are empty
+                } else if (cboSanPham.getSelectedIndex() == 1) {
+                    fillTableThuePT();
+                }
+                else if(cboSanPham.getSelectedIndex()==2){
+                    fillTableDungCu();
+                }
+                lblError.setText(""); // Reset error label
+            } else if (XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy") != null) {
                 nhapDungNgayTo = true;
+                if (cboSanPham.getSelectedIndex() == 0) {
+                    fillTableGoiTap(); // Call fillTableGoiTap when txtNgayFrom is completed
+                } else if (cboSanPham.getSelectedIndex() == 1) {
+                    fillTableThuePT();
+                }
+                else if(cboSanPham.getSelectedIndex()==2){
+                    fillTableDungCu();
+                }
+                lblError.setText(""); // Reset error label
+            } else {
+                lblError.setText("Vui lòng nhập đúng định dạng dd-MM-YYYY");
+                lblError.setForeground(Color.RED);
             }
-            lblError.setText("");
         } catch (Exception e) {
             lblError.setText("Vui lòng nhập đúng định dạng dd-MM-YYYY");
-            lblError.setForeground(Color.red);
+            lblError.setForeground(Color.RED);
         }
     }//GEN-LAST:event_txtNgayToKeyReleased
 
@@ -342,22 +376,8 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_cboSanPhamActionPerformed
 
-    private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
-        if(cboSanPham.getSelectedIndex()==0){
-            if (nhapDungNgayFrom == true && nhapDungNgayTo == true) {
-                DefaultTableModel model = (DefaultTableModel) tblThongKe.getModel();
-                List<Object[]> list1 = tkdao.thongKeGT(XDate.toDate(txtNgayFrom.getText(), "yyyy-MM-dd"), XDate.toDate(txtNgayTo.getText(), "yyyy-MM-dd")); //đọc dữ liệu từ CSDL
-                for (Object[] rows : list1) {
-                    model.addRow(rows); //thêm từng hàng vào JTable
-                }
-                System.out.println("ok");
-            }
-        }
-    }//GEN-LAST:event_btnLocActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLoc;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -391,33 +411,12 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             fillTableGoiTap();
 
             //Tính tổng doanh thu set lên label;
-            double doanhThu = 0;
-            for (int i = 0; i < tblThongKe.getRowCount(); i++) {
-                doanhThu += (double) tblThongKe.getValueAt(i, 2);
-            }
-            txtDoanhThu.setText(String.valueOf(doanhThu) + " VNĐ");
-
-            //Tính tổng số hóa đơn
-            int hoaDon = 0;
-            for (int i = 0; i <= tblThongKe.getRowCount(); i++) {
-                hoaDon += i;
-            }
-            txtSoHoaDon.setText(String.valueOf(hoaDon));
-
-            //Tính tổng số sp bán
-            int sanPham = 0;
-            for (int i = 0; i < tblThongKe.getRowCount(); i++) {
-                sanPham += (int) tblThongKe.getValueAt(i, 1);
-            }
-            txtSoSanPhamBan.setText(String.valueOf(sanPham));
-
-        }
-        else if(cboSanPham.getSelectedIndex()==1){
+        } else if (cboSanPham.getSelectedIndex() == 1) {
             fillTableThuePT();
         }
-//        else if(cboSanPham.getSelectedIndex()==2){
-//            fillTableDungCu();
-//        }
+        else if(cboSanPham.getSelectedIndex()==2){
+            fillTableDungCu();
+        }
 //        else if(cboSanPham.getSelectedIndex()==3){
 //            fillTableTatCa();
 //        }
@@ -429,53 +428,95 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         try {
             String keyword = (String) cboSanPham.getSelectedItem();
 
-            List<Object[]> list = tkdao.thongKeGT_TatCa(); //đọc dữ liệu từ CSDL
-            for (Object[] rows : list) {
-                model.addRow(rows); //thêm từng hàng vào JTable
-            }
-
             if (nhapDungNgayFrom == true && nhapDungNgayTo == true) {
                 List<Object[]> list1 = tkdao.thongKeGT(XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy"), XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy")); //đọc dữ liệu từ CSDL
                 for (Object[] rows : list1) {
                     model.addRow(rows); //thêm từng hàng vào JTable
                 }
+            } else {
+                List<Object[]> list = tkdao.thongKeGT_TatCa(); //đọc dữ liệu từ CSDL
+                for (Object[] rows : list) {
+                    model.addRow(rows); //thêm từng hàng vào JTable
+                }
             }
 
-//            if (ifXDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy") == null || XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy") == null) {
-//            } else if (dayFrom != null && dayTo != null) {
-//                List<Object[]> list = tkdao.thongKeGT(dayFrom,dayTo); //đọc dữ liệu từ CSDL
-//                for (Object[] rows : list) {
-//                    model.addRow(rows); //thêm từng hàng vào JTable
-//                }
+            updateStatus();
         } catch (Exception e) {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
             System.out.println(e);
         }
     }
-    
+
     void fillTableThuePT() {
         DefaultTableModel model = (DefaultTableModel) tblThongKe.getModel();
         model.setRowCount(0);
         try {
             String keyword = (String) cboSanPham.getSelectedItem();
 
-            List<Object[]> list = tkdao.thongKeThuePT_TatCa(); //đọc dữ liệu từ CSDL
-            for (Object[] rows : list) {
-                model.addRow(rows); //thêm từng hàng vào JTable
+            if (nhapDungNgayFrom == true && nhapDungNgayTo == true) {
+                List<Object[]> list1 = tkdao.thongKeThuePT(XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy"), XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy")); //đọc dữ liệu từ CSDL
+                for (Object[] rows : list1) {
+                    model.addRow(rows); //thêm từng hàng vào JTable
+                }
+            } else {
+                List<Object[]> list = tkdao.thongKeThuePT_TatCa(); //đọc dữ liệu từ CSDL
+                for (Object[] rows : list) {
+                    model.addRow(rows); //thêm từng hàng vào JTable
+                }
             }
 
-            
-
-//            if (ifXDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy") == null || XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy") == null) {
-//            } else if (dayFrom != null && dayTo != null) {
-//                List<Object[]> list = tkdao.thongKeGT(dayFrom,dayTo); //đọc dữ liệu từ CSDL
-//                for (Object[] rows : list) {
-//                    model.addRow(rows); //thêm từng hàng vào JTable
-//                }
+            updateStatus();
         } catch (Exception e) {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
             System.out.println(e);
         }
+    }
+    
+    void fillTableDungCu() {
+        DefaultTableModel model = (DefaultTableModel) tblThongKe.getModel();
+        model.setRowCount(0);
+        try {
+            String keyword = (String) cboSanPham.getSelectedItem();
+
+            if (nhapDungNgayFrom == true && nhapDungNgayTo == true) {
+                List<Object[]> list1 = tkdao.thongKeDungCu(XDate.toDate(txtNgayFrom.getText(), "dd-MM-yyyy"), XDate.toDate(txtNgayTo.getText(), "dd-MM-yyyy")); //đọc dữ liệu từ CSDL
+                for (Object[] rows : list1) {
+                    model.addRow(rows); //thêm từng hàng vào JTable
+                }
+            } else {
+                List<Object[]> list = tkdao.thongKeDungCu_TatCa(); //đọc dữ liệu từ CSDL
+                for (Object[] rows : list) {
+                    model.addRow(rows); //thêm từng hàng vào JTable
+                }
+            }
+
+            updateStatus();
+        } catch (Exception e) {
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            System.out.println(e);
+        }
+    }
+
+    void updateStatus() {
+        double doanhThu = 0;
+        for (int i = 0; i < tblThongKe.getRowCount(); i++) {
+            doanhThu += (double) tblThongKe.getValueAt(i, 2);
+        }
+        txtDoanhThu.setText(String.valueOf(doanhThu) + " VNĐ");
+
+        //Tính tổng số hóa đơn
+        int hoaDon = 0;
+        for (int i = 0; i <= tblThongKe.getRowCount() - 1; i++) {
+            hoaDon += i;
+        }
+        txtSoHoaDon.setText(String.valueOf(hoaDon + 1));
+
+        //Tính tổng số sp bán
+        int sanPham = 0;
+        for (int i = 0; i < tblThongKe.getRowCount(); i++) {
+            sanPham += (int) tblThongKe.getValueAt(i, 1);
+        }
+        txtSoSanPhamBan.setText(String.valueOf(sanPham));
     }
 
 }
