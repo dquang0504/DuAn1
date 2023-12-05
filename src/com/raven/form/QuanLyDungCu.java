@@ -72,8 +72,6 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         btnReset = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        lblUser = new javax.swing.JLabel();
-        lblChucVu = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -316,12 +314,6 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         });
         jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 390, 460, 30));
 
-        lblUser.setText("USER:");
-        jPanel1.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
-
-        lblChucVu.setText("CHỨC VỤ:");
-        jPanel1.add(lblChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -351,14 +343,27 @@ public class QuanLyDungCu extends javax.swing.JPanel {
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         clearForm();
+        txtGia.setText("");
+        txtSoLuong.setText("");
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        insert();
+        List<DungCu> list = dao.selectAll();
+        for (DungCu dc : list) {
+            if (dc.getMadc().equals(txtMaDC.getText())) {
+                MsgBox.alert(this, "Mã dụng cụ không được trùng!\nMã bị trùng: " + txtMaDC.getText());
+                return;
+            }  
+        }
+        if (validateForm()) {
+            insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        update();
+        if (validateForm()) {
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -421,8 +426,6 @@ public class QuanLyDungCu extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAnh;
-    private javax.swing.JLabel lblChucVu;
-    private javax.swing.JLabel lblUser;
     private javax.swing.JPanel pnlHinh;
     private javax.swing.JTable tblDungCu;
     private javax.swing.JTextField txtGia;
@@ -438,8 +441,6 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
-        lblUser.setText("User: " + Auth.user.getHoten());
-        lblChucVu.setText("Chức vụ: " + (Auth.user.isVaiTro() ? "Quản lý" : "Huấn luyện viên"));
     }
 
     void fillTable() {
@@ -487,7 +488,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         boolean last = (this.row == tblDungCu.getRowCount() - 1);
 
         //Trạng thái form
-        txtTenDC.setEditable(!edit);
+        txtMaDC.setEnabled(!edit);
         btnThem.setEnabled(!edit);
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
@@ -501,6 +502,9 @@ public class QuanLyDungCu extends javax.swing.JPanel {
     void clearForm() {
         DungCu dc = new DungCu();
         this.setForm(dc);
+        txtGia.setText("");
+        txtSoLuong.setText("");
+        lblAnh.setIcon(null);
         this.row = -1;
         updateStatus();
     }
@@ -612,6 +616,50 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             lblAnh.setIcon(icon);
             lblAnh.setToolTipText(file.getName()); //giữ tên hình trong tooltip
         }
+    }
+    
+    String regexMaDC = "^DC[0-9]{3}$";      //Bắt đầu bằng DC và 3 chữ số theo sau
+    String regexTenDC = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
+    String regexGiaDC = "^[0-9]+(\\.[0-9]+)?$";      //Bắt buộc là số nguyên hoặc float
+    String regexSoLuong = "^[0-9]+$";  //Bắt buộc là số nguyên
+
+    boolean validateForm() {
+        if (txtMaDC.getText().isEmpty()) {
+            MsgBox.alert(this, "Mã dụng cụ không được trống!");
+            return false;
+        } else if (!txtMaDC.getText().matches(regexMaDC)) {
+            MsgBox.alert(this, "Mã dụng cụ không đúng định dạng!\nĐịnh dạng yêu cầu: DCXXX");
+            return false;
+        }
+
+        if (txtTenDC.getText().isEmpty()) {
+            MsgBox.alert(this, "Tên dụng cụ không được trống!");
+            return false;
+        } else if (!txtTenDC.getText().matches(regexTenDC)) {
+            MsgBox.alert(this, "Tên dụng cụ không đúng định dạng!\nTên dụng cụ không được là số và dưới 50 ký tự");
+            return false;
+        }
+        
+        if (txtGia.getText().isEmpty()) {
+            MsgBox.alert(this, "Giá dụng cụ không được trống!");
+            return false;
+        } else if (!txtGia.getText().matches(regexGiaDC)) {
+            MsgBox.alert(this, "Giá dụng cụ không đúng định dạng!");
+            return false;
+        }
+        if (txtSoLuong.getText().isEmpty()) {
+            MsgBox.alert(this, "Số lượng không được trống!");
+            return false;
+        } else if (!txtSoLuong.getText().matches(regexSoLuong)) {
+            MsgBox.alert(this, "Số lượng không đúng định dạng!\nSố điện thoại chỉ được là số nguyên");
+            return false;
+        }
+        
+        if (lblAnh.getIcon() == null) {
+            MsgBox.alert(this, "Ảnh dụng cụ không được trống!");
+            return false;
+        }
+        return true;
     }
 
 }

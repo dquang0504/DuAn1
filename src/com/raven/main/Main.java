@@ -152,10 +152,13 @@ public class Main extends javax.swing.JFrame {
                 else if(index == 5){
                     setForm(form5);
                 }
-                else if(index == 6){
+                else if(index == 6 && Auth.user.isVaiTro()){
                     setForm(form6);
                 }
-                else if(index ==11){
+                else if(index == 6 && !Auth.user.isVaiTro()){
+                    MsgBox.alert(Main.this, "Bạn không có quyền truy cập doanh thu!");
+                }
+                else if(index ==12){
                     DoiMatKhau1 doimk = new DoiMatKhau1();
                     doimk.setModal(true);
                     doimk.setVisible(true);
@@ -163,7 +166,7 @@ public class Main extends javax.swing.JFrame {
                         dispose();
                     }
                 }
-                else if(index == 12){
+                else if(index == 13){
                     dispose();
                     DangNhap login = new DangNhap();
                     login.setModal(true);

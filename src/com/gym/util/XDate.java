@@ -38,4 +38,15 @@ public class XDate {
         date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
         return date;
     }
+    
+    public static boolean isValidDate(String inputDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setLenient(false);
+        try {
+            Date parsedDate = dateFormat.parse(inputDate);
+            return true; // Nếu parse thành công, ngày hợp lệ
+        } catch (ParseException e) {
+            return false; // Nếu parse thất bại, ngày không hợp lệ
+        }
+    }
 }

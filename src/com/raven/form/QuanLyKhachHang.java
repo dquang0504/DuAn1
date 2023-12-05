@@ -74,8 +74,6 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         btnReset = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtSearch = new javax.swing.JTextField();
-        lblUser = new javax.swing.JLabel();
-        lblChucVu = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -305,12 +303,6 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         });
         jPanel1.add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 430, 380, 30));
 
-        lblUser.setText("USER:");
-        jPanel1.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
-
-        lblChucVu.setText("CHỨC VỤ:");
-        jPanel1.add(lblChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 102, 0));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -347,11 +339,22 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        insert();
+        List<KhachHang> list = dao.selectAll();
+        for (KhachHang kh : list) {
+            if (kh.getMaKH().equals(txtMaKH.getText())) {
+                MsgBox.alert(this, "Mã khách hàng không được trùng!\nMã bị trùng: " + txtMaKH.getText());
+                return;
+            }
+        }
+        if(validateForm()){
+            insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        update();
+        if(validateForm()){
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -401,8 +404,6 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblChucVu;
-    private javax.swing.JLabel lblUser;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
     private javax.swing.JTable tblKhachHang;
@@ -419,8 +420,6 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
-        lblUser.setText("User: " + Auth.user.getHoten());
-        lblChucVu.setText("Chức vụ: " + (Auth.user.isVaiTro() ? "Quản lý" : "Huấn luyện viên"));
     }
 
     void fillTable() {
@@ -465,10 +464,10 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         boolean last = (this.row == tblKhachHang.getRowCount() - 1);
 
         //Trạng thái form
-        txtHoTen.setEditable(!edit);
         btnThem.setEnabled(!edit);
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
+        txtMaKH.setEnabled(!edit);
         //Trạng thái điều hướng
         btnFirst.setEnabled(edit && !first);
         btnPrev.setEnabled(edit);
@@ -522,14 +521,14 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền được xóa!");
         } else {
-           if (MsgBox.confirm(this, "Bạn có thực sự muốn xóa nhân viên này ?")) {
+           if (MsgBox.confirm(this, "Bạn có thực sự muốn xóa khách hàng này ?")) {
                 try {
                     dao.delete(makh);
                     this.fillTable();
                     this.clearForm();
-                    MsgBox.alert(this, "Xóa nhân viên thành công!");
+                    MsgBox.alert(this, "Xóa khách hàng thành công!");
                 } catch (Exception e) {
-                    MsgBox.alert(this, "Xóa nhân viên thất bại");
+                    MsgBox.alert(this, "Xóa khách hàng thất bại");
                     System.out.println(e);
                 }
             }
@@ -583,4 +582,51 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         updateStatus();
     }
 
+    String regexMaKH = "^KH[0-9]{3}$";      //Bắt đầu bằng KH và 3 chữ số theo sau
+    String regexTenKH = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
+    String regexSDTKH = "^[0-9]{10}$";      //Không có chữ và 10 số
+    String regexEmailKH = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";  //Bắt lỗi email
+    
+    boolean validateForm(){
+        if (txtMaKH.getText().isEmpty()) {
+            MsgBox.alert(this, "Mã khách hàng không được trống!");
+            return false;
+        }
+        else if(!txtMaKH.getText().matches(regexMaKH)){
+            MsgBox.alert(this, "Mã khách hàng không đúng định dạng!\nĐịnh dạng yêu cầu: KHXXX");
+            return false;
+        }
+        
+        if (txtHoTen.getText().isEmpty()) {
+            MsgBox.alert(this, "Tên khách hàng không được trống!");
+            return false;
+        }
+        else if (!txtHoTen.getText().matches(regexTenKH)) {
+            MsgBox.alert(this, "Tên khách hàng không đúng định dạng!\nTên khách hàng không được là số và dưới 50 ký tự");
+            return false;
+        }
+        
+        if (txtEmail.getText().isEmpty()) {
+            MsgBox.alert(this, "Email khách hàng không được trống!");
+            return false;
+        }
+        else if (!txtEmail.getText().matches(regexEmailKH)) {
+            MsgBox.alert(this, "Email khách hàng không đúng định dạng!");
+            return false;
+        }
+        if (txtSDT.getText().isEmpty()) {
+            MsgBox.alert(this, "Số điện thoại khách hàng không được trống!");
+            return false;
+        }
+        else if (!txtSDT.getText().matches(regexSDTKH)) {
+            MsgBox.alert(this, "Số điện thoại khách hàng không đúng định dạng!\nSố điện thoại chỉ được là số và có 10 số");
+            return false;
+        }
+        
+        if (!rdoNam.isSelected() && !rdoNu.isSelected()) {
+            MsgBox.alert(this, "Giới tính khách hàng không được trống!");
+            return false;
+        }
+        return true;
+    }
 }

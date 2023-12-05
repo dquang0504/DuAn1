@@ -444,14 +444,27 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         clearForm();
+        txtNgaySinh.setText("");
+        tblNhanVien.clearSelection();
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        insert();
+        List<NhanVien> list = dao.selectAll();
+        for (NhanVien nv : list) {
+            if (nv.getMaNV().equals(txtMaNV.getText())) {
+                MsgBox.alert(this, "Mã nhân viên không được trùng!\nMã bị trùng: " + txtMaNV.getText());
+                return;
+            }  
+        }
+        if (validateForm()) {
+            insert();
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        update();
+        if (validateForm()) {
+            update();
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -539,7 +552,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
-        
+
     }
 
     void fillTable() {
@@ -551,7 +564,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             for (NhanVien nv : list) {
                 Object[] row = {nv.getMaNV(), nv.getHoten(), nv.getNgaySinh(),
                     nv.getDienThoai(), nv.getEmail(), nv.isVaiTro() ? "Quản lý" : "Huấn luyện viên",
-                    nv.isGioiTinh() ? "Nam" : "Nữ" ,nv.getHinh()};
+                    nv.isGioiTinh() ? "Nam" : "Nữ", nv.getHinh()};
                 model.addRow(row); //thêm từng hàng vào JTable
             }
         } catch (Exception e) {
@@ -570,7 +583,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         nv.setEmail(txtEmail.getText());
         nv.setVaiTro(rdoQuanLy.isSelected());
         nv.setGioiTinh(rdoNam.isSelected());
-        
+
         nv.setHinh(lblAnh.getToolTipText());
         return nv;
     }
@@ -586,7 +599,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         rdoPT.setSelected(!nv.isVaiTro());
         rdoNam.setSelected(nv.isGioiTinh());
         rdoNu.setSelected(!nv.isGioiTinh());
-        
+
         if (nv.getHinh() != null) {
             lblAnh.setToolTipText(nv.getHinh());
             lblAnh.setIcon(XImage.read(nv.getHinh()));
@@ -603,6 +616,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         btnThem.setEnabled(!edit);
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
+        txtMaNV.setEnabled(!edit);
         //Trạng thái điều hướng
         btnFirst.setEnabled(edit && !first);
         btnPrev.setEnabled(edit);
@@ -613,6 +627,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     void clearForm() {
         NhanVien nv = new NhanVien();
         this.setForm(nv);
+        txtNgaySinh.setText("");
         this.row = -1;
         lblAnh.setIcon(null);
         updateStatus();
@@ -728,7 +743,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
 
     void chonAnh() {
-        String path = "C:\\Users\\ADMIN\\Documents\\NetBeansProjects\\GymSoftware\\src\\com\\gym\\icon";  
+        String path = "C:\\Users\\ADMIN\\Documents\\NetBeansProjects\\GymSoftware\\src\\com\\gym\\icon";
         JFileChooser fileChooser = new JFileChooser(path);
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileChooser.setCurrentDirectory(new java.io.File(path));
@@ -739,5 +754,68 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             lblAnh.setToolTipText(file.getName()); //giữ tên hình trong tooltip
         }
     }
-    
+
+    String regexMaNV = "^NV[0-9]{3}$";      //Bắt đầu bằng NV và 3 chữ số theo sau
+    String regexTenNV = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
+    String regexSDTNV = "^[0-9]{10}$";      //Không có chữ và 10 số
+    String regexEmailNV = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";  //Bắt lỗi email
+
+    boolean validateForm() {
+        if (txtMaNV.getText().isEmpty()) {
+            MsgBox.alert(this, "Mã nhân viên không được trống!");
+            return false;
+        } else if (!txtMaNV.getText().matches(regexMaNV)) {
+            MsgBox.alert(this, "Mã nhân viên không đúng định dạng!\nĐịnh dạng yêu cầu: NVXXX");
+            return false;
+        }
+
+        if (txtHoTen.getText().isEmpty()) {
+            MsgBox.alert(this, "Tên nhân viên không được trống!");
+            return false;
+        } else if (!txtHoTen.getText().matches(regexTenNV)) {
+            MsgBox.alert(this, "Tên nhân viên không đúng định dạng!\nTên nhân viên không được là số và dưới 50 ký tự");
+            return false;
+        }
+        if (new String(txtPass.getPassword()).isEmpty()) {
+            MsgBox.alert(this, "Mật khẩu nhân viên không được trống!");
+            return false;
+        }
+        if (txtEmail.getText().isEmpty()) {
+            MsgBox.alert(this, "Email nhân viên không được trống!");
+            return false;
+        } else if (!txtEmail.getText().matches(regexEmailNV)) {
+            MsgBox.alert(this, "Email nhân viên không đúng định dạng!");
+            return false;
+        }
+        if (txtSDT.getText().isEmpty()) {
+            MsgBox.alert(this, "Số điện thoại nhân viên không được trống!");
+            return false;
+        } else if (!txtSDT.getText().matches(regexSDTNV)) {
+            MsgBox.alert(this, "Số điện thoại nhân viên không đúng định dạng!\nSố điện thoại chỉ được là số và có 10 số");
+            return false;
+        }
+        if (txtNgaySinh.getText().isEmpty()) {
+            MsgBox.alert(this, "Ngày sinh nhân viên không được trống!");
+            return false;
+        } else if (!XDate.isValidDate(txtNgaySinh.getText())) {
+            MsgBox.alert(this, "Ngày sinh nhân viên không đúng định dạng\nĐịnh dạng đúng: dd-MM-yyyy!");
+            return false;
+        }
+
+        if (!rdoQuanLy.isSelected() && !rdoPT.isSelected()) {
+            MsgBox.alert(this, "Vai trò nhân viên không được trống!");
+            return false;
+        }
+        if (!rdoNam.isSelected() && !rdoNu.isSelected()) {
+            MsgBox.alert(this, "Giới tính nhân viên không được trống!");
+            return false;
+        }
+
+        if (lblAnh.getIcon() == null) {
+            MsgBox.alert(this, "Ảnh nhân viên không được trống!");
+            return false;
+        }
+        return true;
+    }
+
 }

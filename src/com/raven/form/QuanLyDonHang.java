@@ -26,7 +26,6 @@ import com.gym.entity.NhanVien;
 import com.gym.util.Auth;
 import com.gym.util.XDate;
 import com.gym.util.XImage;
-import com.itextpdf.kernel.geom.PageSize;
 import java.io.File;
 import java.net.URL;
 import java.util.Date;
@@ -38,12 +37,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Paragraph;
 
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -560,6 +553,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         jLabel24.setText("Chọn PT:");
 
         cboChonPT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboChonPT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboChonPTActionPerformed(evt);
+            }
+        });
 
         txtSoBuoi.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -1004,7 +1002,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }//GEN-LAST:event_tblChiTietThuePTMouseClicked
 
     private void btnXuatHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatHoaDonActionPerformed
-        xuatHoaDon();
+        
     }//GEN-LAST:event_btnXuatHoaDonActionPerformed
 
     private void btnThemGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemGTActionPerformed
@@ -1014,6 +1012,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private void btnBotGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBotGTActionPerformed
         giamSL_GT();
     }//GEN-LAST:event_btnBotGTActionPerformed
+
+    private void cboChonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChonPTActionPerformed
+        
+        
+    }//GEN-LAST:event_cboChonPTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1645,7 +1648,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }
 
     //                                          THUÊ HUẤN LUYỆN VIÊN
-    void fillComboBoxPT() {
+    public void fillComboBoxPT() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboChonPT.getModel();
         model.removeAllElements();
         List<NhanVien> list = nvdao.selectAll();
@@ -1787,41 +1790,5 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }
 
-    void xuatHoaDon() {
-//        String path = "hoaDon.pdf";
-//        try {
-//            PdfWriter pdfWriter = new PdfWriter(path);
-//            PdfDocument pdfDocument = new PdfDocument(pdfWriter);
-//            pdfDocument.setDefaultPageSize(PageSize.A4);
-//            Document document = new Document(pdfDocument);
-//            
-//            document.add(new Paragraph("Hello Coding ERROR"));
-//            document.close();
-//        } catch (FileNotFoundException ex) {
-//            System.out.println(ex);
-//        }
-        String dest = "hoaDon2.pdf";
-//Initialize PDF writer
-        PdfWriter writer = null;
-        try {
-            writer = new PdfWriter(dest);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(QuanLyDonHang.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//Initialize PDF document
-        PdfDocument pdf = new PdfDocument(writer);
-// Initialize document
-        Document document = new Document(pdf);
-//Add paragraph to the document
-        document.add(new Paragraph("Hello World!"));
-//Close document
-        document.close();
-    }
-
-    void themSLGT() {
-        int sl = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 2);
-
-        //update giá của table xong thì lấy txtTongTien - giá;
-    }
 
 }

@@ -51,15 +51,7 @@ public class QuenMatKhau extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtXacNhanMatKhau = new javax.swing.JPasswordField();
-        txtMatKhauMoi = new javax.swing.JPasswordField();
         txtMaOTP = new javax.swing.JTextField();
-        lblShowpass1 = new javax.swing.JLabel();
-        lblHidepass1 = new javax.swing.JLabel();
-        lblShowpass2 = new javax.swing.JLabel();
-        lblHidepass2 = new javax.swing.JLabel();
         btnLayOTP = new javax.swing.JButton();
         btnXacNhanDoiMK = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -77,64 +69,8 @@ public class QuenMatKhau extends javax.swing.JDialog {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Xác nhận OTP:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 210, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("Mật khẩu mới:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
-
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel4.setText("Xác nhận mật khẩu:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, -1, -1));
-        jPanel1.add(txtXacNhanMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 340, -1));
-
-        txtMatKhauMoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMatKhauMoiActionPerformed(evt);
-            }
-        });
-        jPanel1.add(txtMatKhauMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 340, -1));
-        jPanel1.add(txtMaOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 210, 340, -1));
-
-        lblShowpass1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblShowpass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/hide.png"))); // NOI18N
-        lblShowpass1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblShowpass1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblShowpass1MouseClicked(evt);
-            }
-        });
-        jPanel1.add(lblShowpass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 50, 40));
-
-        lblHidepass1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHidepass1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/eye.png"))); // NOI18N
-        lblHidepass1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblHidepass1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblHidepass1MouseClicked(evt);
-            }
-        });
-        jPanel1.add(lblHidepass1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 120, 50, 40));
-
-        lblShowpass2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblShowpass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/hide.png"))); // NOI18N
-        lblShowpass2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblShowpass2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblShowpass2MouseClicked(evt);
-            }
-        });
-        jPanel1.add(lblShowpass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 50, 40));
-
-        lblHidepass2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHidepass2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/eye.png"))); // NOI18N
-        lblHidepass2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblHidepass2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblHidepass2MouseClicked(evt);
-            }
-        });
-        jPanel1.add(lblHidepass2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 160, 50, 40));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, -1, -1));
+        jPanel1.add(txtMaOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 170, 340, -1));
 
         btnLayOTP.setText("Lấy mã OTP");
         btnLayOTP.addActionListener(new java.awt.event.ActionListener() {
@@ -142,15 +78,15 @@ public class QuenMatKhau extends javax.swing.JDialog {
                 btnLayOTPActionPerformed(evt);
             }
         });
-        jPanel1.add(btnLayOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, -1, -1));
+        jPanel1.add(btnLayOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 170, -1, -1));
 
-        btnXacNhanDoiMK.setText("Đổi mật khẩu");
+        btnXacNhanDoiMK.setText("Tiếp tục");
         btnXacNhanDoiMK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnXacNhanDoiMKActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, -1, -1));
+        jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 100, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Mã nhân viên:");
@@ -174,34 +110,6 @@ public class QuenMatKhau extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtMatKhauMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauMoiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMatKhauMoiActionPerformed
-
-    private void lblShowpass1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblShowpass1MouseClicked
-        lblShowpass1.setVisible(false);
-        lblHidepass1.setVisible(true);
-        txtMatKhauMoi.setEchoChar((char) 0);
-    }//GEN-LAST:event_lblShowpass1MouseClicked
-
-    private void lblHidepass1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHidepass1MouseClicked
-        lblShowpass1.setVisible(true);
-        lblHidepass1.setVisible(false);
-        txtMatKhauMoi.setEchoChar((char) 8226);
-    }//GEN-LAST:event_lblHidepass1MouseClicked
-
-    private void lblShowpass2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblShowpass2MouseClicked
-        lblShowpass2.setVisible(false);
-        lblHidepass2.setVisible(true);
-        txtXacNhanMatKhau.setEchoChar((char) 0);
-    }//GEN-LAST:event_lblShowpass2MouseClicked
-
-    private void lblHidepass2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHidepass2MouseClicked
-        lblShowpass2.setVisible(true);
-        lblHidepass2.setVisible(false);
-        txtXacNhanMatKhau.setEchoChar((char) 8226);
-    }//GEN-LAST:event_lblHidepass2MouseClicked
 
     private void btnLayOTPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayOTPActionPerformed
         // Cấu hình thông tin tài khoản email
@@ -264,10 +172,12 @@ public class QuenMatKhau extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnLayOTPActionPerformed
 
+    private String manv;
+
     private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
         String strMaNV = txtMaNV.getText();
-        String strMatKhauMoi = new String(txtMatKhauMoi.getPassword());
-        String strMatKhauMoi2 = new String(txtXacNhanMatKhau.getPassword());
+        manv = strMaNV;
+
         String strOTP = txtMaOTP.getText();
 
         List<NhanVien> list = dao.selectAll();
@@ -276,45 +186,16 @@ public class QuenMatKhau extends javax.swing.JDialog {
         if (nv == null) {
             MsgBox.alert(this, "Mã nhân viên không tồn tại!");
         } else {
-            if (new String(txtMatKhauMoi.getPassword()).isEmpty()) {
-                MsgBox.alert(this, "Chưa nhập mật khẩu mới!");
-            } else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
-                MsgBox.alert(this, "Xác nhận mật khẩu không đúng!");
-            } else if (!strOTP.equals(otpStr)) {
+
+            if (!strOTP.equals(otpStr)) {
                 MsgBox.alert(this, "OTP sai! Vui lòng nhập lại!");
             } else {
-                int option = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn đổi mật khẩu", "Xác nhận",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                        new Object[]{"Yes", "No"}, "No");
+                this.dispose();
+                QuenMatKhauTiepTheo qmkTiepTheo = new QuenMatKhauTiepTheo(manv);
+                qmkTiepTheo.setVisible(true);
 
-                if (option == JOptionPane.YES_OPTION) {
-                    for (NhanVien nv1 : list) {
-                        if (strMaNV.equals(nv.getMaNV())) {
-                            nv.setMatKhau(strMatKhauMoi);
-                            dao.update(nv);
-                        } else {
-                            MsgBox.alert(this, "Đổi mật khẩu thất bại!");
-                        }
-                    }
-                    MsgBox.alert(this, "Đổi mật khẩu thành công!");
-                    this.dispose();
-                    new DangNhap().setVisible(true);
-                }
             }
         }
-//        boolean daDungMaNV = false;
-//        for(NhanVien nv1 : list){
-//            if(strMaNV.equals(nv.getMaNV())){
-//                daDungMaNV=true;
-//                break;                
-//            }
-//            if(!daDungMaNV){
-//                MsgBox.alert(this, "Sai tên đăng nhập!");
-//                return;
-//            }   
-//        }
-
-
     }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
 
     /**
@@ -365,17 +246,9 @@ public class QuenMatKhau extends javax.swing.JDialog {
     private javax.swing.JButton btnXacNhanDoiMK;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lblHidepass1;
-    private javax.swing.JLabel lblHidepass2;
-    private javax.swing.JLabel lblShowpass1;
-    private javax.swing.JLabel lblShowpass2;
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JTextField txtMaOTP;
-    private javax.swing.JPasswordField txtMatKhauMoi;
-    private javax.swing.JPasswordField txtXacNhanMatKhau;
     // End of variables declaration//GEN-END:variables
 }
