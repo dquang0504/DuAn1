@@ -11,6 +11,20 @@ package com.gym.entity;
 public class DungCu {
 
     /**
+     * @return the mota
+     */
+    public String getMota() {
+        return mota;
+    }
+
+    /**
+     * @param mota the mota to set
+     */
+    public void setMota(String mota) {
+        this.mota = mota;
+    }
+
+    /**
      * @return the hinh
      */
     public String getHinh() {
@@ -25,8 +39,8 @@ public class DungCu {
     }
     private String madc,tendc;
     private double gia;
-    private int sl;
     private String hinh;
+    private String mota;
 
     public String getMadc() {
         return madc;
@@ -52,12 +66,6 @@ public class DungCu {
         this.gia = gia;
     }
 
-    public int getSl() {
-        return sl;
-    }
-
-    public void setSl(int sl) {
-        this.sl = sl;
-    }
+    
     
 }

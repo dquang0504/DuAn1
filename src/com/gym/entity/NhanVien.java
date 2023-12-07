@@ -12,6 +12,20 @@ import java.util.Date;
  */
 public class NhanVien {
 
+    /**
+     * @return the trangThai
+     */
+    public boolean isTrangThai() {
+        return trangThai;
+    }
+
+    /**
+     * @param trangThai the trangThai to set
+     */
+    public void setTrangThai(boolean trangThai) {
+        this.trangThai = trangThai;
+    }
+
     private String maNV;
     private String hoten;
      private String matKhau;
@@ -20,6 +34,7 @@ public class NhanVien {
     private String Email;
     private boolean vaiTro;
     private boolean GioiTinh;
+    private boolean trangThai;
     private String Hinh;
 
     public NhanVien() {

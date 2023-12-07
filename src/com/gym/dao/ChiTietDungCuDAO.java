@@ -19,6 +19,7 @@ public class ChiTietDungCuDAO extends GymSoftwareDAO<ChiTietDungCu, String>{
     final String UPDATE_SQL = "UPDATE ChiTietDungCu SET MaDC = ?,MaDH = ?,MaKH = ?, SoLuong=?, Gia = ? where MaCTDC=?";
     final String DELETE_SQL = "DELETE FROM ChiTietDungCu WHERE MaCTDC=?";
     final String DELETE_MADC_SQL = "DELETE FROM ChiTietDungCu WHERE MaDC=?";
+    final String DELETE_MADH_DC_SQL = "DELETE FROM ChiTietDungCu WHERE MaDH = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietDungCu";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietDungCu where MaCTDC=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietDungCu where MaDH=?";
@@ -57,6 +58,10 @@ public class ChiTietDungCuDAO extends GymSoftwareDAO<ChiTietDungCu, String>{
     
     public void deleteMaDC(String id){
         DBHelper.update(DELETE_MADC_SQL, id);
+    }
+    
+    public void deleteMaDH_CTDC(int id) {
+        DBHelper.update(DELETE_MADH_DC_SQL, id);
     }
     
     @Override

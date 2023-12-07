@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class DungCuDAO extends GymSoftwareDAO<DungCu, String> {
 
-    final String INSERT_SQL = "INSERT into DungCu(MaDC,TenDungCu,Gia,SoLuong,Hinh)values(?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE DungCu SET TenDungCu = ?,Gia= ?,SoLuong= ? , Hinh = ? where MaDC=?";
+    final String INSERT_SQL = "INSERT into DungCu(MaDC,TenDungCu,Gia,MoTa,Hinh)values(?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE DungCu SET TenDungCu = ?,Gia= ?,MoTa= ? , Hinh = ? where MaDC=?";
     final String DELETE_SQL = "DELETE FROM DungCu WHERE MaDC=?";
     final String SELECT_ALL_SQL = "SELECT * FROM DungCu";
     final String SELECT_BY_ID_SQL = "SELECT * FROM DungCu where MaDC=?";
@@ -28,7 +28,7 @@ public class DungCuDAO extends GymSoftwareDAO<DungCu, String> {
                 entity.getMadc(),
                 entity.getTendc(),
                 entity.getGia(),
-                entity.getSl(),
+                entity.getMota(),
                 entity.getHinh()
         );
     }
@@ -38,7 +38,7 @@ public class DungCuDAO extends GymSoftwareDAO<DungCu, String> {
         DBHelper.update(UPDATE_SQL,
                 entity.getTendc(),
                 entity.getGia(),
-                entity.getSl(),
+                entity.getMota(),
                 entity.getHinh(),
                 entity.getMadc()
         );
@@ -59,7 +59,7 @@ public class DungCuDAO extends GymSoftwareDAO<DungCu, String> {
                 entity.setMadc(rs.getString("MaDC"));
                 entity.setTendc(rs.getString("TenDungCu"));
                 entity.setGia(rs.getDouble("Gia"));
-                entity.setSl(rs.getInt("SoLuong"));
+                entity.setMota(rs.getString("MoTa"));
                 entity.setHinh(rs.getString("Hinh"));
                 list.add(entity);
             }

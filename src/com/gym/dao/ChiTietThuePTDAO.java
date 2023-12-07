@@ -20,6 +20,7 @@ public class ChiTietThuePTDAO extends GymSoftwareDAO<ChiTietThuePT, String>{
     final String UPDATE_SQL = "UPDATE ChiTietThuePT SET MaKH = ?,MaNV = ?,MaDH = ?, SoBuoi = ?, NgayThue = ?,NgayKT = ?,Gia = ? where MaThue=?";
     final String DELETE_SQL = "DELETE FROM ChiTietThuePT WHERE MaThue=?";
     final String DELETE_MANV_SQL = "DELETE FROM ChiTietThuePT WHERE MaNV=?";
+    final String DELETE_MADH_TPT_SQL = "DELETE FROM ChiTietThuePT WHERE MaDH = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietThuePT";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietThuePT where MaThue=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietThuePT where MaThue=?";
@@ -59,6 +60,10 @@ public class ChiTietThuePTDAO extends GymSoftwareDAO<ChiTietThuePT, String>{
         DBHelper.update(DELETE_MANV_SQL, id);
     }
 
+    public void deleteMaDH_CTTPT(int id) {
+        DBHelper.update(DELETE_MADH_TPT_SQL, id);
+    }
+    
     @Override
     public ChiTietThuePT selectById(String id) {
         List<ChiTietThuePT> list = this.selectBySql(SELECT_BY_ID_SQL, id);
