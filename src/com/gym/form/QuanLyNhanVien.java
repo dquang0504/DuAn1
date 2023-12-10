@@ -13,10 +13,13 @@ import com.gym.util.XDate;
 import com.gym.util.XImage;
 import java.io.File;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
+import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -193,6 +196,11 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         buttonGroup3.add(rdoKhoa);
         rdoKhoa.setText("Khóa");
+        rdoKhoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoKhoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -470,6 +478,11 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         txtNgaySinh.setText("");
         tblNhanVien.clearSelection();
         tblNhanVien.clearSelection();
+        if (!Auth.isManager()) {
+            btnThem.setEnabled(false);
+            btnXoa.setEnabled(false);
+            btnSua.setEnabled(false);
+        }
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -478,7 +491,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             if (nv.getMaNV().equals(txtMaNV.getText())) {
                 MsgBox.alert(this, "Mã nhân viên không được trùng!\nMã bị trùng: " + txtMaNV.getText());
                 return;
-            }  
+            }
         }
         if (validateForm()) {
             insert();
@@ -526,6 +539,10 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         chonAnh();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void rdoKhoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoKhoaActionPerformed
+
+    }//GEN-LAST:event_rdoKhoaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -580,6 +597,12 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
+        if (!Auth.isManager()) {
+            btnThem.setEnabled(false);
+            btnXoa.setEnabled(false);
+            btnSua.setEnabled(false);
+        }
+        txtMaNV.setText(generateNextEmployeeId());
 
     }
 
@@ -662,6 +685,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         this.row = -1;
         lblAnh.setIcon(null);
         updateStatus();
+        txtMaNV.setText(generateNextEmployeeId());
     }
 
     void edit() {
@@ -669,6 +693,46 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         NhanVien nv = dao.selectById(manv);
         this.setForm(nv);
         this.updateStatus();
+        if (!Auth.isManager()) {
+            btnThem.setEnabled(false);
+            btnXoa.setEnabled(false);
+            btnSua.setEnabled(false);
+        }
+    }
+
+    private String generateNextEmployeeId() {
+        String userInput = txtMaNV.getText().trim(); // Lấy giá trị đã nhập trong txtMaNV
+
+        // Nếu người dùng đã nhập mã nhân viên, và mã đó thỏa mãn điều kiện, trả về giá trị người dùng nhập vào
+        if (!userInput.isEmpty() && userInput.matches("NV[1-9]\\d*")) {
+            return userInput;
+        }
+
+        List<NhanVien> listNhanVien = dao.selectGetMaNV(); // Lấy danh sách mã nhân viên từ CSDL
+
+        // Nếu danh sách rỗng hoặc không có mã nhân viên nào tồn tại, trả về NV0
+        if (listNhanVien.isEmpty()) {
+            return "NV0";
+        }
+
+        // Tìm mã nhân viên lớn nhất
+        String lastId = listNhanVien.stream()
+                .map(NhanVien::getMaNV)
+                .max(Comparator.comparing(s -> Integer.parseInt(s.substring(2))))
+                .orElse("NV0");
+
+        // Lấy số từ mã nhân viên cuối cùng và tăng giá trị lên 1
+        int nextNumber = Integer.parseInt(lastId.substring(2)) + 1;
+
+        // Tạo mã nhân viên mới dựa trên số đã tăng, loại bỏ số 0 ở đầu nếu cần
+        String nextEmployeeId;
+        if (nextNumber < 10) {
+            nextEmployeeId = "NV" + nextNumber;
+        } else {
+            nextEmployeeId = "NV" + String.valueOf(nextNumber);
+        }
+
+        return nextEmployeeId;
     }
 
     void insert() {
@@ -676,7 +740,16 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền thêm nhân viên!");
         } else {
+            if (rdoKhoa.isSelected()) {
+                int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn khóa tài khoản nhân viên này ?", "Hệ thống quản lý phòng gym", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.NO_OPTION) {
+                    rdoMo.setSelected(true);
+                    return;
+                }
+                rdoKhoa.setSelected(true);
+            }
             try {
+                nv.setMaNV(generateNextEmployeeId());
                 dao.insert(nv);
                 this.fillTable();
                 this.clearForm();
@@ -693,6 +766,15 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền sửa thông tin!");
         } else {
+            ButtonModel check = buttonGroup3.getSelection();
+            if (btnSua.isEnabled()) {
+                if (rdoKhoa.isSelected() || rdoMo.isSelected()) {
+                    if (!MsgBox.confirm(this, "Trạng thái nhân viên đã được thay đổi !\nBạn có chắc chẵn với thay đổi này ?")) {
+                        return;
+                    }
+                    check.setSelected(true);
+                }
+            }
             try {
                 dao.update(nv);
                 this.fillTable();
@@ -786,20 +868,22 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         }
     }
 
-    String regexMaNV = "^NV[0-9]{3}$";      //Bắt đầu bằng NV và 3 chữ số theo sau
+    String regexMaNV = "^NV[1-9]\\d*$";      //Bắt đầu bằng NV + 1-9 và các số tiếp theo có thể có hoặc không
     String regexTenNV = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
     String regexSDTNV = "^[0-9]{10}$";      //Không có chữ và 10 số
     String regexEmailNV = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";  //Bắt lỗi email
+    String regexPassNV = "^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{11,}$";
 
     boolean validateForm() {
-        if (txtMaNV.getText().isEmpty()) {
-            MsgBox.alert(this, "Mã nhân viên không được trống!");
-            return false;
-        } else if (!txtMaNV.getText().matches(regexMaNV)) {
-            MsgBox.alert(this, "Mã nhân viên không đúng định dạng!\nĐịnh dạng yêu cầu: NVXXX");
+        //if (txtMaNV.getText().isEmpty()) {
+        //    MsgBox.alert(this, "Mã nhân viên không được trống!");
+        //    return false;
+        //} else
+
+        if (!txtMaNV.getText().matches(regexMaNV)) {
+            MsgBox.alert(this, "Mã nhân viên không đúng định dạng!\nĐịnh dạng yêu cầu: NVX");
             return false;
         }
-
         if (txtHoTen.getText().isEmpty()) {
             MsgBox.alert(this, "Tên nhân viên không được trống!");
             return false;
@@ -809,6 +893,9 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         }
         if (new String(txtPass.getPassword()).isEmpty()) {
             MsgBox.alert(this, "Mật khẩu nhân viên không được trống!");
+            return false;
+        } else if (!new String(txtPass.getPassword()).matches(regexPassNV)) {
+            MsgBox.alert(this, "Mật khẩu nhân viên không đúng định dạng!\nMật khẩu phải từ 11 ký tự, bao gồm chữ in hoa và số!");
             return false;
         }
         if (txtEmail.getText().isEmpty()) {

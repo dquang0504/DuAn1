@@ -32,20 +32,20 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
      */
     public QuenMatKhauTiepTheo() {
         initComponents();
+        init();
         setLocationRelativeTo(null);
     }
 
-    private String manv;
+    private String email;
 
-    public QuenMatKhauTiepTheo(String manv) {
+    public QuenMatKhauTiepTheo(String emailnv) {
         initComponents();
-        this.manv = manv; // Lưu giá trị manv từ JPanel QuenMatKhau
+        init();
+        this.email = emailnv; // Lưu giá trị manv từ JPanel QuenMatKhau
         setLocationRelativeTo(null);
     }
 
     NhanVienDAO dao = new NhanVienDAO();
-    private String otpStr; // Khai báo biến toàn cục
-    private String email;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,18 +189,22 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
     }//GEN-LAST:event_lblHidepass2MouseClicked
 
     private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
+        boolean found = false;
         QuenMatKhau qmk = new QuenMatKhau();
-        String strMaNV = manv;
+        String strEmailNV = email;
         String strMatKhauMoi = new String(txtMatKhauMoi.getPassword());
         String strMatKhauMoi2 = new String(txtXacNhanMatKhau.getPassword());
-
+        String regexPassNV = "^(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{11,}$";    
+        
         List<NhanVien> list = dao.selectAll();
-
-        NhanVien nv = dao.selectById(strMaNV);
 
         if (new String(txtMatKhauMoi.getPassword()).isEmpty()) {
             MsgBox.alert(this, "Chưa nhập mật khẩu mới!");
-        } else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
+        }
+        else if(!strMatKhauMoi.matches(regexPassNV)){
+            MsgBox.alert(this, "Mật khẩu nhân viên không đúng định dạng!\nMật khẩu phải từ 11 ký tự, bao gồm chữ in hoa và số!");
+        }
+        else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
             MsgBox.alert(this, "Xác nhận mật khẩu không đúng!");
         } else {
             int option = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn đổi mật khẩu", "Xác nhận",
@@ -208,20 +212,21 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
                     new Object[]{"Yes", "No"}, "No");
 
             if (option == JOptionPane.YES_OPTION) {
-                for (NhanVien nv1 : list) {
-                    if (strMaNV.equals(nv.getMaNV())) {
+                for (NhanVien nv : list) {
+                    if (strEmailNV.equals(nv.getEmail())) {
+                        found = true;
                         nv.setMatKhau(strMatKhauMoi);
                         dao.update(nv);
-                    } else {
-                        MsgBox.alert(this, "Đổi mật khẩu thất bại!");
-                    }
+                    } 
+                }
+                if(!found){
+                    MsgBox.alert(this, "Đổi mật khẩu thất bại!");
                 }
                 MsgBox.alert(this, "Đổi mật khẩu thành công!");
                 this.dispose();
                 new DangNhap1().setVisible(true);
             }
         }
-
 
     }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
 
@@ -291,4 +296,10 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
     private javax.swing.JPasswordField txtMatKhauMoi;
     private javax.swing.JPasswordField txtXacNhanMatKhau;
     // End of variables declaration//GEN-END:variables
+    void init(){
+        txtMatKhauMoi.setEchoChar((char) 8226);
+        txtXacNhanMatKhau.setEchoChar((char)8226);
+        lblHidepass1.setVisible(false);
+        lblHidepass2.setVisible(false);
+    }
 }

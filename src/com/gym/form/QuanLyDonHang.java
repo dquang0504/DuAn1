@@ -26,6 +26,21 @@ import com.gym.entity.NhanVien;
 import com.gym.util.Auth;
 import com.gym.util.XDate;
 import com.gym.util.XImage;
+import com.itextpdf.io.font.PdfEncodings;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.borders.Border;
+import com.itextpdf.layout.borders.DottedBorder;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.pdfa.PdfADocument;
 import java.io.File;
 import java.net.URL;
 import java.util.Date;
@@ -39,8 +54,13 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.spi.Configurator;
 
 /**
  *
@@ -971,7 +991,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }//GEN-LAST:event_txtSearchCTGTKeyReleased
 
     private void txtSearchGTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchGTKeyReleased
-        // TODO add your handling code here:
+        timKiemGT();
     }//GEN-LAST:event_txtSearchGTKeyReleased
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
@@ -1036,7 +1056,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }//GEN-LAST:event_tblChiTietThuePTMouseClicked
 
     private void btnXuatHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatHoaDonActionPerformed
-
+        xuatHoaDon();
     }//GEN-LAST:event_btnXuatHoaDonActionPerformed
 
     private void btnThemGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemGTActionPerformed
@@ -1054,6 +1074,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     private void btnTaoDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoDonActionPerformed
         createDH();
+        txtMaKH.setText("KH000");
+        updateDH();
         btnDoi.setEnabled(true);
     }//GEN-LAST:event_btnTaoDonActionPerformed
 
@@ -1143,6 +1165,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     GoiTapDAO gtdao = new GoiTapDAO();
     DungCuDAO dcdao = new DungCuDAO();
     NhanVienDAO nvdao = new NhanVienDAO();
+    KhachHangDAO khdao = new KhachHangDAO();
     ChiTietGoiTapDAO ctgtdao = new ChiTietGoiTapDAO();
     ChiTietDungCuDAO ctdcdao = new ChiTietDungCuDAO();
     ChiTietThuePTDAO cttptdao = new ChiTietThuePTDAO();
@@ -1156,7 +1179,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
         this.rowDH = -1;
         this.updateStatus();
-        txtNgayTao.setText(XDate.toString(new Date(), "dd-MM-yyyy"));
+//        txtNgayTao.setText(XDate.toString(new Date(), "dd-MM-yyyy"));
     }
 
     void tinhTien() {
@@ -1209,7 +1232,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             String keyword = txtSearch.getText();
             List<DonHang> list = dhdao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
             for (DonHang dh : list) {
-                Object[] row = {dh.getMadh(), dh.getManv(), dh.getMakh(), XDate.toString(dh.getNgayTao(), "dd-MM-yyyy"),
+                Object[] row = {dh.getMadh(), dh.getManv(), dh.getMakh(), XDate.toString(dh.getNgayTao(), "dd-MM-yyyy HH:mm:ss"),
                     dh.isTrangThai() ? "Đã thanh toán" : "Chờ", dh.getTongTien(),
                     dh.getTienNhan(), dh.getTienThua()};
                 model.addRow(row); //thêm từng hàng vào JTable
@@ -1228,7 +1251,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         dh.setMadh(Integer.parseInt(txtMaDH.getText()));
         dh.setManv(Auth.user.getMaNV());
         dh.setMakh(txtMaKH.getText());
-        dh.setNgayTao(XDate.toDate(txtNgayTao.getText(), "dd-MM-yyyy"));
+        dh.setNgayTao(XDate.toDate(txtNgayTao.getText(), "dd-MM-yyyy HH:mm:ss"));
         dh.setTrangThai(rdoDaThanhToan.isSelected());
         dh.setTongTien(Double.parseDouble(txtTongTien.getText()));
         dh.setTienNhan(Double.parseDouble(txtTienNhan.getText()));
@@ -1239,7 +1262,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     void setForm(DonHang dh) {
         txtMaDH.setText(String.valueOf(dh.getMadh()));
         txtMaKH.setText(dh.getMakh());
-        txtNgayTao.setText(XDate.toString(dh.getNgayTao(), "dd-MM-yyyy"));
+        txtNgayTao.setText(XDate.toString(dh.getNgayTao(), "dd-MM-yyyy HH:mm:ss"));
         rdoCho.setSelected(!dh.isTrangThai());
         rdoDaThanhToan.setSelected(dh.isTrangThai());
         txtTongTien.setText(String.valueOf(dh.getTongTien()));
@@ -1257,7 +1280,12 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtNgayTao.setEditable(!edit);
         btnDoi.setEnabled(edit);
         btnXoa.setEnabled(edit);
-        btnXuatHoaDon.setEnabled(edit);
+//        btnXuatHoaDon.setEnabled(edit);
+        if (this.rowDH >= 0 && tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 4).equals("Đã thanh toán")) {
+            btnXuatHoaDon.setEnabled(true);
+        } else {
+            btnXuatHoaDon.setEnabled(false);
+        }
         btnHuyDon.setEnabled(edit);
 
         btnThemGT.setEnabled(editGT);
@@ -1291,7 +1319,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     void createDH() {
         this.clearForm();
         rdoCho.setSelected(true);
+        txtNgayTao.setText(XDate.toString(new Date(), "dd-MM-yyyy HH:mm:ss"));
         DonHang dh = getForm();
+        dh.setNgayTao(XDate.toDate(txtNgayTao.getText(), "dd-MM-yyyy HH:mm:ss"));
+        dh.setMakh("KH000");
         try {
             dhdao.createDH(dh);
             this.fillTableDH();
@@ -1453,6 +1484,12 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
             System.out.println(e);
         }
+    }
+    
+    void timKiemGT() {
+        this.fillTableGT();
+        this.clearForm();
+        updateStatus();
     }
 
     ChiTietGoiTap getFormSP_GT() {
@@ -1867,6 +1904,297 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    double sumHD = 0;
+    double sumHD_SL = 0;
+
+    void xuatHoaDon() {
+        String path = "invoiceTest.pdf";
+        try {
+            //Lấy thông tin đơn hàng
+            int madh = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
+            String makh = (String) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 2);
+            KhachHang kh = khdao.selectById(makh);
+            String tenkh = kh.getTenKH();
+
+            // Tạo một đối tượng PdfDocument với PdfWriter để ghi vào tệp PDF đích
+            PdfWriter writer = new PdfWriter(path);
+            PdfDocument pdf = new PdfDocument(writer);
+            PdfFont font = PdfFontFactory.createFont("C:\\Users\\ADMIN\\Documents\\NetBeansProjects\\Font\\arial-unicode-ms.ttf", PdfEncodings.IDENTITY_H, true);
+
+            // Tạo kích thước trang mới
+            PageSize pageSize = new PageSize(PageSize.A4);
+
+            // Tạo một đối tượng Document với kích thước trang mới
+            Document document = new Document(pdf, pageSize);
+
+            // Tạo dòng đầu tiên và canh giữa với kích thước và font chữ tùy chỉnh
+            Paragraph title = new Paragraph("Gym Software")
+                    .setFontColor(com.itextpdf.kernel.colors.ColorConstants.BLACK)
+                    .setFontSize(18)
+                    .setBold()
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.CENTER);
+            document.add(title);
+
+            // Địa chỉ
+            Paragraph diaChi = new Paragraph("Toà nhà FPT Polytechnic, Đ. Số 22, Thường Thạnh, Cái Răng, Cần Thơ")
+                    .setFontColor(com.itextpdf.kernel.colors.ColorConstants.BLACK)
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.CENTER);
+            document.add(diaChi);
+
+            //Hotline
+            Paragraph hotline = new Paragraph("Hotline: 0799607411")
+                    .setFontColor(com.itextpdf.kernel.colors.ColorConstants.BLACK)
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.CENTER);
+            document.add(hotline);
+
+            // Hóa đơn thanh toán
+            Paragraph hoaDon = new Paragraph("Hóa đơn thanh toán")
+                    .setFontColor(com.itextpdf.kernel.colors.ColorConstants.BLACK)
+                    .setFontSize(14)
+                    .setFont(font)
+                    .setBold()
+                    .setTextAlignment(TextAlignment.CENTER);
+            document.add(hoaDon);
+
+            Table ngayTaoGioTao = new Table(2);
+
+            //Ngày tạo và giờ tạo đơn
+            Paragraph ngayTao = new Paragraph("Ngày tạo: " + XDate.toString(new Date(), "dd-MM-yyyy"))
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.LEFT);
+
+            DonHang dh = getForm();
+            Paragraph gioTao = new Paragraph("Giờ tạo: " + XDate.toString(dh.getNgayTao(), "HH:mm:ss"))
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.RIGHT);
+
+            Cell left = new Cell().add(ngayTao).setTextAlignment(TextAlignment.LEFT).setBorder(Border.NO_BORDER).setPaddingLeft(0);
+            Cell right = new Cell().add(gioTao).setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER).setPaddingLeft(30);
+
+            ngayTaoGioTao.addCell(left);
+            ngayTaoGioTao.addCell(right);
+
+            ngayTaoGioTao.setBorder(Border.NO_BORDER);
+
+            document.add(ngayTaoGioTao);
+
+            //Mã hóa đơn
+            Paragraph maHoaDon = new Paragraph("Hóa đơn: " + madh)
+                    .setFontSize(12)
+                    .setFont(font) // Đặt vị trí cố định
+                    .setTextAlignment(TextAlignment.LEFT);
+            document.add(maHoaDon);
+
+            // Khách hàng
+            Paragraph customer = new Paragraph();
+            customer.add("Khách hàng: " + tenkh)
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.LEFT);
+            document.add(customer);
+
+            //Bảng sản phẩm
+            Table banHang = new Table(new float[]{3, 2, 2, 3});
+
+            float tableWidth = PageSize.A4.getWidth() - document.getLeftMargin() - document.getRightMargin(); // Lấy chiều rộng của trang
+
+            banHang.setWidth(tableWidth);
+
+            Paragraph sanPham = new Paragraph("Sản phẩm")
+                    .setFont(font)
+                    .setBold()
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER);
+
+            Paragraph soLuong = new Paragraph("Số lượng")
+                    .setFont(font)
+                    .setBold()
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER);
+
+            Paragraph donGia = new Paragraph("Đơn giá")
+                    .setFont(font)
+                    .setBold()
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER);
+
+            Paragraph thanhTien = new Paragraph("Thành tiền")
+                    .setFont(font)
+                    .setBold()
+                    .setFontSize(12)
+                    .setTextAlignment(TextAlignment.CENTER);
+
+            DottedBorder dotted = new DottedBorder(1);
+
+            Cell sp = new Cell().add(sanPham).setBorder(Border.NO_BORDER);
+            sp.setBorderBottom(dotted);
+            Cell sl = new Cell().add(soLuong).setBorder(Border.NO_BORDER);
+            sl.setBorderBottom(dotted);
+            Cell dg = new Cell().add(donGia).setBorder(Border.NO_BORDER);
+            dg.setBorderBottom(dotted);
+            Cell tt = new Cell().add(thanhTien).setBorder(Border.NO_BORDER);
+            tt.setBorderBottom(dotted);
+
+            banHang.addCell(sp);
+            banHang.addCell(sl);
+            banHang.addCell(dg);
+            banHang.addCell(tt);
+
+            DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
+            //ĐỔ DỮ LIỆU GÓI TẬP (NẾU CÓ)
+            List<Object[]> listGT = tkdao.getInfoGoiTap(madh);
+            for (Object[] infoGT : listGT) {
+                String tenGoi = (String) infoGT[1];
+                int slgt = (int) infoGT[2];
+                double gia = (double) infoGT[3];
+                double sumGT = (double) infoGT[4];
+
+                // Định dạng giá tiền dưới dạng chuỗi tiền tệ
+                String giaFormatted = decimalFormat.format(gia);
+                String sumGTFormatted = decimalFormat.format(sumGT);
+
+                // Tạo các đối tượng Paragraph chứa dữ liệu từ danh sách
+                Paragraph tenGoiPara = new Paragraph(tenGoi).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph soLuongPara = new Paragraph(String.valueOf(slgt)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph giaPara = new Paragraph(String.valueOf(giaFormatted)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph thanhTienPara = new Paragraph(String.valueOf(sumGTFormatted)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+
+                // Thêm các đối tượng Paragraph vào các ô của bảng banHang
+                banHang.addCell(new Cell().add(tenGoiPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(soLuongPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(giaPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(thanhTienPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                sumHD = sumHD + sumGT;
+                sumHD_SL = sumHD_SL + slgt;
+            }
+
+            //ĐỔ DỮ LIỆU THUÊ PT (NẾU CÓ)
+            List<Object[]> listTPT = tkdao.getInfoThuePT(madh);
+            for (Object[] infoTPT : listTPT) {
+                String tenSp = (String) infoTPT[1];
+                int sobuoi = (int) infoTPT[2];
+                double giaTPT = (double) infoTPT[3];
+                double sumTPT = (double) infoTPT[4];
+
+                // Định dạng giá tiền dưới dạng chuỗi tiền tệ
+                String giaTPTFormatted = decimalFormat.format(giaTPT);
+                String sumTPTFormatted = decimalFormat.format(sumTPT);
+
+                // Tạo các đối tượng Paragraph chứa dữ liệu từ danh sách
+                Paragraph tenSpPara = new Paragraph(tenSp).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph soBuoiPara = new Paragraph(String.valueOf(sobuoi)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph giaTPTPara = new Paragraph(String.valueOf(giaTPTFormatted)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph sumTPTPara = new Paragraph(String.valueOf(sumTPTFormatted)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+
+                // Thêm các đối tượng Paragraph vào các ô của bảng banHang
+                banHang.addCell(new Cell().add(tenSpPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(soBuoiPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(giaTPTPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(sumTPTPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                sumHD = sumHD + sumTPT;
+                sumHD_SL = sumHD_SL + sobuoi;
+            }
+
+            //ĐỔ DỮ LIỆU DỤNG CỤ (NẾU CÓ)
+            List<Object[]> listDC = tkdao.getInfoDungCu(madh);
+            for (Object[] infoDC : listDC) {
+                String tendc = (String) infoDC[1];
+                int soluong = (int) infoDC[2];
+                double giadc = (double) infoDC[3];
+                double sumdc = (double) infoDC[4];
+
+                // Định dạng giá tiền dưới dạng chuỗi tiền tệ
+                String giadcFormatted = decimalFormat.format(giadc);
+                String sumdcFormatted = decimalFormat.format(sumdc);
+
+                // Tạo các đối tượng Paragraph chứa dữ liệu từ danh sách
+                Paragraph tenDCPara = new Paragraph(tendc).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph soLuongPara = new Paragraph(String.valueOf(soluong)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph giaDCPara = new Paragraph(String.valueOf(giadcFormatted)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+                Paragraph sumDCPara = new Paragraph(String.valueOf(sumdcFormatted)).setFont(font).setFontSize(12).setTextAlignment(TextAlignment.CENTER);
+
+                // Thêm các đối tượng Paragraph vào các ô của bảng banHang
+                banHang.addCell(new Cell().add(tenDCPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(soLuongPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(giaDCPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                banHang.addCell(new Cell().add(sumDCPara).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+                sumHD = sumHD + sumdc;
+                sumHD_SL = sumHD_SL + soluong;
+            }
+
+            // TỔNG CỘNG
+            if (banHang.getNumberOfRows() <= 1) {
+                sumHD = 0;
+                sumHD_SL = 0;
+            }
+            String totalTraFormatted = decimalFormat.format(sumHD);
+            String totalSlFormatted = decimalFormat.format(sumHD_SL);
+
+            Paragraph total = new Paragraph("Tổng cộng:").setFontSize(12).setFont(font).setTextAlignment(TextAlignment.LEFT);
+            Paragraph blank = new Paragraph("").setFontSize(12).setFont(font).setTextAlignment(TextAlignment.CENTER);
+            Paragraph totalSl = new Paragraph(totalSlFormatted).setFontSize(12).setFont(font).setTextAlignment(TextAlignment.CENTER);
+            Paragraph totalTra = new Paragraph(totalTraFormatted).setFontSize(12).setFont(font).setTextAlignment(TextAlignment.CENTER);
+
+            banHang.addCell(new Cell().add(total).setBorder(Border.NO_BORDER));
+            banHang.addCell(new Cell().add(totalSl).setBorder(Border.NO_BORDER));
+            banHang.addCell(new Cell().add(blank).setBorder(Border.NO_BORDER));
+            banHang.addCell(new Cell().add(totalTra).setBorder(Border.NO_BORDER));
+
+            document.add(banHang);
+
+            //TIỀN NHẬN
+            double nhan = (double) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 6);
+            double thua = (double) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 7);
+            String tienNhanFormatted = decimalFormat.format(nhan);
+            String tienThuaFormatted = decimalFormat.format(thua);
+
+            Paragraph tienNhan = new Paragraph().add("Tiền nhận: " + tienNhanFormatted)
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.LEFT);
+            document.add(tienNhan);
+
+            //TIỀN THỪA
+            Paragraph tienThua = new Paragraph().add("Tiền đưa lại khách: " + tienThuaFormatted)
+                    .setFontSize(12)
+                    .setFont(font)
+                    .setTextAlignment(TextAlignment.LEFT);
+            document.add(tienThua);
+
+            //CẢM ƠN
+            BasicConfigurator.configure();
+//            new float[]{3, 2, 2, 3}
+            Table line = new Table(1);
+            line.setWidth(tableWidth);
+            
+            line.addCell(new Cell().add(blank).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
+            
+
+            document.add(line);
+
+            document.add(new Paragraph("Xin cảm ơn và hẹn gặp lại quý khách!").setTextAlignment(TextAlignment.CENTER).setItalic().setFont(font).setFontSize(12).setBold());
+
+            // Đóng tài liệu
+            document.close();
+
+            // Bỏ qua cảnh báo log4j
+            
+            
+            System.out.println("Tạo file PDF thành công!");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
 }

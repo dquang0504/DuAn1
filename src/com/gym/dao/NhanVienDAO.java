@@ -106,8 +106,25 @@ public class NhanVienDAO extends GymSoftwareDAO<NhanVien, String> {
         return this.selectBySql(sql, "%" + keyword + "%");
     }
     
+
+    private List<NhanVien> selectBySql_getMaNV(String sql, Object... args) {
+        List<NhanVien> list = new ArrayList<NhanVien>();
+        try {
+            ResultSet rs = (ResultSet) DBHelper.query(sql, args);
+            while (rs.next()) {
+                NhanVien entity = new NhanVien();
+                entity.setMaNV(rs.getString("MaNV"));
+                list.add(entity);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     public List<NhanVien> selectGetMaNV(){
-        return this.selectBySql(SELECT_MANV);
+        return this.selectBySql_getMaNV(SELECT_MANV);
     }
     
     

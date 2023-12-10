@@ -152,7 +152,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +313,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1305, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,7 +473,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         btnFirst.setEnabled(edit && !first);
         btnPrev.setEnabled(edit);
         btnNext.setEnabled(edit);
-        btnLast.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);    
     }
 
     void clearForm() {
@@ -488,6 +488,9 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         KhachHang kh = dao.selectById(makh);
         this.setForm(kh);
         this.updateStatus();
+        if(!Auth.isManager()){
+            btnXoa.setEnabled(false);
+        }
     }
 
     void insert() {

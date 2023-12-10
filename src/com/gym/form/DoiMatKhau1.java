@@ -333,8 +333,12 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
     private javax.swing.JPasswordField txtXacNhanMatKhau;
     // End of variables declaration//GEN-END:variables
     void init(){
+        txtMatKhauCu.setEchoChar((char)8226);
+        txtMatKhauMoi.setEchoChar((char) 8226);
+        txtXacNhanMatKhau.setEchoChar((char)8226);
         lblHidepass1.setVisible(false);
         lblHidepass2.setVisible(false);
         lblHidepass3.setVisible(false);
     }
+    
 }

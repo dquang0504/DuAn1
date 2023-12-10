@@ -75,7 +75,7 @@ public class DonHangDAO extends GymSoftwareDAO<DonHang, String> {
                 entity.setMadh(rs.getInt("MaDH"));
                 entity.setManv(rs.getString("MaNV"));
                 entity.setMakh(rs.getString("MaKH"));
-                entity.setNgayTao(rs.getDate("NgayTao"));
+                entity.setNgayTao(rs.getTimestamp("NgayTao"));
                 entity.setTrangThai(rs.getBoolean("TrangThai"));
                 entity.setTongTien(rs.getDouble("TongTien"));
                 entity.setTienNhan(rs.getDouble("TienNhan"));

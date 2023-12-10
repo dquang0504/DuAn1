@@ -53,9 +53,9 @@ public class QuenMatKhau extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         txtMaOTP = new javax.swing.JTextField();
         btnLayOTP = new javax.swing.JButton();
-        btnXacNhanDoiMK = new javax.swing.JButton();
+        btnTiepTucDoiMK = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        txtMaNV = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -80,18 +80,18 @@ public class QuenMatKhau extends javax.swing.JDialog {
         });
         jPanel1.add(btnLayOTP, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 170, -1, -1));
 
-        btnXacNhanDoiMK.setText("Tiếp tục");
-        btnXacNhanDoiMK.addActionListener(new java.awt.event.ActionListener() {
+        btnTiepTucDoiMK.setText("Tiếp tục");
+        btnTiepTucDoiMK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXacNhanDoiMKActionPerformed(evt);
+                btnTiepTucDoiMKActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 100, -1));
+        jPanel1.add(btnTiepTucDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 100, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel5.setText("Mã nhân viên:");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, -1, -1));
-        jPanel1.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 340, -1));
+        jLabel5.setText("Email:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 40, -1));
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 340, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,17 +135,24 @@ public class QuenMatKhau extends javax.swing.JDialog {
         try {
             // Tạo đối tượng MimeMessage để gửi email
             MimeMessage message = new MimeMessage(session);
-
+            boolean found = false;
             // Lấy ra email của mã nhân viên nhập vào
-            List<NhanVien> list = dao.selectAll();
-            NhanVien nv = dao.selectById(txtMaNV.getText());
             try {
-                if (nv.getEmail().isEmpty()) {
-                    MsgBox.alert(this, "Không tìm thấy email tồn tại tương ứng với mã nhân viên\nhoặc nhân viên không tồn tại!");
-                } else {
-                    email = nv.getEmail();
-                    System.out.println(email);
+                List<NhanVien> list = dao.selectAll();
+                for (NhanVien nv : list) {
+                    if (txtEmail.getText().equals(nv.getEmail())) {
+                        email = nv.getEmail();
+                        System.out.println(email);
+                        found = true;
+                        MsgBox.alert(this, "OTP đã được gửi tới mail!");
+                        break;
+                    } 
                 }
+                if(!found){
+                    MsgBox.alert(this, "Không tìm thấy email tồn tại tương ứng với mã nhân viên\nhoặc nhân viên không tồn tại!");
+
+                }
+
                 message.setFrom(new InternetAddress(accountName));
                 message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
                 //dlehoang415@gmail.com
@@ -161,42 +168,46 @@ public class QuenMatKhau extends javax.swing.JDialog {
 
                 // Gửi email
                 Transport.send(message);
-                System.out.println("OTP đã được gửi!");
+                
             } catch (Exception e) {
-                System.out.println(e);
             }
-
+//            
             // Thiết lập thông tin người gửi và người nhận
         } catch (Exception mex) {
 
         }
     }//GEN-LAST:event_btnLayOTPActionPerformed
 
-    private String manv;
+    private String emailnv;
 
-    private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
-        String strMaNV = txtMaNV.getText();
-        manv = strMaNV;
+    private void btnTiepTucDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTiepTucDoiMKActionPerformed
+        String strEmail = txtEmail.getText();
+        emailnv = strEmail;
+        boolean found = false;
+        
+        if(txtEmail.getText().equals("")){
+            MsgBox.alert(this, "Vui lòng nhập email!");
+            return;
+        }
 
         String strOTP = txtMaOTP.getText();
 
         List<NhanVien> list = dao.selectAll();
 
-        NhanVien nv = dao.selectById(strMaNV);
-        if (nv == null) {
-            MsgBox.alert(this, "Mã nhân viên không tồn tại!");
-        } else {
-
-            if (!strOTP.equals(otpStr)) {
-                MsgBox.alert(this, "OTP sai! Vui lòng nhập lại!");
-            } else {
-                this.dispose();
-                QuenMatKhauTiepTheo qmkTiepTheo = new QuenMatKhauTiepTheo(manv);
-                qmkTiepTheo.setVisible(true);
-
+        for (NhanVien nv : list) {
+            if(txtEmail.getText().equals(nv.getEmail())){
+                if (strOTP.equals(otpStr)) {
+                    found = true;
+                    this.dispose();
+                    QuenMatKhauTiepTheo qmkTiepTheo = new QuenMatKhauTiepTheo(emailnv);
+                    qmkTiepTheo.setVisible(true);
+                } 
             }
         }
-    }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
+        if(!found){
+            MsgBox.alert(this, "OTP sai! Vui lòng nhập lại!");
+        }
+    }//GEN-LAST:event_btnTiepTucDoiMKActionPerformed
 
     /**
      * @param args the command line arguments
@@ -243,12 +254,12 @@ public class QuenMatKhau extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLayOTP;
-    private javax.swing.JButton btnXacNhanDoiMK;
+    private javax.swing.JButton btnTiepTucDoiMK;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtMaNV;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMaOTP;
     // End of variables declaration//GEN-END:variables
 }

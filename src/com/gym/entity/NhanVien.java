@@ -28,7 +28,7 @@ public class NhanVien {
 
     private String maNV;
     private String hoten;
-     private String matKhau;
+    private String matKhau;
     private Date ngaySinh = new Date();
     private String dienThoai;
     private String Email;
@@ -124,15 +124,4 @@ public class NhanVien {
         this.Hinh = Hinh;
     }
 
-    @Override
-    public String toString(){
-        return this.hoten;
-    }
-    
-    @Override
-    public boolean equals(Object obj){
-        NhanVien other = (NhanVien) obj;
-        return other.getMaNV().equals(this.getMaNV());
-    }
-  
 }

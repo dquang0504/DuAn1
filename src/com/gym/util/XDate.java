@@ -49,4 +49,9 @@ public class XDate {
             return false; // Nếu parse thất bại, ngày không hợp lệ
         }
     }
+    
+    public static String layGioTuNgay(Date date) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        return timeFormat.format(date);
+    }
 }

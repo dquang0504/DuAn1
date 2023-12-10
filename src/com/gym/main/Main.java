@@ -169,8 +169,8 @@ public class Main extends javax.swing.JFrame {
                 }
                 else if(index == 10){
                     dispose();
-                    DangNhap login = new DangNhap();
-                    login.setModal(true);
+                    DangNhap1 login = new DangNhap1();
+                    
                     login.setVisible(true);
                     if(!login.checklogin()){
                         

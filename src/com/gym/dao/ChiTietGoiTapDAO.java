@@ -26,9 +26,14 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String SELECT_ALL_SQL = "SELECT * FROM ChiTietGoiTap";
     final String SELECT_BY_ID_SQL = "SELECT * FROM ChiTietGoiTap where MaCTGT=?";
     final String SELECT_BY_MaDH_SQL = "SELECT * FROM ChiTietGoiTap where MaDH=?";
+
+    final String SELECT_BY_MADH_GET_TENGOI = "select TenGoi from ChiTietGoiTap ctgt inner join GoiTap gt\n"
+            + "on ctgt.MaGT = gt.MaGT\n"
+            + "where MaDH = ?";
     
 
     @Override
+
     public void insert(ChiTietGoiTap entity) {
         DBHelper.update(INSERT_SQL,
                 entity.getMakh(),
@@ -54,14 +59,14 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
                 entity.getMactgt()
         );
     }
-    
+
     public void updateSoLuongGia(int input, String magt) {
-    DBHelper.update(UPDATE_SoLuong_Gia_SQL,
-            input,
-            input,
-            magt
-    );
-}
+        DBHelper.update(UPDATE_SoLuong_Gia_SQL,
+                input,
+                input,
+                magt
+        );
+    }
 
     @Override
     public void delete(String id) {
@@ -71,7 +76,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     public void deleteMaGT(String id) {
         DBHelper.update(DELETE_MAGT_SQL, id);
     }
-    
+
     public void deleteMaDH_CTGT(int id) {
         DBHelper.update(DELETE_MADH_GT_SQL, id);
     }
@@ -119,6 +124,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         return (ChiTietGoiTap) list;
     }
 
+
     @Override
     public List<ChiTietGoiTap> selectAll() {
         return this.selectBySql(SELECT_ALL_SQL);
@@ -133,7 +139,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
-
+    
     
 
 }

@@ -143,7 +143,7 @@ public class DangNhap1 extends javax.swing.JFrame {
         lblUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/User.png"))); // NOI18N
         jPanel2.add(lblUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 50, 40));
 
-        txtMaNV.setText("NV001");
+        txtMaNV.setText("NV0");
         txtMaNV.setBorder(null);
         jPanel2.add(txtMaNV, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 340, -1));
 
@@ -158,6 +158,7 @@ public class DangNhap1 extends javax.swing.JFrame {
 
         txtMatKhau.setFont(txtMatKhau.getFont());
         txtMatKhau.setBorder(null);
+        txtMatKhau.setEchoChar('8');
         jPanel2.add(txtMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 340, -1));
 
         btnQuenMatKhau.setText("Quên mật khẩu?");

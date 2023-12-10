@@ -126,4 +126,22 @@ public class ThongKeDAO_Procedure {
         return this.getListOfArray(sql, cols);
     }
     
+    public List<Object[]> getInfoGoiTap(int madh) {
+        String sql = "{CALL sp_getInfoGoiTap(?)}";
+        String[] cols = {"MaDH","TenGoi", "SoLuong","Gia", "ThanhTien"};
+        return this.getListOfArray(sql, cols, madh);
+    }
+    
+    public List<Object[]> getInfoThuePT(int madh) {
+        String sql = "{CALL sp_getInfoThuePT(?)}";
+        String[] cols = {"MaDH","TenSP", "SoBuoi","DonGia", "ThanhTien"};
+        return this.getListOfArray(sql, cols, madh);
+    }
+    
+    public List<Object[]> getInfoDungCu(int madh) {
+        String sql = "{CALL sp_getInfoDungCu(?)}";
+        String[] cols = {"MaDH","TenDungCu", "SoLuong","Gia", "ThanhTien"};
+        return this.getListOfArray(sql, cols, madh);
+    }
+    
 }
