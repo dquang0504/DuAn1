@@ -20,6 +20,7 @@ public class KhachHangDAO extends GymSoftwareDAO<KhachHang, String> {
     final String UPDATE_SQL = "UPDATE KhachHang SET HoTen = ?,SDT=?,Email=?,GioiTinh=? where MaKH=?";
     final String DELETE_SQL = "DELETE FROM KhachHang WHERE MaKH=?";
     final String SELECT_ALL_SQL = "SELECT * FROM KhachHang";
+    final String SELECT_MAKH = "SELECT MaKH from KhachHang";
     final String SELECT_BY_ID_SQL = "SELECT * FROM KhachHang where MaKH=?";
 
     @Override
@@ -87,6 +88,26 @@ public class KhachHangDAO extends GymSoftwareDAO<KhachHang, String> {
     public List<KhachHang> selectByKeyword(String keyword) {
         String sql = "SELECT * FROM KhachHang WHERE HoTen like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
+    }
+    
+    private List<KhachHang> selectBySql_getMaKH(String sql, Object... args) {
+        List<KhachHang> list = new ArrayList<KhachHang>();
+        try {
+            ResultSet rs = (ResultSet) DBHelper.query(sql, args);
+            while (rs.next()) {
+                KhachHang entity = new KhachHang();
+                entity.setMaKH(rs.getString("MaKH"));
+                list.add(entity);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public List<KhachHang> selectGetMaKH(){
+        return this.selectBySql_getMaKH(SELECT_MAKH);
     }
 
 }

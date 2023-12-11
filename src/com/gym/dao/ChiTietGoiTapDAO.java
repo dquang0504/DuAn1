@@ -20,6 +20,10 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String INSERT_SQL = "INSERT INTO ChiTietGoiTap(MaKH,MaGT,MaDH,NgayDK,NgayKT,SoLuong,Gia) values (?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE ChiTietGoiTap SET MaKH = ?,MaGT = ?,MaDH = ?,NgayDK = ?,NgayKT = ?, SoLuong=?,Gia = ? where MaCTGT=?";
     final String UPDATE_SoLuong_Gia_SQL = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong - ?, Gia = Gia / SoLuong * (SoLuong - ?) WHERE MaGT = ?";
+    final String updateSLQuery = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong - ?, "
+                            + "Gia = Gia - ?,"
+                            + "NgayKT = DATEADD(DAY, -ThoiHan * ?, NgayKT) "
+                            + "WHERE MaGT = ?";
     final String DELETE_SQL = "DELETE FROM ChiTietGoiTap WHERE MaCTGT=?";
     final String DELETE_MAGT_SQL = "DELETE FROM ChiTietGoiTap WHERE MaGT=?";
     final String DELETE_MADH_GT_SQL = "DELETE FROM ChiTietGoiTap WHERE MaDH = ?";
@@ -60,9 +64,10 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         );
     }
 
-    public void updateSoLuongGia(int input, String magt) {
-        DBHelper.update(UPDATE_SoLuong_Gia_SQL,
+    public void updateSoLuongGia(int input,double giaGiam,String magt) {
+        DBHelper.update(updateSLQuery,
                 input,
+                giaGiam,
                 input,
                 magt
         );
@@ -136,7 +141,7 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     }
 
     public List<ChiTietGoiTap> selectByMaDH_CTGT(int keyword) {
-        String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ?";
+        String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ? order by NgayKT asc";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
     

@@ -38,11 +38,11 @@ public class ThongKeDAO_Procedure {
         }
     }
 
-    public List<Object[]> giamGT(String magt, Integer madh) {
-        String sql = "{CALL sp_ReduceQuantityAndUpdateDetails(?,?)}";
-        String[] cols = {"MaGT", "MaDH", "SoLuong", "ThoiHan", "Gia", "NgayDK", "NgayKT"};
-        return this.getListOfArray(sql, cols, magt, madh);
-    }
+//    public List<Object[]> giamGT(String magt, Integer madh) {
+//        String sql = "{CALL sp_ReduceQuantityAndUpdateDetails(?,?)}";
+//        String[] cols = {"MaGT", "MaDH", "SoLuong", "ThoiHan", "Gia", "NgayDK", "NgayKT"};
+//        return this.getListOfArray(sql, cols, magt, madh);
+//    }
 
     private static final String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String CONNECTION_URL = "jdbc:sqlserver://localhost:1433;databaseName=QuanLyPhongGym;user=sa;password=12345;encrypt=true;trustServerCertificate=true";
@@ -83,6 +83,18 @@ public class ThongKeDAO_Procedure {
         }
     }
     
+    public void giamGT(String magt, Integer slGiam) {
+        try ( Connection connection = DriverManager.getConnection(CONNECTION_URL);  
+            CallableStatement statement = connection.prepareCall("{CALL sp_giamSLCTGT (?,?)}")) {
+
+            statement.setString(1, magt);
+            statement.setInt(2, slGiam);
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     public List<Object[]> thongKeGT_TatCa() {
         String sql = "{CALL sp_ThongKeGoiTap()}";

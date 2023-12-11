@@ -20,6 +20,7 @@ public class DungCuDAO extends GymSoftwareDAO<DungCu, String> {
     final String UPDATE_SQL = "UPDATE DungCu SET TenDungCu = ?,Gia= ?,MoTa= ? , Hinh = ? where MaDC=?";
     final String DELETE_SQL = "DELETE FROM DungCu WHERE MaDC=?";
     final String SELECT_ALL_SQL = "SELECT * FROM DungCu";
+    final String SELECT_MADC = "SELECT MaDC from DungCu";
     final String SELECT_BY_ID_SQL = "SELECT * FROM DungCu where MaDC=?";
 
     @Override
@@ -87,6 +88,26 @@ public class DungCuDAO extends GymSoftwareDAO<DungCu, String> {
     public List<DungCu> selectByKeyword(String keyword) {
         String sql = "SELECT * FROM DungCu WHERE TenDungCu like ?";
         return this.selectBySql(sql, "%" + keyword + "%");
+    }
+    
+    private List<DungCu> selectBySql_getMaDC(String sql, Object... args) {
+        List<DungCu> list = new ArrayList<DungCu>();
+        try {
+            ResultSet rs = (ResultSet) DBHelper.query(sql, args);
+            while (rs.next()) {
+                DungCu entity = new DungCu();
+                entity.setMadc(rs.getString("MaDC"));
+                list.add(entity);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public List<DungCu> selectGetMaDC(){
+        return this.selectBySql_getMaDC(SELECT_MADC);
     }
 
 }

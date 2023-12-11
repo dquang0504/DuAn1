@@ -124,8 +124,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtSearchCTGT = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtSearchGT = new javax.swing.JTextField();
-        btnThemGT = new javax.swing.JButton();
-        btnBotGT = new javax.swing.JButton();
         pnlThuePT = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -195,7 +193,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtTongTien.setEnabled(false);
 
         txtMaKH.setEditable(false);
-        txtMaKH.setText("KH000");
+        txtMaKH.setText("KH0");
         txtMaKH.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(153, 204, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(153, 153, 255), new java.awt.Color(255, 153, 255)));
         txtMaKH.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -480,48 +478,27 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             }
         });
 
-        btnThemGT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/Add.png"))); // NOI18N
-        btnThemGT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemGTActionPerformed(evt);
-            }
-        });
-
-        btnBotGT.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/Delete.png"))); // NOI18N
-        btnBotGT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBotGTActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout pnlMuaGoiTapLayout = new javax.swing.GroupLayout(pnlMuaGoiTap);
         pnlMuaGoiTap.setLayout(pnlMuaGoiTapLayout);
         pnlMuaGoiTapLayout.setHorizontalGroup(
             pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMuaGoiTapLayout.createSequentialGroup()
-                .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(28, 28, 28)
+                .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3)
                     .addGroup(pnlMuaGoiTapLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnThemGT, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBotGT, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSearchGT))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlMuaGoiTapLayout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3)
-                            .addGroup(pnlMuaGoiTapLayout.createSequentialGroup()
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSearchGT))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                        .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlMuaGoiTapLayout.createSequentialGroup()
-                                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtSearchCTGT, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtSearchCTGT, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel7)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(82, 82, 82))
         );
         pnlMuaGoiTapLayout.setVerticalGroup(
@@ -545,11 +522,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addComponent(txtSearchCTGT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnThemGT, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBotGT, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Mua gói tập", pnlMuaGoiTap);
@@ -996,6 +969,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         thanhToan();
+        updateStatus();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void txtTienNhanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTienNhanKeyReleased
@@ -1059,14 +1033,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         xuatHoaDon();
     }//GEN-LAST:event_btnXuatHoaDonActionPerformed
 
-    private void btnThemGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemGTActionPerformed
-        themSL_GT();
-    }//GEN-LAST:event_btnThemGTActionPerformed
-
-    private void btnBotGTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBotGTActionPerformed
-        giamSL_GT();
-    }//GEN-LAST:event_btnBotGTActionPerformed
-
     private void cboChonPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChonPTActionPerformed
 
 
@@ -1074,14 +1040,13 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     private void btnTaoDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoDonActionPerformed
         createDH();
-        txtMaKH.setText("KH000");
+        txtMaKH.setText("KH0");
         updateDH();
         btnDoi.setEnabled(true);
     }//GEN-LAST:event_btnTaoDonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBotGT;
     private javax.swing.JButton btnDoi;
     private javax.swing.JButton btnFirst;
     private javax.swing.JButton btnHuyDon;
@@ -1091,7 +1056,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnTaoDon;
     private javax.swing.JButton btnThanhToan;
-    private javax.swing.JButton btnThemGT;
     private javax.swing.JButton btnThue;
     private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnXuatHoaDon;
@@ -1206,6 +1170,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     void thanhToan() {
         if (Double.parseDouble(txtTienNhan.getText()) < 0) {
             MsgBox.alert(this, "Tiền nhận không được là số âm!");
+        } else if (Double.parseDouble(txtTienNhan.getText()) == 0) {
+            MsgBox.alert(this, "Chưa nhập tiền nhận!");
         } else {
             if (Double.parseDouble(txtTienThua.getText()) < 0) {
                 int choice = JOptionPane.showConfirmDialog(this, "Đơn này vẫn còn nợ tiền, bạn muốn tiếp tục ?", "Hệ thống quản lý phòng gym", JOptionPane.YES_NO_OPTION);
@@ -1288,9 +1254,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
         btnHuyDon.setEnabled(edit);
 
-        btnThemGT.setEnabled(editGT);
-        btnBotGT.setEnabled(editGT);
-
         //Trạng thái điều hướng
         btnFirst.setEnabled(edit && !first);
         btnPrev.setEnabled(edit);
@@ -1322,7 +1285,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         txtNgayTao.setText(XDate.toString(new Date(), "dd-MM-yyyy HH:mm:ss"));
         DonHang dh = getForm();
         dh.setNgayTao(XDate.toDate(txtNgayTao.getText(), "dd-MM-yyyy HH:mm:ss"));
-        dh.setMakh("KH000");
+        dh.setMakh("KH0");
         try {
             dhdao.createDH(dh);
             this.fillTableDH();
@@ -1476,8 +1439,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             int keyword = (int) tblDonHang.getValueAt(tblDonHang.getSelectedRow(), 0);
             List<ChiTietGoiTap> list = ctgtdao.selectByMaDH_CTGT(keyword); //đọc dữ liệu từ CSDL
             for (ChiTietGoiTap ctgt : list) {
-                Object[] row = {ctgt.getMagt(), ctgt.getMadh(), ctgt.getSoluong(), ctgt.getNgaydk(),
-                    ctgt.getNgaykt(), ctgt.getGia()};
+                Object[] row = {ctgt.getMagt(), ctgt.getMadh(), ctgt.getSoluong(), XDate.toString(ctgt.getNgaydk(), "dd-MM-yyyy"),
+                    XDate.toString(ctgt.getNgaykt(), "dd-MM-yyyy"), ctgt.getGia()};
                 model.addRow(row); //thêm từng hàng vào JTable
             }
         } catch (Exception e) {
@@ -1485,7 +1448,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             System.out.println(e);
         }
     }
-    
+
     void timKiemGT() {
         this.fillTableGT();
         this.clearForm();
@@ -1551,61 +1514,35 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     }
 
     void xoaGT() {
-        int clicked = tblChiTietGoiTap.getSelectedRow();
-        int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa sản phẩm này ?", "Hệ thống quản lý phòng Gym", JOptionPane.YES_NO_OPTION);
-        String magt = (String) tblChiTietGoiTap.getValueAt(clicked, 0);
-        double laySP = (double) tblChiTietGoiTap.getValueAt(clicked, 5);
-        if (choice == JOptionPane.YES_OPTION) {
-            try {
+        try {
+            int clicked = tblChiTietGoiTap.getSelectedRow();
+            String getSL = JOptionPane.showInputDialog("Nhập vào số lượng cần bớt: ");
+            int sl = Integer.parseInt(getSL);
+            String magt = (String) tblChiTietGoiTap.getValueAt(clicked, 0);
+            double giaGoc = (double) tblChiTietGoiTap.getValueAt(clicked, 5) / (int) tblChiTietGoiTap.getValueAt(clicked, 2);
+            double giaGiam = giaGoc * sl;
+
+            if (sl > (int) tblChiTietGoiTap.getValueAt(clicked, 2)) {
+                MsgBox.alert(this, "Bạn đã nhập số lượng lớn hơn số lượng hiện có!");
+                return;
+            }
+
+            tkdao.giamGT(magt, sl);
+            this.fillChiTietGoiTap();
+            double tongtien = Double.parseDouble(txtTongTien.getText());
+            txtTongTien.setText(String.valueOf(tongtien - giaGiam));
+            updateDH();
+            if((int) tblChiTietGoiTap.getValueAt(clicked, 2)<=0){
                 ctgtdao.deleteMaGT(magt);
-                this.fillChiTietGoiTap();
-                double tongtien = Double.parseDouble(txtTongTien.getText());
-                txtTongTien.setText(String.valueOf(tongtien - laySP));
-                updateDH();
-                tblGoiTap.clearSelection();
-                MsgBox.alert(this, "Xóa sản phẩm thành công!");
-            } catch (Exception e) {
-                System.out.println(e);
-                MsgBox.alert(this, "Xóa sản phẩm thất bại!");
+                fillChiTietGoiTap();
             }
-        }
-    }
-
-    void themSL_GT() {
-        int madh = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1);
-        String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
-        try {
-            tkdao.tangSL(magt, madh);
-            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 2);
-            fillChiTietGoiTap();
-            txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) + giaGoc));
-            updateDH();
+            tblGoiTap.clearSelection();
+            MsgBox.alert(this, "Cập nhật đơn hàng thành công!");
         } catch (Exception e) {
             System.out.println(e);
+            MsgBox.alert(this, "Cập nhật đơn hàng thất bại!");
         }
-    }
 
-    void giamSL_GT() {
-        int madh = (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 1);
-        String magt = (String) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 0);
-        try {
-            tkdao.giamSL(magt, madh);
-            double giaGoc = (double) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 5) / (int) tblChiTietGoiTap.getValueAt(tblChiTietGoiTap.getSelectedRow(), 2);
-            fillChiTietGoiTap();
-            txtTongTien.setText(String.valueOf(Double.parseDouble(txtTongTien.getText()) - giaGoc));
-            updateDH();
-
-            if (tblChiTietGoiTap.getRowCount() == 0) {
-                btnBotGT.setEnabled(false);
-                btnThemGT.setEnabled(false);
-            } else {
-                btnBotGT.setEnabled(true);
-                btnThemGT.setEnabled(true);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
     }
 
     //                                          TAB MUA DỤNG CỤ
@@ -1779,8 +1716,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             List<ChiTietThuePT> list = cttptdao.selectByMaDH_CTTPT(keyword); //đọc dữ liệu từ CSDL
             for (ChiTietThuePT cttpt : list) {
                 Object[] row = {cttpt.getManv(), cttpt.getMadh(), cttpt.getSobuoi(),
-                    cttpt.getNgaythue(),
-                    cttpt.getNgaykt(), cttpt.getGia()};
+                    XDate.toString(cttpt.getNgaythue(), "dd-MM-yyyy"),
+                    XDate.toString(cttpt.getNgaykt(), "dd-MM-yyyy"), cttpt.getGia()};
                 model.addRow(row); //thêm từng hàng vào JTable
             }
         } catch (Exception e) {
@@ -2176,9 +2113,8 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 //            new float[]{3, 2, 2, 3}
             Table line = new Table(1);
             line.setWidth(tableWidth);
-            
+
             line.addCell(new Cell().add(blank).setBorder(Border.NO_BORDER).setBorderBottom(dotted));
-            
 
             document.add(line);
 
@@ -2188,8 +2124,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             document.close();
 
             // Bỏ qua cảnh báo log4j
-            
-            
             System.out.println("Tạo file PDF thành công!");
         } catch (Exception e) {
             System.out.println(e);

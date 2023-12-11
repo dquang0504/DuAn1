@@ -27,6 +27,7 @@ import com.gym.util.XImage;
 import java.awt.Color;
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -212,7 +213,15 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             new String [] {
                 "MÃ ĐH", "SỐ LƯỢNG", "THÀNH TIỀN", "NGÀY TẠO"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblThongKe);
 
         jLabel8.setText("LOẠI SẢN PHẨM:");
@@ -302,6 +311,9 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
     private boolean nhapDungNgayFrom = false;
     private boolean nhapDungNgayTo = false;
 
+    DecimalFormat decimalFormat = new DecimalFormat("#,###");
+
+
     private void txtNgayFromKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayFromKeyReleased
         try {
             if (txtNgayFrom.getText().isEmpty() && txtNgayTo.getText().isEmpty()) {
@@ -311,8 +323,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                     fillTableGoiTap(); // Show all rows if both date fields are empty
                 } else if (cboSanPham.getSelectedIndex() == 1) {
                     fillTableThuePT();
-                }
-                else if(cboSanPham.getSelectedIndex()==2){
+                } else if (cboSanPham.getSelectedIndex() == 2) {
                     fillTableDungCu();
                 }
                 lblError.setText(""); // Reset error label
@@ -322,8 +333,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                     fillTableGoiTap(); // Call fillTableGoiTap when txtNgayFrom is completed
                 } else if (cboSanPham.getSelectedIndex() == 1) {
                     fillTableThuePT();
-                }
-                else if(cboSanPham.getSelectedIndex()==2){
+                } else if (cboSanPham.getSelectedIndex() == 2) {
                     fillTableDungCu();
                 }
                 lblError.setText(""); // Reset error label
@@ -346,8 +356,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                     fillTableGoiTap(); // Show all rows if both date fields are empty
                 } else if (cboSanPham.getSelectedIndex() == 1) {
                     fillTableThuePT();
-                }
-                else if(cboSanPham.getSelectedIndex()==2){
+                } else if (cboSanPham.getSelectedIndex() == 2) {
                     fillTableDungCu();
                 }
                 lblError.setText(""); // Reset error label
@@ -357,8 +366,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                     fillTableGoiTap(); // Call fillTableGoiTap when txtNgayFrom is completed
                 } else if (cboSanPham.getSelectedIndex() == 1) {
                     fillTableThuePT();
-                }
-                else if(cboSanPham.getSelectedIndex()==2){
+                } else if (cboSanPham.getSelectedIndex() == 2) {
                     fillTableDungCu();
                 }
                 lblError.setText(""); // Reset error label
@@ -413,8 +421,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             //Tính tổng doanh thu set lên label;
         } else if (cboSanPham.getSelectedIndex() == 1) {
             fillTableThuePT();
-        }
-        else if(cboSanPham.getSelectedIndex()==2){
+        } else if (cboSanPham.getSelectedIndex() == 2) {
             fillTableDungCu();
         }
 //        else if(cboSanPham.getSelectedIndex()==3){
@@ -471,7 +478,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             System.out.println(e);
         }
     }
-    
+
     void fillTableDungCu() {
         DefaultTableModel model = (DefaultTableModel) tblThongKe.getModel();
         model.setRowCount(0);
@@ -502,14 +509,23 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         for (int i = 0; i < tblThongKe.getRowCount(); i++) {
             doanhThu += (double) tblThongKe.getValueAt(i, 2);
         }
-        txtDoanhThu.setText(String.valueOf(doanhThu) + " VNĐ");
+
+        String convert = decimalFormat.format(doanhThu);
+
+        txtDoanhThu.setText(convert + " VNĐ");
 
         //Tính tổng số hóa đơn
         int hoaDon = 0;
-        for (int i = 0; i <= tblThongKe.getRowCount() - 1; i++) {
-            hoaDon += i;
+        if (tblThongKe.getRowCount() == 0) {
+            hoaDon = 0;
+            txtSoHoaDon.setText(String.valueOf(hoaDon));
+            return;
+        } else {
+            for (int i = 0; i <= tblThongKe.getRowCount() - 1; i++) {
+                hoaDon += i;
+            }
+            txtSoHoaDon.setText(String.valueOf(hoaDon + 1));
         }
-        txtSoHoaDon.setText(String.valueOf(hoaDon + 1));
 
         //Tính tổng số sp bán
         int sanPham = 0;

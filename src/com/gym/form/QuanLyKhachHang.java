@@ -15,6 +15,7 @@ import com.gym.util.XDate;
 import com.gym.util.XImage;
 import java.io.File;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -421,6 +422,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
+        txtMaKH.setText(tuTaoMaKHMoi());
     }
 
     void fillTable() {
@@ -481,6 +483,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         this.setForm(kh);
         this.row = -1;
         updateStatus();
+        txtMaKH.setText(tuTaoMaKHMoi());
     }
 
     void edit() {
@@ -496,6 +499,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
     void insert() {
         KhachHang kh = getForm();
         try {
+            kh.setMaKH(tuTaoMaKHMoi());
             dao.insert(kh);
             this.fillTable();
             this.clearForm();
@@ -586,7 +590,7 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
         updateStatus();
     }
 
-    String regexMaKH = "^KH[0-9]{3}$";      //Bắt đầu bằng KH và 3 chữ số theo sau
+    String regexMaKH = "KH[1-9]\\d*$";      //Bắt đầu bằng KH và 3 chữ số theo sau
     String regexTenKH = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
     String regexSDTKH = "^[0-9]{10}$";      //Không có chữ và 10 số
     String regexEmailKH = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";  //Bắt lỗi email
@@ -632,5 +636,40 @@ public class QuanLyKhachHang extends javax.swing.JPanel {
             return false;
         }
         return true;
+    }
+    
+    private String tuTaoMaKHMoi() {
+        String userInput = txtMaKH.getText().trim(); // Lấy giá trị đã nhập trong txtMaKH
+
+        // Nếu người dùng đã nhập mã khách hàng, và mã đó thỏa mãn điều kiện, trả về giá trị người dùng nhập vào
+        if (!userInput.isEmpty() && userInput.matches(regexMaKH)) {
+            return userInput;
+        }
+
+        List<KhachHang> listKhachHang = dao.selectGetMaKH(); // Lấy danh sách mã khách hàng từ CSDL
+
+        // Nếu danh sách rỗng hoặc không có mã khách hàng nào tồn tại, trả về KH0
+        if (listKhachHang.isEmpty()) {
+            return "KH0";
+        }
+
+        // Tìm mã khách hàng lớn nhất
+        String lastId = listKhachHang.stream()
+                .map(KhachHang::getMaKH)
+                .max(Comparator.comparing(s -> Integer.parseInt(s.substring(2))))
+                .orElse("KH0");
+
+        // Lấy số từ mã khách hàng cuối cùng và tăng giá trị lên 1
+        int nextNumber = Integer.parseInt(lastId.substring(2)) + 1;
+
+        // Tạo mã khách hàng mới dựa trên số đã tăng, loại bỏ số 0 ở đầu nếu cần
+        String nextKhachHangId;
+        if (nextNumber < 10) {
+            nextKhachHangId = "KH" + nextNumber;
+        } else {
+            nextKhachHangId = "KH" + String.valueOf(nextNumber);
+        }
+
+        return nextKhachHangId;
     }
 }

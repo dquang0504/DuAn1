@@ -22,6 +22,7 @@ public class GoiTapDAO extends GymSoftwareDAO<GoiTap, String>{
     String DELETE_SQL = "delete GoiTap where MaGT = ?";
     String SELECT_ALL_SQL = "select * from GoiTap";
     String SELECT_BY_ID_SQL = "select * from GoiTap where MaGT = ?";
+    final String SELECT_MAGT = "SELECT MaGT from GoiTap";
     String SELECT_BY_MADH_TENGOI = "SELECT * FROM GoiTap gt inner join ChiTietGoiTap ctgt on gt.MaGT = ctgt.MaGT where ctgt.MaDH = ?";
     
     @Override
@@ -91,7 +92,25 @@ public class GoiTapDAO extends GymSoftwareDAO<GoiTap, String>{
         return this.selectBySql(sql, "%" + keyword + "%");
     }
     
+    private List<GoiTap> selectBySql_getMaGT(String sql, Object... args) {
+        List<GoiTap> list = new ArrayList<GoiTap>();
+        try {
+            ResultSet rs = (ResultSet) DBHelper.query(sql, args);
+            while (rs.next()) {
+                GoiTap entity = new GoiTap();
+                entity.setMaGT(rs.getString("MaGT"));
+                list.add(entity);
+            }
+            rs.getStatement().getConnection().close();
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     
+    public List<GoiTap> selectGetMaGT(){
+        return this.selectBySql_getMaGT(SELECT_MAGT);
+    }
     
     
 }

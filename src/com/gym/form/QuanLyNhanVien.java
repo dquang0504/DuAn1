@@ -602,7 +602,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             btnXoa.setEnabled(false);
             btnSua.setEnabled(false);
         }
-        txtMaNV.setText(generateNextEmployeeId());
+        txtMaNV.setText(tuTaoMaNVMoi());
 
     }
 
@@ -613,7 +613,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             String keyword = txtSearch.getText();
             List<NhanVien> list = dao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
             for (NhanVien nv : list) {
-                Object[] row = {nv.getMaNV(), nv.getHoten(), nv.getNgaySinh(),
+                Object[] row = {nv.getMaNV(), nv.getHoten(), XDate.toString(nv.getNgaySinh(), "dd-MM-yyyy"),
                     nv.getDienThoai(), nv.getEmail(), nv.isVaiTro() ? "Quản lý" : "Huấn luyện viên",
                     nv.isGioiTinh() ? "Nam" : "Nữ", nv.isTrangThai() ? "Mở" : "Khóa", nv.getHinh()};
                 model.addRow(row); //thêm từng hàng vào JTable
@@ -685,7 +685,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         this.row = -1;
         lblAnh.setIcon(null);
         updateStatus();
-        txtMaNV.setText(generateNextEmployeeId());
+        txtMaNV.setText(tuTaoMaNVMoi());
     }
 
     void edit() {
@@ -700,11 +700,11 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         }
     }
 
-    private String generateNextEmployeeId() {
+    private String tuTaoMaNVMoi() {
         String userInput = txtMaNV.getText().trim(); // Lấy giá trị đã nhập trong txtMaNV
 
         // Nếu người dùng đã nhập mã nhân viên, và mã đó thỏa mãn điều kiện, trả về giá trị người dùng nhập vào
-        if (!userInput.isEmpty() && userInput.matches("NV[1-9]\\d*")) {
+        if (!userInput.isEmpty() && userInput.matches(regexMaNV)) {
             return userInput;
         }
 
@@ -749,7 +749,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 rdoKhoa.setSelected(true);
             }
             try {
-                nv.setMaNV(generateNextEmployeeId());
+                nv.setMaNV(tuTaoMaNVMoi());
                 dao.insert(nv);
                 this.fillTable();
                 this.clearForm();

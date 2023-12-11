@@ -13,6 +13,7 @@ import com.gym.util.XDate;
 import com.gym.util.XImage;
 import java.io.File;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -630,7 +631,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         }
     }
     
-    String regexMaDC = "^DC[0-9]{3}$";      //Bắt đầu bằng DC và 3 chữ số theo sau
+    String regexMaDC = "^DC[1-9]\\d*$";      //Bắt đầu bằng DC và 3 chữ số theo sau
     String regexTenDC = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
     String regexGiaDC = "^[0-9]+(\\.[0-9]+)?$";      //Bắt buộc là số nguyên hoặc float
     String regexSoLuong = "^[0-9]+$";  //Bắt buộc là số nguyên
@@ -669,6 +670,41 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             return false;
         }
         return true;
+    }
+    
+    private String tuTaoMaDCMoi() {
+        String userInput = txtMaDC.getText().trim(); // Lấy giá trị đã nhập trong txtMaDC
+
+        // Nếu người dùng đã nhập mã dụng cụ, và mã đó thỏa mãn điều kiện, trả về giá trị người dùng nhập vào
+        if (!userInput.isEmpty() && userInput.matches(regexMaDC)) {
+            return userInput;
+        }
+
+        List<DungCu> listDungCu = dao.selectGetMaDC(); // Lấy danh sách mã dụng cụ từ CSDL
+
+        // Nếu danh sách rỗng hoặc không có mã dụng cụ nào tồn tại, trả về DC0
+        if (listDungCu.isEmpty()) {
+            return "DC0";
+        }
+
+        // Tìm mã dụng cụ lớn nhất
+        String lastId = listDungCu.stream()
+                .map(DungCu::getMadc)
+                .max(Comparator.comparing(s -> Integer.parseInt(s.substring(2))))
+                .orElse("DC0");
+
+        // Lấy số từ mã dụng cụ cuối cùng và tăng giá trị lên 1
+        int nextNumber = Integer.parseInt(lastId.substring(2)) + 1;
+
+        // Tạo mã dụng cụ mới dựa trên số đã tăng, loại bỏ số 0 ở đầu nếu cần
+        String nextDungCuId;
+        if (nextNumber < 10) {
+            nextDungCuId = "DC" + nextNumber;
+        } else {
+            nextDungCuId = "DC" + String.valueOf(nextNumber);
+        }
+
+        return nextDungCuId;
     }
 
 }
