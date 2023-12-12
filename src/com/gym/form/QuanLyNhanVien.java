@@ -13,14 +13,19 @@ import com.gym.util.XDate;
 import com.gym.util.XImage;
 import java.io.File;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -494,13 +499,21 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             }
         }
         if (validateForm()) {
-            insert();
+            try {
+                insert();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(QuanLyNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         if (validateForm()) {
-            update();
+            try {
+                update();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(QuanLyNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
@@ -624,11 +637,21 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         }
     }
 
-    NhanVien getForm() {
+    NhanVien getForm() throws NoSuchAlgorithmException {
         NhanVien nv = new NhanVien();
         nv.setMaNV(txtMaNV.getText());
         nv.setHoten(txtHoTen.getText());
-        nv.setMatKhau(new String(txtPass.getPassword()));
+//        nv.setMatKhau(new String(txtPass.getPassword()));
+        //Ma hoa md5
+        String password = String.valueOf(txtPass.getPassword());
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+        System.out.println("My Hash: " + myHash);
+        nv.setMatKhau(myHash);
+        
+        
         nv.setNgaySinh(XDate.toDate(txtNgaySinh.getText(), "dd-MM-yyyy"));
         nv.setDienThoai(txtSDT.getText());
         nv.setEmail(txtEmail.getText());
@@ -735,7 +758,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         return nextEmployeeId;
     }
 
-    void insert() {
+    void insert() throws NoSuchAlgorithmException {
         NhanVien nv = getForm();
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền thêm nhân viên!");
@@ -761,7 +784,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         }
     }
 
-    void update() {
+    void update() throws NoSuchAlgorithmException {
         NhanVien nv = getForm();
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền sửa thông tin!");

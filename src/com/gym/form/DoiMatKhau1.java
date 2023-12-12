@@ -7,7 +7,12 @@ package com.gym.form;
 import com.gym.dao.NhanVienDAO;
 import com.gym.util.Auth;
 import com.gym.util.MsgBox;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -23,7 +28,7 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
         init();
         setLocationRelativeTo(null);
     }
-    
+
     NhanVienDAO dao = new NhanVienDAO();
 
     /**
@@ -208,55 +213,68 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
     }//GEN-LAST:event_lblHidepass2MouseClicked
 
     private boolean clicked;
-    
-    
-    public boolean clicked(){
+
+    public boolean clicked() {
         return clicked;
     }
-    
-    
+
+
     private void btnXacNhanDoiMKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanDoiMKActionPerformed
 
         String strMatKhauCu = new String(txtMatKhauCu.getPassword());
         String strMatKhauMoi = new String(txtMatKhauMoi.getPassword());
         String strMatKhauMoi2 = new String(txtXacNhanMatKhau.getPassword());
-        if (Auth.user == null) {
-            MsgBox.alert(this, "Không thể đổi mật khẩu. Vui lòng đăng nhập lại!");
-        }
-        else if(!strMatKhauCu.equals(Auth.user.getMatKhau())){
-            MsgBox.alert(this, "Mật khẩu cũ sai!");
-        }
-        if(strMatKhauMoi.isEmpty()){
-            MsgBox.alert(this, "Vui lòng nhập mật khẩu mới!");
-            return;
-        }
-        if(strMatKhauMoi2.isEmpty()){
-            MsgBox.alert(this, "Vui lòng nhập mật khẩu xác nhận!");
-        }
-        else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
-            MsgBox.alert(this, "Xác nhận mật khẩu không đúng!");
-        }
-        else {
-            int option = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn đổi mật khẩu", "Xác nhận",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                new Object[]{"Yes", "No"}, "No");
+        try {
+            if (Auth.user == null) {
+                MsgBox.alert(this, "Không thể đổi mật khẩu. Vui lòng đăng nhập lại!");
+            } else if (!verify(strMatKhauCu, Auth.user.getMatKhau())) {
+                MsgBox.alert(this, "Mật khẩu cũ sai!");
+            }
+//        else if(!strMatKhauCu.equals(Auth.user.getMatKhau())){
+//            MsgBox.alert(this, "Mật khẩu cũ sai!");
+//        }
+            if (strMatKhauMoi.isEmpty()) {
+                MsgBox.alert(this, "Vui lòng nhập mật khẩu mới!");
+                return;
+            }
+            if (strMatKhauMoi2.isEmpty()) {
+                MsgBox.alert(this, "Vui lòng nhập mật khẩu xác nhận!");
+            } else if (!strMatKhauMoi.equals(strMatKhauMoi2)) {
+                MsgBox.alert(this, "Xác nhận mật khẩu không đúng!");
+            } else {
+                int option = JOptionPane.showOptionDialog(this, "Bạn có chắc muốn đổi mật khẩu", "Xác nhận",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                        new Object[]{"Yes", "No"}, "No");
 
-            if (option == JOptionPane.YES_OPTION) {
-                clicked=true;
-                Auth.user.setMatKhau(strMatKhauMoi);
-                dao.update(Auth.user);
-                MsgBox.alert(this, "Đổi mật khẩu thành công!");
-                this.dispose();
-                new DangNhap().setVisible(true);
+                if (option == JOptionPane.YES_OPTION) {
+                    clicked = true;
+//                Auth.user.setMatKhau(strMatKhauMoi);
+                    //MD5
+                    MessageDigest md;
+                    try {
+                        md = MessageDigest.getInstance("MD5");
+                        md.update(strMatKhauMoi.getBytes());
+                        byte[] digest = md.digest();
+                        String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+                        System.out.println("My Hash: " + myHash);
+                        Auth.user.setMatKhau(myHash);
+                    } catch (NoSuchAlgorithmException ex) {
+                        Logger.getLogger(DoiMatKhau1.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    dao.update(Auth.user);
+                    MsgBox.alert(this, "Đổi mật khẩu thành công!");
+                    this.dispose();
+                    new DangNhap().setVisible(true);
+                } else {
+                    clicked = false;
+                }
             }
-            else{
-                clicked=false;
-            }
+        } catch (Exception e) {
         }
     }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
 
     private void btnHuyBoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyBoActionPerformed
-        clicked=false;
+        clicked = false;
         this.dispose();
     }//GEN-LAST:event_btnHuyBoActionPerformed
 
@@ -332,13 +350,24 @@ public class DoiMatKhau1 extends javax.swing.JDialog {
     private javax.swing.JPasswordField txtMatKhauMoi;
     private javax.swing.JPasswordField txtXacNhanMatKhau;
     // End of variables declaration//GEN-END:variables
-    void init(){
-        txtMatKhauCu.setEchoChar((char)8226);
+    void init() {
+        txtMatKhauCu.setEchoChar((char) 8226);
         txtMatKhauMoi.setEchoChar((char) 8226);
-        txtXacNhanMatKhau.setEchoChar((char)8226);
+        txtXacNhanMatKhau.setEchoChar((char) 8226);
         lblHidepass1.setVisible(false);
         lblHidepass2.setVisible(false);
         lblHidepass3.setVisible(false);
     }
-    
+
+    public static boolean verify(String inputPassword, String hashPassWord)
+            throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(inputPassword.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter
+                .printHexBinary(digest).toUpperCase();
+
+        return hashPassWord.equals(myChecksum);
+    }
 }

@@ -8,9 +8,13 @@ import com.gym.dao.NhanVienDAO;
 import com.gym.entity.NhanVien;
 import com.gym.util.Auth;
 import com.gym.util.MsgBox;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,6 +24,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -215,7 +220,22 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
                 for (NhanVien nv : list) {
                     if (strEmailNV.equals(nv.getEmail())) {
                         found = true;
-                        nv.setMatKhau(strMatKhauMoi);
+//                        nv.setMatKhau(strMatKhauMoi);
+//                      MD5
+                        MessageDigest md;
+                        try {
+                            md = MessageDigest.getInstance("MD5");
+                            md.update(strMatKhauMoi.getBytes());
+                            byte[] digest = md.digest();
+                            String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+                            System.out.println("My Hash: " + myHash);
+                            nv.setMatKhau(myHash);
+                            dao.update(nv);
+                        } catch (NoSuchAlgorithmException ex) {
+                            Logger.getLogger(QuenMatKhauTiepTheo.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    
+                
                         dao.update(nv);
                     } 
                 }

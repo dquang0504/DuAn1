@@ -1858,7 +1858,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
             // Tạo một đối tượng PdfDocument với PdfWriter để ghi vào tệp PDF đích
             PdfWriter writer = new PdfWriter(path);
             PdfDocument pdf = new PdfDocument(writer);
-            PdfFont font = PdfFontFactory.createFont("C:\\Users\\ADMIN\\Documents\\NetBeansProjects\\Font\\arial-unicode-ms.ttf", PdfEncodings.IDENTITY_H, true);
+            PdfFont font = PdfFontFactory.createFont("C:\\Users\\Duy Quang\\Documents\\NetBeansProjects\\Font\\arial-unicode-ms.ttf", PdfEncodings.IDENTITY_H, true);
 
             // Tạo kích thước trang mới
             PageSize pageSize = new PageSize(PageSize.A4);

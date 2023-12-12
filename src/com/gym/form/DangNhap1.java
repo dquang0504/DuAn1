@@ -8,19 +8,28 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-
-
-
-
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
  * @author ADMIN
  */
 public class DangNhap1 extends javax.swing.JFrame {
+
+    File file = new File("C:\\Users\\Duy Quang\\Documents\\NetBeansProjects\\save.txt");
 
     /**
      * Creates new form DangNhap1
@@ -33,6 +42,8 @@ public class DangNhap1 extends javax.swing.JFrame {
 
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        UPDATE();
 
     }
 
@@ -246,7 +257,15 @@ public class DangNhap1 extends javax.swing.JFrame {
     }//GEN-LAST:event_lblShowpassMouseClicked
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        checkcheckValidateForm();
+        try {
+            checkcheckValidateForm();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(DangNhap1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (chkLuuMK.isSelected()) {
+            SAVE();
+        }
+
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnQuenMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuenMatKhauActionPerformed
@@ -331,29 +350,19 @@ public class DangNhap1 extends javax.swing.JFrame {
     private int soLanNhapSai = 0;
     private final int MAX_SO_LAN_NHAP_SAI = 5;
 
-    public void checkcheckValidateForm() {
+    public void checkcheckValidateForm() throws NoSuchAlgorithmException {
         String strMaNV = txtMaNV.getText();
         String strPassword = new String(txtMatKhau.getPassword());
         NhanVien nv = dao.selectById(strMaNV);
 
-        if (nv == null) {
+        
+        if (nv == null || !verify(strPassword, nv.getMatKhau())) {
             MsgBox.alert(this, "Tên đăng nhập hoặc mật khẩu không chính xác");
-        } else if (nv.getMatKhau() == null) {
+        }else if (nv.getMatKhau() == null) {
             MsgBox.alert(this, "Mật khẩu không được trống!");
         } else if (!nv.isTrangThai()) {
             MsgBox.alert(this, "Tài khoản của bạn đã bị khóa!\nVui lòng liên lạc quản lý để được mở khóa tài khoản!");
-        } else {
-            if (!nv.getMatKhau().equals(strPassword)) {
-                soLanNhapSai++;
-                if (soLanNhapSai >= MAX_SO_LAN_NHAP_SAI) {
-                    khoaTaiKhoan(); // Gọi phương thức để khóa tài khoản khi vượt quá số lần nhập sai
-                    return;
-                } else {
-                    MsgBox.alert(this, "Bạn đã nhập sai mật khẩu " + soLanNhapSai + " lần!\n "
-                            + "Bạn còn " + (MAX_SO_LAN_NHAP_SAI - soLanNhapSai) + " lần thử trước khi bị khóa tài khoản!");
-                    return;
-                }
-            } else if (!nv.isTrangThai()) {
+        } else if (!nv.isTrangThai()) {
                 MsgBox.alert(this, "Tài khoản của bạn đã bị khóa!\nVui lòng liên lạc quản lý để được mở khóa tài khoản!");
                 return;
             } else {
@@ -374,7 +383,23 @@ public class DangNhap1 extends javax.swing.JFrame {
                 loadingThread.start();
             }
         }
-    }
+    
+    
+    
+    
+//    else {
+//            if (!nv.getMatKhau().equals(strPassword)) {
+//                soLanNhapSai++;
+//                if (soLanNhapSai >= MAX_SO_LAN_NHAP_SAI) {
+//                    khoaTaiKhoan(); // Gọi phương thức để khóa tài khoản khi vượt quá số lần nhập sai
+//                    return;
+//                } else {
+//                    MsgBox.alert(this, "Bạn đã nhập sai mật khẩu " + soLanNhapSai + " lần!\n "
+//                            + "Bạn còn " + (MAX_SO_LAN_NHAP_SAI - soLanNhapSai) + " lần thử trước khi bị khóa tài khoản!");
+//                    return;
+//                }
+//            } 
+    
 
     public boolean checklogin() {
         return login;
@@ -401,4 +426,51 @@ public class DangNhap1 extends javax.swing.JFrame {
             MsgBox.alert(this, "Tên đăng nhập không tồn tại!");
         }
     }
+
+    public void UPDATE() { //UPDATE ON OPENING THE APPLICATION
+
+        try {
+            if (file.exists()) {    //if this file exists
+                Scanner scan = new Scanner(file);   //Use Scanner to read the File
+                txtMaNV.setText(scan.nextLine());  //append the text to name field
+                txtMatKhau.setText(scan.nextLine()); //append the text to password field
+                scan.close();
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }//End OF UPDATE
+
+    public static boolean verify(String inputPassword, String hashPassWord)
+            throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(inputPassword.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter
+                .printHexBinary(digest).toUpperCase();
+
+        return hashPassWord.equals(myChecksum);
+    }
+
+    public void SAVE() {      //Save the UserName and Password (for one user)
+
+        try {
+            if (!file.exists()) {
+                file.createNewFile();  //if the file !exist create a new one
+            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
+            bw.write(txtMaNV.getText()); //write the name
+            bw.newLine(); //leave a new Line
+            bw.write(txtMatKhau.getPassword()); //write the password
+            bw.close(); //close the BufferdWriter
+            System.out.println(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }//End Of Save
+
 }
