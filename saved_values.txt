@@ -1,0 +1,3 @@
+tempGT:500000.0
+tempTPT:1750000.0
+tempDC:400000.0

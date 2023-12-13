@@ -17,6 +17,7 @@ public class ChiTietDungCuDAO extends GymSoftwareDAO<ChiTietDungCu, String>{
     
     final String INSERT_SQL = "INSERT INTO ChiTietDungCu(MaDC,MaDH,MaKH,SoLuong,Gia) values (?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE ChiTietDungCu SET MaDC = ?,MaDH = ?,MaKH = ?, SoLuong=?, Gia = ? where MaCTDC=?";
+    final String updateDC_theoSL = "UPDATE ChiTietDungCu SET SoLuong = SoLuong - ?, Gia = Gia - ? where MaDC = ?";
     final String DELETE_SQL = "DELETE FROM ChiTietDungCu WHERE MaCTDC=?";
     final String DELETE_MADC_SQL = "DELETE FROM ChiTietDungCu WHERE MaDC=?";
     final String DELETE_MADH_DC_SQL = "DELETE FROM ChiTietDungCu WHERE MaDH = ?";
@@ -48,6 +49,14 @@ public class ChiTietDungCuDAO extends GymSoftwareDAO<ChiTietDungCu, String>{
                 entity.getSl(),
                 entity.getGia(),
                 entity.getMactdc()
+        );
+    }
+    
+    public void updateSoLuongGia(int input ,String magt, double giaGiam) {
+        DBHelper.update(updateDC_theoSL,
+                input,
+                giaGiam,
+                magt
         );
     }
 
@@ -124,5 +133,4 @@ public class ChiTietDungCuDAO extends GymSoftwareDAO<ChiTietDungCu, String>{
         
         return this.selectBySql(SELECT_ORDER_CTDC, "%" + keyword + "%");
     }
-    
 }

@@ -217,9 +217,16 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Object.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblThongKe);
@@ -307,6 +314,10 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public void updateData() {
+        init();
+    }
 
     private boolean nhapDungNgayFrom = false;
     private boolean nhapDungNgayTo = false;
@@ -452,6 +463,17 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
             System.out.println(e);
         }
+
+        //Tính tổng số hóa đơn
+        int hoaDon = 0;
+        if (tblThongKe.getRowCount() == 0) {
+            hoaDon = 0;
+            txtSoHoaDon.setText(String.valueOf(hoaDon));
+            return;
+        } else {
+            hoaDon = tblThongKe.getRowCount();
+            txtSoHoaDon.setText(String.valueOf(hoaDon));
+        }
     }
 
     void fillTableThuePT() {
@@ -477,6 +499,17 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
             System.out.println(e);
         }
+
+        //Tính tổng số hóa đơn
+        int hoaDon = 0;
+        if (tblThongKe.getRowCount() == 0) {
+            hoaDon = 0;
+            txtSoHoaDon.setText(String.valueOf(hoaDon));
+            return;
+        } else {
+            hoaDon = tblThongKe.getRowCount();
+            txtSoHoaDon.setText(String.valueOf(hoaDon));
+        }
     }
 
     void fillTableDungCu() {
@@ -497,6 +530,17 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                 }
             }
 
+            //Tính tổng số hóa đơn
+            int hoaDon = 0;
+            if (tblThongKe.getRowCount() == 0) {
+                hoaDon = 0;
+                txtSoHoaDon.setText(String.valueOf(hoaDon));
+                return;
+            } else {
+                hoaDon = tblThongKe.getRowCount();
+                txtSoHoaDon.setText(String.valueOf(hoaDon));
+            }
+
             updateStatus();
         } catch (Exception e) {
             MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
@@ -513,19 +557,6 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         String convert = decimalFormat.format(doanhThu);
 
         txtDoanhThu.setText(convert + " VNĐ");
-
-        //Tính tổng số hóa đơn
-        int hoaDon = 0;
-        if (tblThongKe.getRowCount() == 0) {
-            hoaDon = 0;
-            txtSoHoaDon.setText(String.valueOf(hoaDon));
-            return;
-        } else {
-            for (int i = 0; i <= tblThongKe.getRowCount() - 1; i++) {
-                hoaDon += i;
-            }
-            txtSoHoaDon.setText(String.valueOf(hoaDon + 1));
-        }
 
         //Tính tổng số sp bán
         int sanPham = 0;

@@ -8,7 +8,6 @@ package com.gym.main;
 import com.gym.util.Auth;
 import com.gym.util.MsgBox;
 import com.gym.event.EventMenuSelected;
-import com.gym.form.DangNhap;
 import com.gym.form.DangNhap1;
 import com.gym.form.DoiMatKhau1;
 import com.gym.form.QuanLyNhanVien;
@@ -33,13 +32,13 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    private Form_Home home;
-    private QuanLyNhanVien form1;
-    private QuanLyGoiTap form2;
-    private QuanLyKhachHang form3;
-    private QuanLyDungCu form4;
-    private QuanLyDonHang form5;
-    private ThongKeDoanhThu form6;
+    private Form_Home form1;
+    private QuanLyNhanVien form7;
+    private QuanLyGoiTap form5;
+    private QuanLyKhachHang form4;
+    private QuanLyDungCu form6;
+    private QuanLyDonHang form2;
+    private ThongKeDoanhThu form3;
     private DoiMatKhau1 form9;
     private DangNhap1 form10;
 
@@ -47,13 +46,13 @@ public class Main extends javax.swing.JFrame {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         setExtendedState(JFrame.MAXIMIZED_BOTH); // dòng này để hiển thị full màn hình
-        home = new Form_Home();
-        form1 = new QuanLyNhanVien();
-        form2 = new QuanLyGoiTap();
-        form3 = new QuanLyKhachHang();
-        form4 = new QuanLyDungCu();
-        form5 = new QuanLyDonHang();
-        form6 = new ThongKeDoanhThu();
+        form1 = new Form_Home();
+        form7 = new QuanLyNhanVien();
+        form5 = new QuanLyGoiTap();
+        form4 = new QuanLyKhachHang();
+        form6 = new QuanLyDungCu();
+        form2 = new QuanLyDonHang();
+        form3 = new ThongKeDoanhThu();
         form9 = new DoiMatKhau1();
         form10 = new DangNhap1();
         menu.initMoving(Main.this);
@@ -138,25 +137,27 @@ public class Main extends javax.swing.JFrame {
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
-                if (index == 0) {
-                    setForm(home);
-                } else if (index == 1) {
+                if (index == 1) {
                     setForm(form1);
                 } else if (index == 2) {
+                    form2.updateData();
                     setForm(form2);
                 } else if (index == 3) {
+                    form3.updateData();
                     setForm(form3);
-                }
-                else if(index == 4){
+                } else if (index == 4) {
                     setForm(form4);
                 }
                 else if(index == 5){
                     setForm(form5);
                 }
-                else if(index == 6 && Auth.user.isVaiTro()){
+                else if(index == 6){
                     setForm(form6);
                 }
-                else if(index == 6 && !Auth.user.isVaiTro()){
+                else if(index == 7 && Auth.user.isVaiTro()){
+                    setForm(form7);
+                }
+                else if(index == 7 && !Auth.user.isVaiTro()){
                     MsgBox.alert(Main.this, "Bạn không có quyền truy cập doanh thu!");
                 }
                 else if(index ==9){

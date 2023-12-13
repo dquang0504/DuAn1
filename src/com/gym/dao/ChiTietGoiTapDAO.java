@@ -19,11 +19,14 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
 
     final String INSERT_SQL = "INSERT INTO ChiTietGoiTap(MaKH,MaGT,MaDH,NgayDK,NgayKT,SoLuong,Gia) values (?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE ChiTietGoiTap SET MaKH = ?,MaGT = ?,MaDH = ?,NgayDK = ?,NgayKT = ?, SoLuong=?,Gia = ? where MaCTGT=?";
-    final String UPDATE_SoLuong_Gia_SQL = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong - ?, Gia = Gia / SoLuong * (SoLuong - ?) WHERE MaGT = ?";
     final String updateSLQuery = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong - ?, "
-                            + "Gia = Gia - ?,"
-                            + "NgayKT = DATEADD(DAY, -ThoiHan * ?, NgayKT) "
-                            + "WHERE MaGT = ?";
+            + "Gia = Gia - ?,"
+            + "NgayKT = DATEADD(DAY, -ThoiHan * ?, NgayKT) "
+            + "WHERE MaGT = ?";
+    final String update_dung = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong + ?, Gia = Gia + ?, NgayKT = DATEADD(DAY, ?, NgayKT) where Magt = ?";
+    final String update_NgayKT = "UPDATE ChiTietGoiTap SET NgayKT = (SELECT MAX(NgayKT) FROM ChiTietGoiTap) where MaGT = ?";
+    final String update_NgayKT_LonHon = "UPDATE ChiTietGoiTap SET NgayKT = DATEADD(DAY, ?, NgayKT) where MaGT = ?";
+    final String updateGT_theoSL = "UPDATE ChiTietGoiTap SET SoLuong = SoLuong - ?, Gia = Gia - ?, NgayKT = DATEADD(DAY, ?, NgayKT) where MaGT = ?";
     final String DELETE_SQL = "DELETE FROM ChiTietGoiTap WHERE MaCTGT=?";
     final String DELETE_MAGT_SQL = "DELETE FROM ChiTietGoiTap WHERE MaGT=?";
     final String DELETE_MADH_GT_SQL = "DELETE FROM ChiTietGoiTap WHERE MaDH = ?";
@@ -34,7 +37,6 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
     final String SELECT_BY_MADH_GET_TENGOI = "select TenGoi from ChiTietGoiTap ctgt inner join GoiTap gt\n"
             + "on ctgt.MaGT = gt.MaGT\n"
             + "where MaDH = ?";
-    
 
     @Override
 
@@ -64,11 +66,33 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         );
     }
 
-    public void updateSoLuongGia(int input,double giaGiam,String magt) {
-        DBHelper.update(updateSLQuery,
+    public void updateDung(int input, int thoiHan, String magt, double giaTang) {
+        DBHelper.update(update_dung,
+                input,
+                giaTang,
+                thoiHan,
+                magt
+        );
+    }
+
+    public void updateNgayKT(String magt) {
+        DBHelper.update(update_NgayKT,
+                magt
+        );
+    }
+    
+    public void updateNgayKT_LonHon(String magt,int thoiHan) {
+        DBHelper.update(update_NgayKT_LonHon,
+                thoiHan,
+                magt
+        );
+    }
+
+    public void updateSoLuongGia(int input, int thoiHan, String magt, double giaGiam) {
+        DBHelper.update(updateGT_theoSL,
                 input,
                 giaGiam,
-                input,
+                thoiHan,
                 magt
         );
     }
@@ -129,7 +153,6 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         return (ChiTietGoiTap) list;
     }
 
-
     @Override
     public List<ChiTietGoiTap> selectAll() {
         return this.selectBySql(SELECT_ALL_SQL);
@@ -144,7 +167,30 @@ public class ChiTietGoiTapDAO extends GymSoftwareDAO<ChiTietGoiTap, String> {
         String sql = "SELECT * FROM ChiTietGoiTap WHERE MaDH like ? order by NgayKT asc";
         return this.selectBySql(sql, "%" + keyword + "%");
     }
-    
-    
 
+    
+    
+    public ArrayList<String> findMaGTsLargerThanNgayKT(String magt) {
+        ArrayList<String> resultList = new ArrayList<>();
+        try {
+            String sql = "SELECT MaGT FROM ChiTietGoiTap WHERE MaGT != ? AND NgayKT > (SELECT NgayKT FROM ChiTietGoiTap WHERE MaGT = ?)";
+            ResultSet rs = DBHelper.query(sql, magt, magt);
+            while (rs.next()) {
+                resultList.add(rs.getString("MaGT"));
+            }
+            rs.getStatement().getConnection().close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return resultList;
+    }
+
+    public void updateNgayKT(String magt, int thoiHan) {
+        try {
+            String sql = "UPDATE ChiTietGoiTap SET NgayKT = DATEADD(DAY, ?, NgayKT) WHERE MaGT IN (SELECT MaGT FROM ChiTietGoiTap WHERE MaGT != ? AND NgayKT > (SELECT NgayKT FROM ChiTietGoiTap WHERE MaGT = ?))";
+            DBHelper.update(sql, thoiHan, magt, magt);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -11,10 +11,12 @@ import com.gym.entity.NhanVien;
 import com.gym.util.Auth;
 import com.gym.util.XDate;
 import com.gym.util.XImage;
+import java.awt.Image;
 import java.io.File;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,6 +25,7 @@ import javax.swing.ButtonModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.bind.DatatypeConverter;
@@ -620,6 +623,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
 
     void fillTable() {
+
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.setRowCount(0);
         try {
@@ -650,8 +654,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
         System.out.println("My Hash: " + myHash);
         nv.setMatKhau(myHash);
-        
-        
+
         nv.setNgaySinh(XDate.toDate(txtNgaySinh.getText(), "dd-MM-yyyy"));
         nv.setDienThoai(txtSDT.getText());
         nv.setEmail(txtEmail.getText());
@@ -679,7 +682,31 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         if (nv.getHinh() != null) {
             lblAnh.setToolTipText(nv.getHinh());
-            lblAnh.setIcon(XImage.read(nv.getHinh()));
+            ImageIcon originalIcon = XImage.read(nv.getHinh());
+
+            // Lấy kích thước của JPanel
+            int panelWidth = pnlHinh.getWidth();
+            int panelHeight = pnlHinh.getHeight();
+
+            // Lấy kích thước của hình ảnh
+            int imgWidth = originalIcon.getIconWidth();
+            int imgHeight = originalIcon.getIconHeight();
+
+            // Tính toán tỷ lệ để điều chỉnh kích thước hình ảnh
+            double scaleX = (double) panelWidth / imgWidth;
+            double scaleY = (double) panelHeight / imgHeight;
+            double scale = Math.min(scaleX, scaleY);
+
+            // Điều chỉnh kích thước hình ảnh theo tỷ lệ
+            int newWidth = (int) (imgWidth * scale);
+            int newHeight = (int) (imgHeight * scale);
+
+            // Thay đổi kích thước hình ảnh để phù hợp với JPanel
+            Image img = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(img);
+
+            // Hiển thị hình ảnh trong JLabel và gán tooltip
+            lblAnh.setIcon(scaledIcon);
         }
     }
 
@@ -884,10 +911,38 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileChooser.setCurrentDirectory(new java.io.File(path));
             File file = fileChooser.getSelectedFile();
-            XImage.save(file); //lưu hình vào thư mục logos
-            ImageIcon icon = XImage.read(file.getName()); //đọc hình từ logo
-            lblAnh.setIcon(icon);
-            lblAnh.setToolTipText(file.getName()); //giữ tên hình trong tooltip
+            XImage.save(file); // Lưu hình vào thư mục logos
+
+            // Đọc hình từ file
+            ImageIcon originalIcon = XImage.read(file.getName());
+
+            // Lấy kích thước của JPanel
+            int panelWidth = pnlHinh.getWidth();
+            int panelHeight = pnlHinh.getHeight();
+
+            // Lấy kích thước của hình ảnh
+            int imgWidth = originalIcon.getIconWidth();
+            int imgHeight = originalIcon.getIconHeight();
+
+            // Tính toán tỷ lệ để điều chỉnh kích thước hình ảnh
+            double scaleX = (double) panelWidth / imgWidth;
+            double scaleY = (double) panelHeight / imgHeight;
+            double scale = Math.min(scaleX, scaleY);
+
+            // Điều chỉnh kích thước hình ảnh theo tỷ lệ
+            int newWidth = (int) (imgWidth * scale);
+            int newHeight = (int) (imgHeight * scale);
+
+            // Thay đổi kích thước hình ảnh để phù hợp với JPanel
+            Image img = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(img);
+
+            // Hiển thị hình ảnh trong JLabel và gán tooltip
+            lblAnh.setIcon(scaledIcon);
+            lblAnh.setToolTipText(file.getName()); // Giữ tên hình trong tooltip
+
+            lblAnh.setHorizontalAlignment(JLabel.CENTER);
+            lblAnh.setVerticalAlignment(JLabel.CENTER);
         }
     }
 

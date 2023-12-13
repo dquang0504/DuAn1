@@ -29,16 +29,16 @@ public class Menu extends javax.swing.JPanel {
     }
 
     private void init() {
+        listMenu1.addItem(new Model_Menu("", "Hệ thống", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("dashboard20", "Trang chủ", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("nhanVien20", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("goiTap20", "Quản lý gói tập", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("khachHang20", "Quản lý khách hàng", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("dungCu20", "Quản lý dụng cụ", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("donHang20", "Quản lý đơn hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("thongKe20", "Thống kê doanh thu", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("khachHang20", "Quản lý khách hàng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("goiTap20", "Quản lý gói tập", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("dungCu20", "Quản lý dụng cụ", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("nhanVien20", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
 
-        listMenu1.addItem(new Model_Menu("", "My Data", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", " ", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "Tài khoản", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("doiMK20", "Đổi mật khẩu", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("dangXuat20", "Đăng xuất", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("thoat20", "Thoát", Model_Menu.MenuType.MENU));

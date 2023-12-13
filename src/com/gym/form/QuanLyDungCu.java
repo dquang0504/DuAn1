@@ -11,6 +11,7 @@ import com.gym.entity.DungCu;
 import com.gym.util.Auth;
 import com.gym.util.XDate;
 import com.gym.util.XImage;
+import java.awt.Image;
 import java.io.File;
 import java.net.URL;
 import java.util.Comparator;
@@ -18,6 +19,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -367,7 +369,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             if (dc.getMadc().equals(txtMaDC.getText())) {
                 MsgBox.alert(this, "Mã dụng cụ không được trùng!\nMã bị trùng: " + txtMaDC.getText());
                 return;
-            }  
+            }
         }
         if (validateForm()) {
             insert();
@@ -491,7 +493,31 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         txtGia.setText(String.valueOf(dc.getGia()));
         if (dc.getHinh() != null) {
             lblAnh.setToolTipText(dc.getHinh());
-            lblAnh.setIcon(XImage.read(dc.getHinh()));
+            ImageIcon originalIcon = XImage.read(dc.getHinh());
+
+            // Lấy kích thước của JPanel
+            int panelWidth = pnlHinh.getWidth();
+            int panelHeight = pnlHinh.getHeight();
+
+            // Lấy kích thước của hình ảnh
+            int imgWidth = originalIcon.getIconWidth();
+            int imgHeight = originalIcon.getIconHeight();
+
+            // Tính toán tỷ lệ để điều chỉnh kích thước hình ảnh
+            double scaleX = (double) panelWidth / imgWidth;
+            double scaleY = (double) panelHeight / imgHeight;
+            double scale = Math.min(scaleX, scaleY);
+
+            // Điều chỉnh kích thước hình ảnh theo tỷ lệ
+            int newWidth = (int) (imgWidth * scale);
+            int newHeight = (int) (imgHeight * scale);
+
+            // Thay đổi kích thước hình ảnh để phù hợp với JPanel
+            Image img = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(img);
+
+            // Hiển thị hình ảnh trong JLabel và gán tooltip
+            lblAnh.setIcon(scaledIcon);
         }
     }
 
@@ -624,17 +650,44 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             fileChooser.setCurrentDirectory(new java.io.File(path));
             File file = fileChooser.getSelectedFile();
-            XImage.save(file); //lưu hình vào thư mục logos
-            ImageIcon icon = XImage.read(file.getName()); //đọc hình từ logo
-            lblAnh.setIcon(icon);
-            lblAnh.setToolTipText(file.getName()); //giữ tên hình trong tooltip
+            XImage.save(file); // Lưu hình vào thư mục logos
+
+            // Đọc hình từ file
+            ImageIcon originalIcon = XImage.read(file.getName());
+
+            // Lấy kích thước của JPanel
+            int panelWidth = pnlHinh.getWidth();
+            int panelHeight = pnlHinh.getHeight();
+
+            // Lấy kích thước của hình ảnh
+            int imgWidth = originalIcon.getIconWidth();
+            int imgHeight = originalIcon.getIconHeight();
+
+            // Tính toán tỷ lệ để điều chỉnh kích thước hình ảnh
+            double scaleX = (double) panelWidth / imgWidth;
+            double scaleY = (double) panelHeight / imgHeight;
+            double scale = Math.min(scaleX, scaleY);
+
+            // Điều chỉnh kích thước hình ảnh theo tỷ lệ
+            int newWidth = (int) (imgWidth * scale);
+            int newHeight = (int) (imgHeight * scale);
+
+            // Thay đổi kích thước hình ảnh để phù hợp với JPanel
+            Image img = originalIcon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            ImageIcon scaledIcon = new ImageIcon(img);
+
+            // Hiển thị hình ảnh trong JLabel và gán tooltip
+            lblAnh.setIcon(scaledIcon);
+            lblAnh.setToolTipText(file.getName()); // Giữ tên hình trong tooltip
+
+            lblAnh.setHorizontalAlignment(JLabel.CENTER);
+            lblAnh.setVerticalAlignment(JLabel.CENTER);
         }
     }
-    
+
     String regexMaDC = "^DC[1-9]\\d*$";      //Bắt đầu bằng DC và 3 chữ số theo sau
-    String regexTenDC = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
+    String regexTenDC = "^[^0-9]{1,50}$";   //Không là số và giới hạn ký tự tới 50
     String regexGiaDC = "^[0-9]+(\\.[0-9]+)?$";      //Bắt buộc là số nguyên hoặc float
-    String regexSoLuong = "^[0-9]+$";  //Bắt buộc là số nguyên
 
     boolean validateForm() {
         if (txtMaDC.getText().isEmpty()) {
@@ -652,7 +705,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             MsgBox.alert(this, "Tên dụng cụ không đúng định dạng!\nTên dụng cụ không được là số và dưới 50 ký tự");
             return false;
         }
-        
+
         if (txtGia.getText().isEmpty()) {
             MsgBox.alert(this, "Giá dụng cụ không được trống!");
             return false;
@@ -660,18 +713,18 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             MsgBox.alert(this, "Giá dụng cụ không đúng định dạng!");
             return false;
         }
-        if (txtMoTa.getText().length()>100) {
+        if (txtMoTa.getText().length() > 100) {
             MsgBox.alert(this, "Mô tả không vượt quá 100 ký tự!");
             return false;
-        } 
-        
+        }
+
         if (lblAnh.getIcon() == null) {
             MsgBox.alert(this, "Ảnh dụng cụ không được trống!");
             return false;
         }
         return true;
     }
-    
+
     private String tuTaoMaDCMoi() {
         String userInput = txtMaDC.getText().trim(); // Lấy giá trị đã nhập trong txtMaDC
 

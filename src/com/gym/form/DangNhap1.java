@@ -29,7 +29,7 @@ import javax.xml.bind.DatatypeConverter;
  */
 public class DangNhap1 extends javax.swing.JFrame {
 
-    File file = new File("C:\\Users\\Duy Quang\\Documents\\NetBeansProjects\\save.txt");
+    File file = new File("C:\\Users\\ADMIN\\Documents\\NetBeansProjects\\save.txt");
 
     /**
      * Creates new form DangNhap1
@@ -39,6 +39,7 @@ public class DangNhap1 extends javax.swing.JFrame {
         txtMaNV.setBackground(new java.awt.Color(0, 0, 0, 1));
         txtMatKhau.setBackground(new java.awt.Color(0, 0, 0, 1));
         txtMatKhau.setEchoChar((char) 8226);
+        lblHidepass.setVisible(false);
 
         setLocationRelativeTo(null);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -78,7 +79,7 @@ public class DangNhap1 extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/logo.jpg"))); // NOI18N
         lblLogo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -265,7 +266,6 @@ public class DangNhap1 extends javax.swing.JFrame {
         if (chkLuuMK.isSelected()) {
             SAVE();
         }
-
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnQuenMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuenMatKhauActionPerformed
