@@ -27,7 +27,7 @@
                   <Component id="lblUser" min="-2" max="-2" attributes="0"/>
                   <Component id="lblChucVu" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="568" max="32767" attributes="0"/>
+              <EmptySpace pref="546" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,7 +46,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblUser">
       <Properties>
-        <Property name="text" type="java.lang.String" value="USER:"/>
+        <Property name="text" type="java.lang.String" value="NG&#x1af;&#x1edc;I D&#xd9;NG:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblChucVu">

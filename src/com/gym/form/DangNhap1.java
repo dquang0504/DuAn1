@@ -15,7 +15,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -355,76 +357,93 @@ public class DangNhap1 extends javax.swing.JFrame {
         String strPassword = new String(txtMatKhau.getPassword());
         NhanVien nv = dao.selectById(strMaNV);
 
-        
-        if (nv == null || !verify(strPassword, nv.getMatKhau())) {
+        if (nv == null) {
             MsgBox.alert(this, "Tên đăng nhập hoặc mật khẩu không chính xác");
-        }else if (nv.getMatKhau() == null) {
-            MsgBox.alert(this, "Mật khẩu không được trống!");
-        } else if (!nv.isTrangThai()) {
-            MsgBox.alert(this, "Tài khoản của bạn đã bị khóa!\nVui lòng liên lạc quản lý để được mở khóa tài khoản!");
-        } else if (!nv.isTrangThai()) {
-                MsgBox.alert(this, "Tài khoản của bạn đã bị khóa!\nVui lòng liên lạc quản lý để được mở khóa tài khoản!");
-                return;
-            } else {
-                Auth.user = nv;
-                login = true;
-
-                // Hiển thị form QuanLyDiem
-                Thread loadingThread = new Thread(new Runnable() {
-                    public void run() {
-                        LoadHome p = new LoadHome();
-                        p.setVisible(true);
-
-                        // Đóng form hiện tại
-                        dispose();
-                    }
-                });
-
-                loadingThread.start();
-            }
+            return;
         }
-    
-    
-    
-    
-//    else {
-//            if (!nv.getMatKhau().equals(strPassword)) {
-//                soLanNhapSai++;
-//                if (soLanNhapSai >= MAX_SO_LAN_NHAP_SAI) {
-//                    khoaTaiKhoan(); // Gọi phương thức để khóa tài khoản khi vượt quá số lần nhập sai
-//                    return;
-//                } else {
-//                    MsgBox.alert(this, "Bạn đã nhập sai mật khẩu " + soLanNhapSai + " lần!\n "
-//                            + "Bạn còn " + (MAX_SO_LAN_NHAP_SAI - soLanNhapSai) + " lần thử trước khi bị khóa tài khoản!");
-//                    return;
-//                }
-//            } 
-    
+
+        if (nv.getMatKhau() == null) {
+            MsgBox.alert(this, "Mật khẩu không được trống!");
+            return;
+        }
+
+        boolean passwordMatch = verify(strPassword, nv.getMatKhau());
+
+        if (!passwordMatch) {
+            khoaTaiKhoan(strMaNV); // Gọi phương thức để kiểm tra và khóa tài khoản nếu cần
+            return;
+        } else if (!nv.isTrangThai()) {
+            MsgBox.alert(this, "Tài khoản của bạn đã bị khóa!\nVui lòng liên hệ quản lý để mở khóa tài khoản!");
+            return;
+        } else {
+            Auth.user = nv;
+            login = true;
+
+            // Reset số lần nhập sai của nhân viên khi đăng nhập thành công
+            resetSoLanNhapSai(strMaNV);
+
+            // Hiển thị form QuanLyDiem
+            Thread loadingThread = new Thread(new Runnable() {
+                public void run() {
+                    LoadHome p = new LoadHome();
+                    p.setVisible(true);
+
+                    // Đóng form hiện tại
+                    dispose();
+                }
+            });
+
+            loadingThread.start();
+        }
+    }
+    //    else {
+    //            if (!nv.getMatKhau().equals(strPassword)) {
+    //                soLanNhapSai++;
+    //                if (soLanNhapSai >= MAX_SO_LAN_NHAP_SAI) {
+    //                    khoaTaiKhoan(); // Gọi phương thức để khóa tài khoản khi vượt quá số lần nhập sai
+    //                    return;
+    //                } else {
+    //                    MsgBox.alert(this, "Bạn đã nhập sai mật khẩu " + soLanNhapSai + " lần!\n "
+    //                            + "Bạn còn " + (MAX_SO_LAN_NHAP_SAI - soLanNhapSai) + " lần thử trước khi bị khóa tài khoản!");
+    //                    return;
+    //                }
+    //            } 
 
     public boolean checklogin() {
         return login;
     }
 
-    void khoaTaiKhoan() {
-        NhanVien nv = dao.selectById(txtMaNV.getText());
-        if (nv != null) {
-            soLanNhapSai++; // Tăng số lần nhập sai
+    // Khai báo Map để lưu trữ số lần nhập sai của từng nhân viên
+    private Map<String, Integer> soLanNhapSaiMap = new HashMap<>();
 
-            // Kiểm tra số lần nhập sai
-            if (soLanNhapSai >= MAX_SO_LAN_NHAP_SAI) {
+// Phương thức để kiểm tra và khóa tài khoản của nhân viên
+    void khoaTaiKhoan(String maNhanVien) {
+        int soLanNhapSai = soLanNhapSaiMap.getOrDefault(maNhanVien, 0);
+        soLanNhapSai++; // Tăng số lần nhập sai
+
+        // Cập nhật số lần nhập sai cho nhân viên
+        soLanNhapSaiMap.put(maNhanVien, soLanNhapSai);
+
+        // Kiểm tra số lần nhập sai
+        if (soLanNhapSai >= MAX_SO_LAN_NHAP_SAI) {
+            // Làm các thao tác để khóa tài khoản nhân viên ở đây
+            NhanVien nv = dao.selectById(maNhanVien);
+            if (nv != null) {
                 nv.setTrangThai(false); // Đặt trạng thái tài khoản là false (đã bị khóa)
                 dao.update(nv); // Cập nhật trạng thái tài khoản trong cơ sở dữ liệu
 
                 MsgBox.alert(this, "Tài khoản của bạn đã bị khóa!\nVui lòng liên hệ quản lý để được mở khóa tài khoản.");
-                return;
-            } else {
-                MsgBox.alert(this, "Bạn đã nhập sai mật khẩu " + soLanNhapSai + " lần!\n"
-                        + "Bạn còn " + (MAX_SO_LAN_NHAP_SAI - soLanNhapSai) + " lần thử trước khi bị khóa tài khoản!");
-                return;
             }
         } else {
-            MsgBox.alert(this, "Tên đăng nhập không tồn tại!");
+            // Hiển thị thông báo số lần nhập sai còn lại
+            MsgBox.alert(this, "Bạn đã nhập sai mật khẩu " + soLanNhapSai + " lần!\n"
+                    + "Bạn còn " + (MAX_SO_LAN_NHAP_SAI - soLanNhapSai) + " lần thử trước khi bị khóa tài khoản!");
         }
+    }
+
+// Phương thức để reset số lần nhập sai của một nhân viên khi đăng nhập thành công
+    void resetSoLanNhapSai(String maNhanVien) {
+        soLanNhapSaiMap.put(maNhanVien, 0);
     }
 
     public void UPDATE() { //UPDATE ON OPENING THE APPLICATION

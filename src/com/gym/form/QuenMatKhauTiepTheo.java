@@ -72,6 +72,7 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
         lblShowpass2 = new javax.swing.JLabel();
         lblHidepass2 = new javax.swing.JLabel();
         btnXacNhanDoiMK = new javax.swing.JButton();
+        lblExit = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -147,19 +148,31 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
         });
         jPanel1.add(btnXacNhanDoiMK, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 200, -1, -1));
 
+        lblExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/Exit.png"))); // NOI18N
+        lblExit.setText("Quay lại");
+        lblExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblExitMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lblExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 260, 80, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 737, Short.MAX_VALUE)
+            .addGap(0, 740, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 299, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -250,6 +263,11 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
 
     }//GEN-LAST:event_btnXacNhanDoiMKActionPerformed
 
+    private void lblExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMouseClicked
+        this.dispose();
+        new QuenMatKhau().setVisible(true);
+    }//GEN-LAST:event_lblExitMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -309,6 +327,7 @@ public class QuenMatKhauTiepTheo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblExit;
     private javax.swing.JLabel lblHidepass1;
     private javax.swing.JLabel lblHidepass2;
     private javax.swing.JLabel lblShowpass1;

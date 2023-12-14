@@ -721,6 +721,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
         txtMaNV.setEnabled(!edit);
+        txtPass.setEnabled(!edit);
         //Trạng thái điều hướng
         btnFirst.setEnabled(edit && !first);
         btnPrev.setEnabled(edit);
@@ -862,7 +863,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         this.row = 0;
         tblNhanVien.setRowSelectionInterval(row, row);
         this.edit();
-        System.out.println(row);
     }
 
     void next() {
@@ -875,7 +875,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             this.edit();
             tblNhanVien.setRowSelectionInterval(row, row);
         }
-        System.out.println(row);
     }
 
     void prev() {
@@ -888,14 +887,12 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             this.edit();
             tblNhanVien.setRowSelectionInterval(row, row);
         }
-        System.out.println(row);
     }
 
     void last() {
         this.row = tblNhanVien.getRowCount() - 1;
         this.edit();
         tblNhanVien.setRowSelectionInterval(row, row);
-        System.out.println(row);
     }
 
     void timKiem() {
@@ -946,7 +943,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         }
     }
 
-    String regexMaNV = "^NV[1-9]\\d*$";      //Bắt đầu bằng NV + 1-9 và các số tiếp theo có thể có hoặc không
+    String regexMaNV = "^NV[0-9]\\d*$";      //Bắt đầu bằng NV + 1-9 và các số tiếp theo có thể có hoặc không
     String regexTenNV = "^[^0-9]{1,50}$";   //Không có số và giới hạn ký tự tới 50
     String regexSDTNV = "^[0-9]{10}$";      //Không có chữ và 10 số
     String regexEmailNV = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";  //Bắt lỗi email

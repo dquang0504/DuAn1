@@ -56,6 +56,7 @@ public class QuenMatKhau extends javax.swing.JDialog {
         btnTiepTucDoiMK = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
+        lblExit = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -93,19 +94,29 @@ public class QuenMatKhau extends javax.swing.JDialog {
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 40, -1));
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 340, -1));
 
+        lblExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/Exit.png"))); // NOI18N
+        lblExit.setText("Quay lại");
+        lblExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblExitMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lblExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(657, 296, 80, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 737, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 336, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -205,9 +216,14 @@ public class QuenMatKhau extends javax.swing.JDialog {
             }
         }
         if(!found){
-            MsgBox.alert(this, "OTP sai! Vui lòng nhập lại!");
+            MsgBox.alert(this, "OTP sai hoặc quá hạn! Vui lòng nhập lại!");
         }
     }//GEN-LAST:event_btnTiepTucDoiMKActionPerformed
+
+    private void lblExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMouseClicked
+        this.dispose();
+        new DangNhap1().setVisible(true);
+    }//GEN-LAST:event_lblExitMouseClicked
 
     /**
      * @param args the command line arguments
@@ -259,6 +275,7 @@ public class QuenMatKhau extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblExit;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMaOTP;
     // End of variables declaration//GEN-END:variables

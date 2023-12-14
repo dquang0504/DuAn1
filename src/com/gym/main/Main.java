@@ -142,10 +142,13 @@ public class Main extends javax.swing.JFrame {
                 } else if (index == 2) {
                     form2.updateData();
                     setForm(form2);
-                } else if (index == 3) {
-                    form3.updateData();
+                } else if (index == 3  && !Auth.user.isVaiTro()) {
+                    MsgBox.alert(Main.this, "Bạn không có quyền truy cập doanh thu!");
+                }
+                else if (index == 3 && Auth.user.isVaiTro()) {
                     setForm(form3);
-                } else if (index == 4) {
+                }
+                else if (index == 4) {
                     setForm(form4);
                 }
                 else if(index == 5){
@@ -154,11 +157,8 @@ public class Main extends javax.swing.JFrame {
                 else if(index == 6){
                     setForm(form6);
                 }
-                else if(index == 7 && Auth.user.isVaiTro()){
+                else if(index == 7){
                     setForm(form7);
-                }
-                else if(index == 7 && !Auth.user.isVaiTro()){
-                    MsgBox.alert(Main.this, "Bạn không có quyền truy cập doanh thu!");
                 }
                 else if(index ==9){
                     DoiMatKhau1 doimk = new DoiMatKhau1();

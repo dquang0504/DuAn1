@@ -458,6 +458,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         this.fillTable();
         this.row = -1;
         this.updateStatus();
+        txtMaDC.setText(tuTaoMaDCMoi());
     }
 
     void fillTable() {
@@ -467,7 +468,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             String keyword = txtSearch.getText();
             List<DungCu> list = dao.selectByKeyword(keyword); //đọc dữ liệu từ CSDL
             for (DungCu dc : list) {
-                Object[] row = {dc.getMadc(), dc.getTendc(), dc.getGia(),
+                Object[] row = {dc.getMadc(), dc.getTendc(), dc.getGia(), dc.getMota(),
                     dc.getHinh()
                 };
                 model.addRow(row); //thêm từng hàng vào JTable
@@ -546,6 +547,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         lblAnh.setIcon(null);
         this.row = -1;
         updateStatus();
+        txtMaDC.setText(tuTaoMaDCMoi());
     }
 
     void edit() {
@@ -558,6 +560,7 @@ public class QuanLyDungCu extends javax.swing.JPanel {
     void insert() {
         DungCu dc = getForm();
         try {
+            dc.setMadc(tuTaoMaDCMoi());
             dao.insert(dc);
             this.fillTable();
             this.clearForm();
@@ -601,7 +604,6 @@ public class QuanLyDungCu extends javax.swing.JPanel {
         this.row = 0;
         tblDungCu.setRowSelectionInterval(row, row);
         this.edit();
-        System.out.println(row);
     }
 
     void next() {
@@ -614,7 +616,6 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             this.edit();
             tblDungCu.setRowSelectionInterval(row, row);
         }
-        System.out.println(row);
     }
 
     void prev() {
@@ -627,14 +628,12 @@ public class QuanLyDungCu extends javax.swing.JPanel {
             this.edit();
             tblDungCu.setRowSelectionInterval(row, row);
         }
-        System.out.println(row);
     }
 
     void last() {
         this.row = tblDungCu.getRowCount() - 1;
         this.edit();
         tblDungCu.setRowSelectionInterval(row, row);
-        System.out.println(row);
     }
 
     void timKiem() {

@@ -26,6 +26,8 @@ import com.gym.util.XDate;
 import com.gym.util.XImage;
 import java.awt.Color;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -36,6 +38,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import org.apache.poi.sl.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -88,6 +99,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         cboSanPham = new javax.swing.JComboBox<>();
         lblError = new javax.swing.JLabel();
+        btnXuatBaoCao = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -240,6 +252,13 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
             }
         });
 
+        btnXuatBaoCao.setText("Xuất báo cáo");
+        btnXuatBaoCao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXuatBaoCaoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -272,7 +291,10 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                                 .addGap(7, 7, 7)
                                 .addComponent(cboSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1036, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblError, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(lblError, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnXuatBaoCao)))
                 .addGap(36, 36, 36))
         );
         jPanel1Layout.setVerticalGroup(
@@ -299,8 +321,10 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblError, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnXuatBaoCao)
+                .addGap(60, 60, 60))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -395,8 +419,13 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         init();
     }//GEN-LAST:event_cboSanPhamActionPerformed
 
+    private void btnXuatBaoCaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatBaoCaoActionPerformed
+        exportExcel();
+    }//GEN-LAST:event_btnXuatBaoCaoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnXuatBaoCao;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -566,4 +595,94 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
         txtSoSanPhamBan.setText(String.valueOf(sanPham));
     }
 
+    void exportExcel() {
+        String chon = (String) cboSanPham.getSelectedItem();
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("Data From JTable");
+
+            // Tạo dòng BÁO CÁO + (giá trị được truyền vào)
+            Row reportRow = sheet.createRow(0);
+            Cell reportCell = reportRow.createCell(0);
+            reportCell.setCellValue("BÁO CÁO " + chon);
+
+            // Tạo định dạng cho dòng BÁO CÁO
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+            headerFont.setFontHeightInPoints((short) 14);
+            headerCellStyle.setFont(headerFont);
+            headerCellStyle.setAlignment(HorizontalAlignment.CENTER);
+            reportCell.setCellStyle(headerCellStyle);
+
+            JTableHeader header = tblThongKe.getTableHeader();
+            Row headerRow = sheet.createRow(1);
+            for (int i = 0; i < header.getColumnModel().getColumnCount(); i++) {
+                headerRow.createCell(i).setCellValue(header.getColumnModel().getColumn(i).getHeaderValue().toString());
+            }
+
+            for (int row = 0; row < tblThongKe.getRowCount(); row++) {
+                Row excelRow = sheet.createRow(row + 2);
+                for (int col = 0; col < tblThongKe.getColumnCount(); col++) {
+                    Object value = tblThongKe.getValueAt(row, col);
+                    Cell cell = excelRow.createCell(col);
+                    if (value != null) {
+                        if (value instanceof String) {
+                            cell.setCellValue((String) value);
+                        } else if (value instanceof Double) {
+                            cell.setCellValue((Double) value);
+                        } else if (value instanceof Integer) {
+                            cell.setCellValue((Integer) value);
+                        } else {
+                            cell.setCellValue(value.toString());
+                        }
+                    }
+                    // Căn giữa dữ liệu trong ô Cell
+                    CellStyle cellStyle = workbook.createCellStyle();
+                    cellStyle.setAlignment(HorizontalAlignment.CENTER);
+                    cell.setCellStyle(cellStyle);
+                }
+            }
+
+            // Tạo border cho bảng
+            for (int i = 0; i <= tblThongKe.getRowCount() + 1; i++) {
+                Row row = sheet.getRow(i);
+                if (row != null) {
+                    for (int j = 0; j < tblThongKe.getColumnCount(); j++) {
+                        Cell cell = row.getCell(j);
+                        if (cell != null) {
+                            CellStyle style = workbook.createCellStyle();
+                            style.setBorderBottom(BorderStyle.THIN);
+                            style.setBorderTop(BorderStyle.THIN);
+                            style.setBorderLeft(BorderStyle.THIN);
+                            style.setBorderRight(BorderStyle.THIN);
+                            cell.setCellStyle(style);
+                        }
+                    }
+                }
+            }
+
+            // Tính tổng doanh thu
+            FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+            double totalRevenue = 0;
+            for (int row = 1; row < tblThongKe.getRowCount(); row++) {
+                totalRevenue += (double) evaluator.evaluate(sheet.getRow(row).getCell(2)).getNumberValue();
+            }
+
+            // Tạo dòng "TỔNG DOANH THU: " và lấy giá trị tổng
+            Row totalRow = sheet.createRow(tblThongKe.getRowCount() + 2);
+            totalRow.createCell(0).setCellValue("TỔNG DOANH THU:");
+            totalRow.createCell(2).setCellValue(totalRevenue);
+
+            FileOutputStream outputStream = new FileOutputStream("table_data_with_border_and_total.xlsx");
+            workbook.write(outputStream);
+            workbook.close();
+            outputStream.close();
+
+            JOptionPane.showMessageDialog(null, "Dữ liệu từ JTable đã được xuất ra file Excel với border và dòng TỔNG DOANH THU!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xuất dữ liệu ra file Excel!");
+        }
+    }
 }

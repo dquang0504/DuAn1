@@ -17,7 +17,7 @@ import java.util.List;
 public class NhanVienDAO extends GymSoftwareDAO<NhanVien, String> {
 
     final String INSERT_SQL = "INSERT into NhanVien(MaNV,HoTen,MatKhau,NgaySinh,SDT,Email,VaiTro,GioiTinh,TrangThai,Hinh)values(?,?,?,?,?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE NhanVien SET HoTen = ?,MatKhau = ?,NgaySinh = ?,SDT = ?,Email = ?,VaiTro = ?,GioiTinh = ?, TrangThai = ?,Hinh = ? where MaNV=?";
+    final String UPDATE_SQL = "UPDATE NhanVien SET HoTen = ?,NgaySinh = ?,SDT = ?,Email = ?,VaiTro = ?,GioiTinh = ?, TrangThai = ?,Hinh = ? where MaNV=?";
     final String DELETE_SQL = "DELETE FROM NhanVien WHERE MaNV=?";
     final String SELECT_ALL_SQL = "SELECT * FROM NhanVien";
     final String SELECT_BY_ID_SQL = "SELECT * FROM NhanVien where MaNV=?";
@@ -43,7 +43,6 @@ public class NhanVienDAO extends GymSoftwareDAO<NhanVien, String> {
     public void update(NhanVien entity) {
         DBHelper.update(UPDATE_SQL, 
                 entity.getHoten(),
-                entity.getMatKhau(),
                 entity.getNgaySinh(), 
                 entity.getDienThoai(),
                 entity.getEmail(), 

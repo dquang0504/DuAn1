@@ -127,14 +127,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        txtSearchCTGT = new javax.swing.JTextField();
-        jLabel14 = new javax.swing.JLabel();
         txtSearchGT = new javax.swing.JTextField();
         pnlThuePT = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        txtSearchCTGT1 = new javax.swing.JTextField();
-        jLabel18 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblChiTietThuePT = new javax.swing.JTable();
         jLabel23 = new javax.swing.JLabel();
@@ -149,8 +145,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         tblDungCu = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblChiTietDungCu = new javax.swing.JTable();
-        txtSearchCTDC = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         btnFirst = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
@@ -468,14 +462,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
         jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
 
-        txtSearchCTGT.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchCTGTKeyReleased(evt);
-            }
-        });
-
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
-
         txtSearchGT.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtSearchGTKeyReleased(evt);
@@ -494,16 +480,12 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSearchGT))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-                .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnlMuaGoiTapLayout.createSequentialGroup()
-                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSearchCTGT, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(82, 82, 82))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         pnlMuaGoiTapLayout.setVerticalGroup(
             pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,14 +500,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addComponent(txtSearchGT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlMuaGoiTapLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlMuaGoiTapLayout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlMuaGoiTapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearchCTGT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -536,14 +514,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel17.setText("CHI TIẾT HÓA ĐƠN");
-
-        txtSearchCTGT1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchCTGT1KeyReleased(evt);
-            }
-        });
-
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
 
         tblChiTietThuePT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -579,6 +549,12 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         jScrollPane4.setViewportView(tblChiTietThuePT);
 
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
+
+        txtSearchNV.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchNVKeyReleased(evt);
+            }
+        });
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -626,29 +602,21 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSearchNV))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
-                .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(pnlThuePTLayout.createSequentialGroup()
-                        .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSearchCTGT1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel17)
-                    .addComponent(jScrollPane4))
-                .addGap(82, 82, 82))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         pnlThuePTLayout.setVerticalGroup(
             pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlThuePTLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlThuePTLayout.createSequentialGroup()
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlThuePTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearchCTGT1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlThuePTLayout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -656,7 +624,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSearchNV, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addGap(32, 32, 32))
         );
 
@@ -736,14 +704,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         });
         jScrollPane7.setViewportView(tblChiTietDungCu);
 
-        txtSearchCTDC.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtSearchCTDCKeyReleased(evt);
-            }
-        });
-
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/gym/icon/search.png"))); // NOI18N
-
         jLabel22.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel22.setText("CHI TIẾT HÓA ĐƠN");
 
@@ -761,15 +721,11 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtSearchDC, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
-                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSearchCTDC, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel22))
-                .addGap(78, 78, 78))
+                    .addComponent(jLabel22)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43))
         );
         pnlMuaDungCuLayout.setVerticalGroup(
             pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -787,11 +743,7 @@ public class QuanLyDonHang extends javax.swing.JPanel {
                     .addGroup(pnlMuaDungCuLayout.createSequentialGroup()
                         .addComponent(jLabel22)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(pnlMuaDungCuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSearchCTDC, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
 
@@ -956,10 +908,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     }//GEN-LAST:event_txtMaKHKeyTyped
 
-    private void txtSearchCTGTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchCTGTKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchCTGTKeyReleased
-
     private void txtSearchGTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchGTKeyReleased
         timKiemGT();
     }//GEN-LAST:event_txtSearchGTKeyReleased
@@ -973,17 +921,9 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         tinhTien();
     }//GEN-LAST:event_txtTienNhanKeyReleased
 
-    private void txtSearchCTGT1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchCTGT1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchCTGT1KeyReleased
-
     private void txtSearchDCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchDCKeyReleased
-        // TODO add your handling code here:
+        timKiemDC();
     }//GEN-LAST:event_txtSearchDCKeyReleased
-
-    private void txtSearchCTDCKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchCTDCKeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchCTDCKeyReleased
 
     private void tblDungCuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDungCuMouseClicked
         if (evt.getClickCount() == 2) {
@@ -1035,6 +975,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
+    private void txtSearchNVKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchNVKeyReleased
+        timKiemNV();
+    }//GEN-LAST:event_txtSearchNVKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDoi;
@@ -1056,13 +1000,10 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
@@ -1099,9 +1040,6 @@ public class QuanLyDonHang extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtNgayTao;
     private javax.swing.JTextField txtSearch;
-    private javax.swing.JTextField txtSearchCTDC;
-    private javax.swing.JTextField txtSearchCTGT;
-    private javax.swing.JTextField txtSearchCTGT1;
     private javax.swing.JTextField txtSearchDC;
     private javax.swing.JTextField txtSearchGT;
     private javax.swing.JTextField txtSearchNV;
@@ -1482,6 +1420,18 @@ public class QuanLyDonHang extends javax.swing.JPanel {
 
     void timKiemGT() {
         this.fillTableGT();
+        this.clearForm();
+        updateStatus();
+    }
+    
+    void timKiemNV(){
+        this.fillTableNhanVien();
+        this.clearForm();
+        updateStatus();
+    }
+    
+    void timKiemDC(){
+        this.fillTableDC();
         this.clearForm();
         updateStatus();
     }

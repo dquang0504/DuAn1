@@ -9,7 +9,7 @@ public class Header extends javax.swing.JPanel {
 
     public Header() {
         initComponents();
-        lblUser.setText("User: " + Auth.user.getHoten());
+        lblUser.setText("Người dùng: " + Auth.user.getHoten());
         lblChucVu.setText("Chức vụ: " + (Auth.user.isVaiTro() ? "Quản lý" : "Huấn luyện viên"));
         setOpaque(false);
     }
@@ -23,7 +23,7 @@ public class Header extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        lblUser.setText("USER:");
+        lblUser.setText("NGƯỜI DÙNG:");
 
         lblChucVu.setText("CHỨC VỤ:");
 
@@ -36,7 +36,7 @@ public class Header extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblUser)
                     .addComponent(lblChucVu))
-                .addContainerGap(568, Short.MAX_VALUE))
+                .addContainerGap(546, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
