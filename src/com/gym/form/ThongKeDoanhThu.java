@@ -597,16 +597,22 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
 
     void exportExcel() {
         String chon = (String) cboSanPham.getSelectedItem();
+        double doanhThu = 0;
+        for (int i = 0; i < tblThongKe.getRowCount(); i++) {
+            doanhThu += (double) tblThongKe.getValueAt(i, 2);
+        }
+        
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.createSheet("Data From JTable");
+            XSSFSheet sheet = workbook.createSheet("Doanh thu");
+            String convert = decimalFormat.format(doanhThu);
 
-            // Tạo dòng BÁO CÁO + (giá trị được truyền vào)
+            // Tạo dòng "Báo cáo thống kê doanh thu của " + chon
             Row reportRow = sheet.createRow(0);
             Cell reportCell = reportRow.createCell(0);
-            reportCell.setCellValue("BÁO CÁO " + chon);
+            reportCell.setCellValue("Báo cáo thống kê doanh thu của " + chon);
 
-            // Tạo định dạng cho dòng BÁO CÁO
+            // Tạo định dạng cho dòng "Báo cáo thống kê doanh thu của " + chon
             CellStyle headerCellStyle = workbook.createCellStyle();
             Font headerFont = workbook.createFont();
             headerFont.setBold(true);
@@ -644,7 +650,7 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                 }
             }
 
-            // Tạo border cho bảng
+            // Tạo border cho bảng và tự động giãn cột theo nội dung
             for (int i = 0; i <= tblThongKe.getRowCount() + 1; i++) {
                 Row row = sheet.getRow(i);
                 if (row != null) {
@@ -657,32 +663,26 @@ public class ThongKeDoanhThu extends javax.swing.JPanel {
                             style.setBorderLeft(BorderStyle.THIN);
                             style.setBorderRight(BorderStyle.THIN);
                             cell.setCellStyle(style);
+                            sheet.autoSizeColumn(j); // Tự động giãn cột theo nội dung
                         }
                     }
                 }
             }
 
-            // Tính tổng doanh thu
-            FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            double totalRevenue = 0;
-            for (int row = 1; row < tblThongKe.getRowCount(); row++) {
-                totalRevenue += (double) evaluator.evaluate(sheet.getRow(row).getCell(2)).getNumberValue();
-            }
-
-            // Tạo dòng "TỔNG DOANH THU: " và lấy giá trị tổng
+            // Tạo dòng "TỔNG DOANH THU: " và chèn giá trị tổng vào cột thứ 3
             Row totalRow = sheet.createRow(tblThongKe.getRowCount() + 2);
-            totalRow.createCell(0).setCellValue("TỔNG DOANH THU:");
-            totalRow.createCell(2).setCellValue(totalRevenue);
+            totalRow.createCell(0).setCellValue("TỔNG DOANH THU: " + convert);
 
-            FileOutputStream outputStream = new FileOutputStream("table_data_with_border_and_total.xlsx");
+            FileOutputStream outputStream = new FileOutputStream("Báo cáo thống kê doanh thu " + chon + ".xlsx");
             workbook.write(outputStream);
             workbook.close();
             outputStream.close();
 
-            JOptionPane.showMessageDialog(null, "Dữ liệu từ JTable đã được xuất ra file Excel với border và dòng TỔNG DOANH THU!");
+            JOptionPane.showMessageDialog(null, "Xuất báo cáo thành công!");
         } catch (IOException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi xuất dữ liệu ra file Excel!");
+            JOptionPane.showMessageDialog(null, "Xuất báo cáo thất bại!");
         }
     }
-}
+    }
+
